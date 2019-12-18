@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="left-bottom">
                                     <h3>12月漏斗图</h3>
-                                    <div class="funnel-box">
+                                    <div class="funnel-box box">
                                         <div id="funnel-charts"></div>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
                                 <div class="pie-charts02">
 
                                 </div>
-                                <div class="funnel-box">
+                                <div class="funnel-box box">
                                     <div id="funnel-charts2"></div>
                                 </div>
                             </div>
@@ -440,63 +440,31 @@
                     var funnelData = this.funnelData;
                     this.funnelOption = {
                         color: ['#334faf', '#203371', '#0f69c9', '#699bfc'],
-                        legend: { // 图例说明
-                            // right: '14%',
-                            top: '5%',
-                            itemGap: 2,
-                            itemWidth: 18,
-                            itemHeight: 15,
+                        legend: {
+                            orient: 'vertical',
+                            top: "16%",
+                            right: '20%',
                             textStyle: {
                                 color: '#fff',
-                                fontSize: 13,
+                                fontSize: this.fontSize(0.14),
                             },
                             data: ['资源量', '邀约量', '来访量', '签约量']
                         },
-                        calculable: true,
+                        // calculable: true,
                         series: [{
-                                type: 'funnel',
-                                left: '10%',
-                                // top: 60,
-                                // bottom: 60,
-                                width: '65%',
-                                height: '70%',
-                                sort: 'descending', // 排序下降
-                                gap: 5, // 间隙
-                                label: {
-                                    normal: { // 外部显示
-                                        formatter: '{d}%',
-                                        textStyle: {
-                                            color: '#fff',
-                                            fontSize: 13,
-                                        },
-                                    }
-                                },
-                                labelLine: {
-                                    normal: {
-                                        show: false
-                                    }
-                                },
-                                itemStyle: {
-                                    normal: {
-                                        borderWidth: 0
-                                    }
-                                },
-                                data: funnelData
-                            },
-                            {
                                 // name:'鼠标移入提示',
                                 type: 'funnel',
                                 left: '10%',
-                                // top: 60,
+                                top: "12%",
                                 // bottom: 60,
-                                width: '65%',
-                                height: '70%',
+                                width: '45%',
+                                height: '75%',
                                 sort: 'descending',
-                                gap: 2, // 间隙
+                                gap: 6, // 间隙
                                 label: {
                                     normal: { // 内部显示
                                         position: 'inside',
-                                        formatter: '{b}  {c}',
+                                        formatter: '{d}%',
                                         textStyle: {
                                             color: '#fff'
                                         }
@@ -959,7 +927,7 @@
                             axisLabel: {
                                 show: true,
                                 textStyle: {
-                                    fontSize: this.fontSize(.12),
+                                    fontSize: this.fontSize(.14),
                                     color: '#fff',
                                 },
                                 margin: 20, // 刻度标签与轴线之间的距离。
@@ -1108,7 +1076,7 @@
                 }, 1000)
                 this.chartssize($("#map-charts"), $(".map-box"))
                 this.chartssize($("#map-charts2"), $(".map-box"))
-                this.chartssize($("#funnel-charts"), $(".funnel-box"))
+                this.chartssize($("#funnel-charts"))
                 this.chartssize($("#bar-charts"))
                 this.initFunnel();
                 this.initSwiper();
@@ -1117,7 +1085,7 @@
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
                     mainVM.chartssize($("#map-charts2"), $(".map-box"))
-                    mainVM.chartssize($("#funnel-charts"), $(".funnel-box"))
+                    mainVM.chartssize($("#funnel-charts"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
