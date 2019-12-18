@@ -167,12 +167,14 @@ body {
 }
 .box-center .sign-circle,
 .box-center .visit-circle {
-  display: inline-block;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   height: 0.32rem;
-  box-sizing: border-box;
   line-height: 0.32rem;
-  text-align: center;
+  font-size: 0.14rem;
 }
 .box-center .sign-circle i,
 .box-center .visit-circle i {
