@@ -85,6 +85,9 @@
                             <div class="box-right">
                                 <div class="right-top">
                                     <h3>今日推广统计（商机盒子+小物种）</h3>
+                                    <div class="box">
+                                        <div id="bar-charts"></div>
+                                    </div>
                                 </div>
                                 <div class="right-center">
                                     <h3>今日电销统计</h3>
@@ -145,6 +148,8 @@
                 mapCharts2: null,
                 funnelOption: [],
                 funnelCharts: null,
+                barOption: [],
+                barCharts: null,
                 visitData: data.map.visitData,
                 signData: data.map.signData,
                 funnelData: data.funnel,
@@ -793,7 +798,115 @@
                     };
                     this.mapCharts2.setOption(this.mapOption2);
                 },
-                // 饼图
+                initBar(){
+                    this.barCharts = echarts.init(document.getElementById('bar-charts'));
+                    var data = [
+                        {"name": "客服在线数",value: 1000},
+                        {"name": "会话总量",value: 233},
+                        {"name": "账户消费",value: 2657},
+                        {"name": "线索会话",value: 34},
+                    ]
+                    this.barOption = {
+                        backgroundColor: 'rgba(255 , 255, 255, 0)',
+                        xAxis: {
+                            data: data,
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        series: [
+                            {
+                            // name: '年报上报率3',
+                            type: 'pictorialBar',
+                            symbolSize: [30, 15],
+                            symbolOffset: [0, -8],
+                            z: 12,
+                            itemStyle: {
+                                normal: {
+                                    color: '#27dbf3'
+                                }
+                            },
+                            data: [{
+                                value: 1000,
+                                symbolPosition: 'end'
+                            }, {
+                                value: 233,
+                                symbolPosition: 'end'
+                            }, {
+                                value: 2657,
+                                symbolPosition: 'end'
+                            },
+                            {
+                                value: 34,
+                                symbolPosition: 'end'
+                            }]
+                        }, 
+                        {
+                            // name: '年报上报率2',
+                            type: 'pictorialBar',
+                            symbolSize: [30, 15],
+                            symbolOffset: [0, 8],
+                            z: 1,
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
+                                        offset: 0,
+                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                    }], false),
+                                }
+                            },
+                            data: data
+                        },
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
+                                        offset: 0,
+                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                    }], false),
+                                }
+                            },
+                            // itemStyle: {
+                            //     normal: {
+                            //         color: '#14b1eb',
+                            //         opacity: 1
+                            //     }
+                            // },
+                            silent: true,
+                            barWidth: 30,
+                            barGap: '-100%', // Make series be overlap
+                            data: data
+                        }]
+                    };
+                    this.barCharts.setOption(this.barOption);
+                },
                 //参数container为图表盒子节点.charts为图表节点
                 chartssize(charts, container) {
                     if (!container) {
@@ -840,8 +953,10 @@
                 this.chartssize($("#map-charts"), $(".map-box"))
                 this.chartssize($("#map-charts2"), $(".map-box"))
                 this.chartssize($("#funnel-charts"), $(".funnel-box"))
+                this.chartssize($("#bar-charts"))
                 this.initFunnel();
                 this.initSwiper();
+                this.initBar();
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
