@@ -218,8 +218,12 @@ body {
   margin-bottom: 1%;
 }
 .pie-charts02 {
-  height: 2.21rem;
-  margin-top: 0.3rem;
+  height: 100%;
+  margin-top: 0.18rem;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 0.7rem;
+  box-sizing: border-box;
 }
 .funnel-box,
 .box {
@@ -227,6 +231,7 @@ body {
   height: 100%;
 }
 .echarts_business {
-  width: 1.86rem;
-  height: 1.86rem;
+  margin-top: 0.1rem;
+  width: 1.96rem;
+  height: 1.96rem;
 }
