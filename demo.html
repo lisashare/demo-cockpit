@@ -85,6 +85,9 @@
                             <div class="box-right">
                                 <div class="right-top">
                                     <h3>今日推广统计（商机盒子+小物种）</h3>
+                                    <div class="box">
+                                        <div id="bar-charts"></div>
+                                    </div>
                                 </div>
                                 <div class="right-center">
                                     <h3>今日电销统计</h3>
@@ -145,6 +148,8 @@
                 mapCharts2: null,
                 funnelOption: [],
                 funnelCharts: null,
+                barOption: [],
+                barCharts: null,
                 visitData: data.map.visitData,
                 signData: data.map.signData,
                 funnelData: data.funnel,
@@ -933,7 +938,134 @@
                     };
                     this.mapCharts2.setOption(this.mapOption2);
                 },
-                // 饼图
+                initBar(){
+                    this.barCharts = echarts.init(document.getElementById('bar-charts'));
+                    var data = [
+                        {"name": "客服在线数","value": 122222},
+                        {"name": "会话总量","value": 23344},
+                        {"name": "账户消费","value": 26574},
+                        {"name": "线索会话","value": 34},
+                    ];
+                    var itemName = [];
+                    data.forEach(function (item) {
+                        itemName.push(item.name);
+                    });
+                    this.barOption = {
+                        backgroundColor: 'rgba(255 , 255, 255, 0)',
+                        xAxis: {
+                            type: 'category',
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: this.fontSize(.12),
+                                    color: '#fff',
+                                },
+                                margin: 20, // 刻度标签与轴线之间的距离。
+                            },
+                            label: {
+                                show: true,
+                                position: 'bottom',
+                                color: "#fff",
+                                formatter: '{b}'
+                            },
+                            data: itemName,
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        series: [
+                            {
+                            // name: '上面圆',
+                            type: 'pictorialBar',
+                            symbolSize: [30, 15],
+                            symbolOffset: [0, -8],
+                            z: 5,
+                            itemStyle: {
+                                normal: {
+                                    color: '#27dbf3'
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    color: '#fff'
+                                }
+                            },
+                            symbolPosition: 'end',
+                            data: data
+                            // [{
+                            //     value: 122222,
+                            //     symbolPosition: 'end'
+                            // }, {
+                            //     value: 233,
+                            //     symbolPosition: 'end'
+                            // }, {
+                            //     value: 2657,
+                            //     symbolPosition: 'end'
+                            // },
+                            // {
+                            //     value: 34,
+                            //     symbolPosition: 'end'
+                            // }]
+                        }, 
+                        {
+                            // name: '下面圆',
+                            type: 'pictorialBar',
+                            symbolSize: [30, 15],
+                            symbolOffset: [0, 8],
+                            z: 1,
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
+                                        offset: 0,
+                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                    }], false),
+                                }
+                            },
+                            data: data
+                        },
+                        {
+                            type: 'bar',
+                            itemStyle: {
+                                normal: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
+                                        offset: 0,
+                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                    }], false),
+                                }
+                            },
+                            silent: true,
+                            barWidth: 30,
+                            barGap: '-100%', // Make series be overlap
+                            data: data
+                        }]
+                    };
+                    this.barCharts.setOption(this.barOption);
+                },
                 //参数container为图表盒子节点.charts为图表节点
                 chartssize(charts, container) {
                     if (!container) {
@@ -981,8 +1113,10 @@
                 this.chartssize($("#map-charts"), $(".map-box"))
                 this.chartssize($("#map-charts2"), $(".map-box"))
                 this.chartssize($("#funnel-charts"), $(".funnel-box"))
+                this.chartssize($("#bar-charts"))
                 this.initFunnel();
                 this.initSwiper();
+                this.initBar();
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
