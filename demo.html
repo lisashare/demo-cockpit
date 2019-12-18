@@ -91,6 +91,9 @@
                                 </div>
                                 <div class="right-center">
                                     <h3>今日电销统计</h3>
+                                    <div class="box">
+                                        <div id='echarts_tmk' class="echarts_tmk"></div>
+                                    </div>
                                 </div>
                                 <div class="right-bottom">
                                     <h3>今日商务统计</h3>
@@ -177,6 +180,136 @@
                 },
             },
             methods: {
+                //电销统计
+                arrayObj(array, key) {
+                    var resObj = {};
+                    for (var i = 0; i < array.length; i++) {
+                        resObj[array[i][key]] = array[i];
+                    }
+                    return resObj;
+                },
+                initEchartsByTmk() {
+                    var _this = this
+                    var dataMock = [{
+                            name: "资源量",
+                            value: 754,
+                            radiusArr: ['73.5%', '85%'],
+                            color: '#1b6bee'
+
+                        },
+                        {
+                            name: "邀约量",
+                            value: 611,
+                            radiusArr: ['53.5%', '65%'],
+                            color: '#1bb7c4'
+                        },
+                        {
+                            name: "签约量",
+                            value: 400,
+                            radiusArr: ['33.5%', '45%'],
+                            color: '#e530a3'
+                        },
+
+                    ]
+                    var dataName = []
+                    var myChart = echarts.init(document.getElementById('echarts_tmk'));
+                    var color = ['#1b6bee', '#1bb7c4', '#e530a3'];
+                    var dataStyle = {
+                        normal: {
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            shadowBlur: 40,
+                            borderWidth: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
+                        }
+                    };
+                    var placeHolderStyle = {
+                        normal: {
+                            color: '#254999',
+                            label: {
+                                show: false
+                            },
+                            labelLine: {
+                                show: false
+                            }
+                        },
+                        emphasis: {
+                            color: '#254999'
+                        }
+                    };
+                    option = {
+                        legend: {
+                            // show: true,
+                            orient: 'vertical',
+                            align: 'left',
+                            icon: "circle",
+                            top: "center",
+                            right: '22%',
+                            data: dataMock,
+                            padding: [0, 2],
+                            itemWidth: 8,
+                            formatter: function (name, value) {
+                                return "{title|" + name + "}     {value|" + (_this.arrayObj(dataMock,
+                                    "name")[name].value) + "}"
+                                console.log(_this.arrayObj(dataMock, "name")[name].value)
+
+
+                                // console.log(value)
+
+                            },
+
+                            textStyle: {
+                                rich: {
+                                    title: {
+                                        fontSize: this.fontSize(0.14),
+                                        lineHeight: 15,
+                                        color: "rgb(255, 255, 255)"
+                                    },
+                                    value: {
+                                        fontSize: this.fontSize(0.16),
+                                        lineHeight: 20,
+                                        color: "#27DBF3"
+                                    }
+                                }
+                            },
+                        },
+                        series: dataMock.map((item, index) => {
+                            return {
+                                type: 'pie',
+                                clockWise: false,
+                                radius: item.radiusArr,
+                                center: ['30%', '50%'],
+                                itemStyle: dataStyle,
+                                hoverAnimation: false,
+                                startAngle: 90,
+                                data: [{
+                                        value: item.value,
+                                        name: item.name,
+                                        itemStyle: {
+                                            normal: {
+                                                color: item.color,
+                                            }
+                                        }
+                                    },
+                                    {
+                                        value: 1000 - item.value,
+                                        name: '',
+                                        tooltip: {
+                                            show: false
+                                        },
+                                        itemStyle: placeHolderStyle
+                                    },
+                                ]
+                            }
+                        })
+
+                    };
+                    myChart.setOption(option);
+                },
                 fontSize(res) {
                     let docEl = document.documentElement,
                         clientWidth = window.innerWidth || document.documentElement.clientWidth || document.body
@@ -212,9 +345,9 @@
                     }
                     var seriesObj = [{
                             type: 'pie',
-                           radius: ['58%', '70%'],
+                            radius: ['58%', '70%'],
                             avoidLabelOverlap: false,
-                            hoverAnimation : false,
+                            hoverAnimation: false,
                             label: {
                                 normal: {
 
@@ -271,9 +404,8 @@
                             offset: 1,
                             color: '#e00d6c'
                         }]), "#254999"],
-                       
-                        title: [
-                            {
+
+                        title: [{
                                 text: '556.780.6781',
                                 textStyle: {
                                     color: '#4effff',
@@ -306,8 +438,8 @@
                     }
                     myChart.setOption(option);
                 },
-                 //商务累计2
-                 initEchartsByBusinessTwo() {
+                //商务累计2
+                initEchartsByBusinessTwo() {
                     var myChart = echarts.init(document.getElementById('echarts_business2'));
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
@@ -334,7 +466,7 @@
                             type: 'pie',
                             radius: ['58%', '70%'],
                             avoidLabelOverlap: false,
-                            hoverAnimation : false,
+                            hoverAnimation: false,
                             label: {
                                 normal: {
 
@@ -389,9 +521,8 @@
                             offset: 1,
                             color: '#e80567 '
                         }]), "#254999"],
-                      
-                        title: [
-                            {
+
+                        title: [{
                                 text: '556.780.6781',
                                 textStyle: {
                                     color: '#4effff',
@@ -938,13 +1069,24 @@
                     };
                     this.mapCharts2.setOption(this.mapOption2);
                 },
-                initBar(){
+                initBar() {
                     this.barCharts = echarts.init(document.getElementById('bar-charts'));
-                    var data = [
-                        {"name": "客服在线数","value": 122222},
-                        {"name": "会话总量","value": 23344},
-                        {"name": "账户消费","value": 26574},
-                        {"name": "线索会话","value": 34},
+                    var data = [{
+                            "name": "客服在线数",
+                            "value": 122222
+                        },
+                        {
+                            "name": "会话总量",
+                            "value": 23344
+                        },
+                        {
+                            "name": "账户消费",
+                            "value": 26574
+                        },
+                        {
+                            "name": "线索会话",
+                            "value": 34
+                        },
                     ];
                     var itemName = [];
                     data.forEach(function (item) {
@@ -990,79 +1132,79 @@
                                 show: false
                             }
                         },
-                        series: [
+                        series: [{
+                                // name: '上面圆',
+                                type: 'pictorialBar',
+                                symbolSize: [30, 15],
+                                symbolOffset: [0, -8],
+                                z: 5,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#27dbf3'
+                                    }
+                                },
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        color: '#fff'
+                                    }
+                                },
+                                symbolPosition: 'end',
+                                data: data
+                                // [{
+                                //     value: 122222,
+                                //     symbolPosition: 'end'
+                                // }, {
+                                //     value: 233,
+                                //     symbolPosition: 'end'
+                                // }, {
+                                //     value: 2657,
+                                //     symbolPosition: 'end'
+                                // },
+                                // {
+                                //     value: 34,
+                                //     symbolPosition: 'end'
+                                // }]
+                            },
                             {
-                            // name: '上面圆',
-                            type: 'pictorialBar',
-                            symbolSize: [30, 15],
-                            symbolOffset: [0, -8],
-                            z: 5,
-                            itemStyle: {
-                                normal: {
-                                    color: '#27dbf3'
-                                }
+                                // name: '下面圆',
+                                type: 'pictorialBar',
+                                symbolSize: [30, 15],
+                                symbolOffset: [0, 8],
+                                z: 1,
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                        }], false),
+                                    }
+                                },
+                                data: data
                             },
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top',
-                                    color: '#fff'
-                                }
-                            },
-                            symbolPosition: 'end',
-                            data: data
-                            // [{
-                            //     value: 122222,
-                            //     symbolPosition: 'end'
-                            // }, {
-                            //     value: 233,
-                            //     symbolPosition: 'end'
-                            // }, {
-                            //     value: 2657,
-                            //     symbolPosition: 'end'
-                            // },
-                            // {
-                            //     value: 34,
-                            //     symbolPosition: 'end'
-                            // }]
-                        }, 
-                        {
-                            // name: '下面圆',
-                            type: 'pictorialBar',
-                            symbolSize: [30, 15],
-                            symbolOffset: [0, 8],
-                            z: 1,
-                            itemStyle: {
-                                normal: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
-                                        offset: 0,
-                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
-                                    }], false),
-                                }
-                            },
-                            data: data
-                        },
-                        {
-                            type: 'bar',
-                            itemStyle: {
-                                normal: {
-                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0,[{
-                                        offset: 0,
-                                        color: 'rgba(25,93,223,1)' // 0% 处的颜色
-                                    }, {
-                                        offset: 1,
-                                        color: 'rgba(36,191,238,1)' // 100% 处的颜色
-                                    }], false),
-                                }
-                            },
-                            silent: true,
-                            barWidth: 30,
-                            barGap: '-100%', // Make series be overlap
-                            data: data
-                        }]
+                            {
+                                type: 'bar',
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                        }], false),
+                                    }
+                                },
+                                silent: true,
+                                barWidth: 30,
+                                barGap: '-100%', // Make series be overlap
+                                data: data
+                            }
+                        ]
                     };
                     this.barCharts.setOption(this.barOption);
                 },
@@ -1103,6 +1245,7 @@
                 //
                 this.initEchartsByBusinessOne()
                 this.initEchartsByBusinessTwo()
+               
 
                 document.getElementById('wrapper').style.display = 'block';
                 // 当前时间
@@ -1114,17 +1257,21 @@
                 this.chartssize($("#map-charts2"), $(".map-box"))
                 this.chartssize($("#funnel-charts"), $(".funnel-box"))
                 this.chartssize($("#bar-charts"))
+                this.chartssize($("#echarts_tmk"))
                 this.initFunnel();
                 this.initSwiper();
                 this.initBar();
+                this.initEchartsByTmk()
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
                     mainVM.chartssize($("#map-charts2"), $(".map-box"))
                     mainVM.chartssize($("#funnel-charts"), $(".funnel-box"))
+                   
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
+                    
                 }
                 // 地图切换
                 var num = 0;
