@@ -46,6 +46,13 @@ html, body{
   display: flex;
   height: 100%;
   padding: 0 .64rem;
+  h3{
+    position: absolute;
+    top: 0;left: 0;
+    padding-left: .32rem;
+    height: .5rem;
+    line-height: .5rem;
+  }
 }
 
 .cockpit-header{
@@ -99,7 +106,10 @@ html, body{
     }
   }
 }
-
+.left-top,.right-top,.left-center,.left-bottom,.right-center,.right-bottom{
+  position: relative;
+  padding-top: .5rem;
+}
 .left-top,.right-top{
   width: 4.71rem;
   height: 2.95rem;
@@ -122,10 +132,10 @@ html, body{
         display: flex;
         justify-content: center;
         li{
-            margin: 0 1%;
+            margin: 0 0.15rem;
             display: inline-block;
             min-width: 1rem;
-            padding: 1% 2%;
+            padding: 1% .32rem;
             background: url("../images/2@3x.png") no-repeat;
             background-size: 100% 100%;
         }
@@ -134,7 +144,7 @@ html, body{
   .circle-wrap{
     position: absolute;
     top: 10%;
-    left: 8%;
+    left: 18%;
     width: 1.8rem;
     border: 1px solid #27dbf2;
     background: transparent;
@@ -159,10 +169,10 @@ html, body{
     }
   }
   .sign-circle{
-    background: #27dbf2;
-    color: #999;
+    background: #27DBF3;
+    color: #10275B;
     i{
-      background: #1091a4;
+      background: #1193A4;
     }
 
   }
@@ -206,6 +216,6 @@ html, body{
   margin-bottom: 1%;
 }
 .funnel-box{
-  width: 90%;
-  height: 46%;
+  width: 100%;
+  height: 100%;
 }
