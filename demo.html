@@ -156,6 +156,7 @@
                 visitData: data.map.visitData,
                 signData: data.map.signData,
                 funnelData: data.funnel,
+                bar: data.bar,
                 sign: data.sign,
                 time: ""
             },
@@ -1071,23 +1072,7 @@
                 },
                 initBar() {
                     this.barCharts = echarts.init(document.getElementById('bar-charts'));
-                    var data = [{
-                            "name": "客服在线数",
-                            "value": 122222
-                        },
-                        {
-                            "name": "会话总量",
-                            "value": 23344
-                        },
-                        {
-                            "name": "账户消费",
-                            "value": 26574
-                        },
-                        {
-                            "name": "线索会话",
-                            "value": 34
-                        },
-                    ];
+                    var data = this.bar;
                     var itemName = [];
                     data.forEach(function (item) {
                         itemName.push(item.name);

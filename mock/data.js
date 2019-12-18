@@ -143,7 +143,13 @@ var data = {
         "signNum": 123 ,
         "signingNum": 1234567 ,
         "signAmountNum": 938495.33,
-    }
+    },
+    "bar": [
+        {"name": "客服在线数","value": 122222},
+        {"name": "会话总量","value": 23344},
+        {"name": "账户消费","value": 26574},
+        {"name": "线索会话","value": 34},
+    ]
 }
 
 
