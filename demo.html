@@ -940,15 +940,19 @@
                 initBar(){
                     this.barCharts = echarts.init(document.getElementById('bar-charts'));
                     var data = [
-                        {"name": "客服在线数",value: 1000},
-                        {"name": "会话总量",value: 233},
-                        {"name": "账户消费",value: 2657},
-                        {"name": "线索会话",value: 34},
-                    ]
+                        {"name": "客服在线数","value": 122222},
+                        {"name": "会话总量","value": 23344},
+                        {"name": "账户消费","value": 26574},
+                        {"name": "线索会话","value": 34},
+                    ];
+                    var itemName = [];
+                    data.forEach(function (item) {
+                        itemName.push(item.name);
+                    });
                     this.barOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         xAxis: {
-                            data: data,
+                            type: 'category',
                             axisTick: {
                                 show: false
                             },
@@ -956,8 +960,20 @@
                                 show: false
                             },
                             axisLabel: {
-                                show: false
-                            }
+                                show: true,
+                                textStyle: {
+                                    fontSize: this.fontSize(.12),
+                                    color: '#fff',
+                                },
+                                margin: 20, // 刻度标签与轴线之间的距离。
+                            },
+                            label: {
+                                show: true,
+                                position: 'bottom',
+                                color: "#fff",
+                                formatter: '{b}'
+                            },
+                            data: itemName,
                         },
                         yAxis: {
                             splitLine: {
@@ -975,33 +991,42 @@
                         },
                         series: [
                             {
-                            // name: '年报上报率3',
+                            // name: '上面圆',
                             type: 'pictorialBar',
                             symbolSize: [30, 15],
                             symbolOffset: [0, -8],
-                            z: 12,
+                            z: 5,
                             itemStyle: {
                                 normal: {
                                     color: '#27dbf3'
                                 }
                             },
-                            data: [{
-                                value: 1000,
-                                symbolPosition: 'end'
-                            }, {
-                                value: 233,
-                                symbolPosition: 'end'
-                            }, {
-                                value: 2657,
-                                symbolPosition: 'end'
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                    color: '#fff'
+                                }
                             },
-                            {
-                                value: 34,
-                                symbolPosition: 'end'
-                            }]
+                            symbolPosition: 'end',
+                            data: data
+                            // [{
+                            //     value: 122222,
+                            //     symbolPosition: 'end'
+                            // }, {
+                            //     value: 233,
+                            //     symbolPosition: 'end'
+                            // }, {
+                            //     value: 2657,
+                            //     symbolPosition: 'end'
+                            // },
+                            // {
+                            //     value: 34,
+                            //     symbolPosition: 'end'
+                            // }]
                         }, 
                         {
-                            // name: '年报上报率2',
+                            // name: '下面圆',
                             type: 'pictorialBar',
                             symbolSize: [30, 15],
                             symbolOffset: [0, 8],
@@ -1032,12 +1057,6 @@
                                     }], false),
                                 }
                             },
-                            // itemStyle: {
-                            //     normal: {
-                            //         color: '#14b1eb',
-                            //         opacity: 1
-                            //     }
-                            // },
                             silent: true,
                             barWidth: 30,
                             barGap: '-100%', // Make series be overlap
