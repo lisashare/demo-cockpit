@@ -669,19 +669,38 @@
                 },
                 // 漏斗
                 initFunnel() {
+                    var _this = this
                     this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
                     var funnelData = this.funnelData;
                     this.funnelOption = {
-                        color: ['#334faf', '#203371', '#0f69c9', '#699bfc'],
+                        color: ['#2074ef', '#15b4c5', '#e86b56', '#e336a7'],
                         legend: {
                             orient: 'vertical',
-                            top: "16%",
-                            right: '20%',
+                            icon: "circle",
+                            top: "center",
+                            right: '17%',
                             textStyle: {
-                                color: '#fff',
+                                color: '#27DBF3',
                                 fontSize: this.fontSize(0.14),
                             },
-                            data: ['资源量', '邀约量', '来访量', '签约量']
+                            itemWidth: 8, // 圆圈的宽
+                            formatter: function (name) {
+                                return "{title|" + name + "}     {value|" + (_this.arrayObj(funnelData,
+                                "name")[name].value) + "}"
+                            },
+                            data: funnelData
+                        },
+                        textStyle: {
+                            rich: {
+                                title: {
+                                    fontSize: this.fontSize(0.14),
+                                    color: "rgb(255, 255, 255)"
+                                },
+                                value: {
+                                    fontSize: this.fontSize(0.16),
+                                    color: "#27DBF3"
+                                }
+                            }
                         },
                         // calculable: true,
                         series: [{

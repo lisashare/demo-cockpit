@@ -134,10 +134,10 @@ var data = {
         }
     },
     "funnel": [
-            {value: 456, name: '资源量'},
-            {value: 365, name: '邀约量'},
-            {value: 291, name: '来访量'},
-            {value: 231, name: '签约量'}
+            {"value": 456, "name": '资源量'},
+            {"value": 365, "name": '邀约量'},
+            {"value": 291, "name": '来访量'},
+            {"value": 231, "name": '签约量'}
         ],
     "sign": {
         "signNum": 123 ,
