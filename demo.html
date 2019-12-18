@@ -97,6 +97,9 @@
                                 </div>
                                 <div class="right-bottom">
                                     <h3>今日商务统计</h3>
+                                    <div class="funnel-box box">
+                                        <div id="echarts_statistics"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -181,6 +184,105 @@
                 },
             },
             methods: {
+                //商务统计
+                initEchartsByStatistics() {
+                    var myChart = echarts.init(document.getElementById('echarts_statistics'));
+                    option = {
+                        radar: {
+                            shape: 'circle',
+                            radius: '80%',
+                            center: ['50%', '48%'],
+                            startAngle: 45,
+                            // splitNumber: 4,
+                            name: {
+                                color: '#fff',
+                                padding: [0, 20, 0, 20],
+                                formatter: function (value, indicator) {
+                                    return '{a|' + value + '}\n{b|' + indicator.num + '}'
+
+                                },
+                                lineHeight: 20,
+                                rich: {
+                                    a: {
+                                        color: '#fff',
+                                        fontSize: this.fontSize(0.14),
+                                        align: 'center'
+                                    },
+                                    b: {
+                                        color: '#27DBF3',
+                                        fontSize:  this.fontSize(0.16),
+                                        align: 'center'
+                                    }
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    width: 2,
+                                    color: '#254999',
+                                }
+                            },
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    width: 2,
+                                    type: 'solid',
+                                    color: '#254999'
+                                },
+                            },
+                            splitArea: {
+                                show: false
+                            },
+                            indicator: [{
+                                    name: '签约量',
+                                    max: 6500,
+                                    num: 4536
+                                },
+                                {
+                                    name: '来访量',
+                                    max: 16000,
+                                    num: 5334
+                                },
+                                {
+                                    name: '签约单量',
+                                    max: 30000,
+                                    num: 13733
+                                },
+                                {
+                                    name: '签约单量',
+                                    max: 398000,
+                                    num: 312234
+                                },
+                            ],
+
+                        },
+                        series: [{
+                            name: '认证用户',
+                            type: 'radar',
+                            data: [{
+                                // symbol: icon,
+                                symbolSize: 8,
+                                value: [4536, 5334, 13733, 312234],
+                                lineStyle: {
+                                    width: 3,
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                        offset: 0,
+                                        color: '#2AEDFE'
+                                    }, {
+                                        offset: 1,
+                                        color: 'red'
+                                    }])
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        color: 'rgba(42, 84, 173, 0.8)'
+                                    },
+                                }
+                            }],
+                        }]
+
+                    }
+                    myChart.setOption(option);
+                },
                 //电销统计
                 arrayObj(array, key) {
                     var resObj = {};
@@ -583,32 +685,31 @@
                         },
                         // calculable: true,
                         series: [{
-                                // name:'鼠标移入提示',
-                                type: 'funnel',
-                                left: '10%',
-                                top: "12%",
-                                // bottom: 60,
-                                width: '45%',
-                                height: '75%',
-                                sort: 'descending',
-                                gap: 6, // 间隙
-                                label: {
-                                    normal: { // 内部显示
-                                        position: 'inside',
-                                        formatter: '{d}%',
-                                        textStyle: {
-                                            color: '#fff'
-                                        }
-                                    },
-                                },
-                                itemStyle: {
-                                    normal: {
-                                        borderWidth: 0
+                            // name:'鼠标移入提示',
+                            type: 'funnel',
+                            left: '10%',
+                            top: "12%",
+                            // bottom: 60,
+                            width: '45%',
+                            height: '75%',
+                            sort: 'descending',
+                            gap: 6, // 间隙
+                            label: {
+                                normal: { // 内部显示
+                                    position: 'inside',
+                                    formatter: '{d}%',
+                                    textStyle: {
+                                        color: '#fff'
                                     }
                                 },
-                                data: funnelData
-                            }
-                        ]
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 0
+                                }
+                            },
+                            data: funnelData
+                        }]
                     };
                     this.funnelCharts.setOption(this.funnelOption);
                 },
@@ -1198,7 +1299,7 @@
                 //
                 this.initEchartsByBusinessOne()
                 this.initEchartsByBusinessTwo()
-               
+
 
                 document.getElementById('wrapper').style.display = 'block';
                 // 当前时间
@@ -1211,10 +1312,12 @@
                 this.chartssize($("#funnel-charts"))
                 this.chartssize($("#bar-charts"))
                 this.chartssize($("#echarts_tmk"))
+                this.chartssize($("#echarts_statistics"))
                 this.initFunnel();
                 this.initSwiper();
                 this.initBar();
                 this.initEchartsByTmk()
+                this.initEchartsByStatistics()
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
@@ -1223,7 +1326,7 @@
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
-                    
+
                 }
                 // 地图切换
                 var num = 0;
