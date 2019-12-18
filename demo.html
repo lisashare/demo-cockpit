@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width">
+    <meta name="viewport"
+        content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>快道集团驾驶舱</title>
     <script src="js/rem.js"></script>
@@ -11,6 +13,7 @@
     <link rel="stylesheet" href="./css/demo.css">
     <link rel="stylesheet" href="https://static.kuaidao.cn/qingteng/wx-css/swiper.min.css">
 </head>
+
 <body>
     <div id="wrapper" class="wrapper" v-cloak style="display: none;">
         <div class="content">
@@ -31,13 +34,14 @@
                                 <div class="left-top">
                                     <h3>12月推广累计（商机盒子+小物种）</h3>
                                     <div class="pie-charts01">
-                                        
+
                                     </div>
                                 </div>
                                 <div class="left-center">
                                     <h3>12月商务累计</h3>
                                     <div class="pie-charts02">
-                                        
+                                        <div id='echarts_business' class="echarts_business"></div>
+
                                     </div>
                                 </div>
                                 <div class="left-bottom">
@@ -95,10 +99,10 @@
                         <div class="cockpit-content">
                             <div class="cockpit-left">
                                 <div class="pie-charts01">
-                
+
                                 </div>
                                 <div class="pie-charts02">
-                
+
                                 </div>
                                 <div class="funnel-box">
                                     <div id="funnel-charts2"></div>
@@ -128,8 +132,8 @@
     <script src="js/map/china.js"></script>
     <script src="json/demo.js"></script>
     <script src="mock/data.js"></script>
-    <script>  
-        console.log( geoCoordMap )
+    <script>
+        console.log(geoCoordMap)
         console.log(data.map)
         var mainVM = new Vue({
             el: '#wrapper',
@@ -148,35 +152,144 @@
                 time: ""
             },
             filters: {
-                formatNumber(value){
+                formatNumber(value) {
                     var nStr = value;
-                    if(!nStr){return nStr;}
-                    nStr += '';  
-                    x = nStr.split('.');  
+                    if (!nStr) {
+                        return nStr;
+                    }
+                    nStr += '';
+                    x = nStr.split('.');
                     x1 = x[0];
                     // if(!x[1]){
                     //     x[1] = '00';
                     // }  
                     x2 = x.length > 1 ? '.' + x[1] : '';
-                    var rgx = /(\d+)(\d{3})/;  
-                    while (rgx.test(x1)) {  
-                        x1 = x1.replace(rgx, '$1' + ',' + '$2');  
-                    }  
-                    return x1 + x2;  
-                },  
+                    var rgx = /(\d+)(\d{3})/;
+                    while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                    }
+                    return x1 + x2;
+                },
             },
             methods: {
-                dataFormat(){
+                //商务累计1
+                initEchartsByBusiness() {
+                    var myChart = echarts.init(document.getElementById('echarts_business'));
+                    var data2 = [];
+                    for (var i = 0; i < 4; i++) {
+                        data2.push({
+                            value: 80,
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 3,
+                                    /* shadowBlur: 30,*/
+                                    borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                        offset: 0,
+                                        color: '#2AEDFE'
+                                    }, {
+                                        offset: 1,
+                                        color: '#2AEDFE'
+                                    }]),
+                                }
+                            }
+                        }, {
+                            value: 40,
+                        });
+                    }
+                    var seriesObj = [{
+                            name: '访问来源',
+                            type: 'pie',
+                            radius: ['55%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [{
+                                    value: 11150,
+                                    name: ''
+                                },
+                                {
+                                    value: 13330,
+                                    name: ''
+                                },
+
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: ['50%', '50%'],
+                            hoverAnimation: false,
+                            itemStyle: {
+                                normal: {
+                                    labelLine: {
+                                        show: false
+                                    },
+                                }
+                            },
+                            data: data2
+                        },
+
+                    ];
+                    option = {
+                        color: [new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#27dbf3'
+                        }, {
+                            offset: 1,
+                            color: '#e00d6c'
+                        }]), "#254999"],
+                        title: {
+                            text: '556.780.6780',
+                            textStyle: {
+                                color: '#4effff',
+                                fontSize: 10,
+                                align: 'center'
+                            },
+
+                            x: 'center',
+                            y: 'center',
+                        },
+                        tooltip: {
+                            show: false
+                        },
+                        legend: {
+                            show: false
+                        },
+                        toolbox: {
+                            show: false
+                        },
+                        series: seriesObj
+                    }
+                    myChart.setOption(option);
+                },
+                dataFormat() {
                     var time = new Date();
                     return `<span>${time.getFullYear()}</span>年<span>${time.getMonth() + 1 >= 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1)}</span>月<span>${time.getDate() >= 10 ? time.getDate() : '0' + time.getDate()}</span>日 &nbsp;&nbsp;&nbsp;&nbsp;
                             <span>${time.getHours() >= 10 ? time.getHours() : '0' + time.getHours()}</span><i> : </i><span>${time.getMinutes()>=10?time.getMinutes():'0'+time.getMinutes()}</span><i> : </i><span>${time.getSeconds() >= 10 ? time.getSeconds() : '0' + time.getSeconds()}</span>`;
                 },
-                slide(i){
+                slide(i) {
                     $('.nav-tab li').removeClass('active').eq(i).addClass('active');
-                    this.mySwiper.slideTo(i,1000,false);
+                    this.mySwiper.slideTo(i, 1000, false);
                 },
                 // 漏斗
-                initFunnel(){
+                initFunnel() {
                     this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
                     var funnelData = this.funnelData;
                     this.funnelOption = {
@@ -187,16 +300,15 @@
                             itemGap: 2,
                             itemWidth: 18,
                             itemHeight: 15,
-                            textStyle:{
-                                color:'#fff',
+                            textStyle: {
+                                color: '#fff',
                                 fontSize: 13,
                             },
-                            data: ['资源量','邀约量','来访量','签约量']
+                            data: ['资源量', '邀约量', '来访量', '签约量']
                         },
                         calculable: true,
-                        series: [
-                            {
-                                type:'funnel',
+                        series: [{
+                                type: 'funnel',
                                 left: '10%',
                                 // top: 60,
                                 // bottom: 60,
@@ -207,7 +319,7 @@
                                 label: {
                                     normal: { // 外部显示
                                         formatter: '{d}%',
-                                        textStyle:{
+                                        textStyle: {
                                             color: '#fff',
                                             fontSize: 13,
                                         },
@@ -227,12 +339,12 @@
                             },
                             {
                                 // name:'鼠标移入提示',
-                                type:'funnel',
+                                type: 'funnel',
                                 left: '10%',
                                 // top: 60,
                                 // bottom: 60,
                                 width: '65%',
-                                height:'70%',
+                                height: '70%',
                                 sort: 'descending',
                                 gap: 2, // 间隙
                                 label: {
@@ -256,7 +368,7 @@
                     this.funnelCharts.setOption(this.funnelOption);
                 },
                 // 地图
-                initMap(data, type){
+                initMap(data, type) {
                     this.mapCharts = echarts.init(document.getElementById('map-charts'));
                     var BJData = [
                         [{
@@ -290,19 +402,22 @@
                             value: 90
                         }]
                     ];
-                    var planePath = 'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
+                    var planePath =
+                        'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
 
-                    var convertData = function(data) {
-                        if(!data){return false;}
+                    var convertData = function (data) {
+                        if (!data) {
+                            return false;
+                        }
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
                             var fromCoord = '';
                             var toCoord = '';
-                            if(type){
+                            if (type) {
                                 fromCoord = geoCoordMap[dataItem[0].name];
                                 toCoord = geoCoordMap[dataItem[1].name];
-                            }else{
+                            } else {
                                 fromCoord = geoCoordMap[dataItem[1].name];
                                 toCoord = geoCoordMap[dataItem[0].name];
                             }
@@ -316,23 +431,23 @@
                         }
                         return res;
                     };
-                    if(type){
+                    if (type) {
                         var color = "#fae07f";
                         // var color = ['#9064fb', '#a48ae3', '#c948ea'];
-                    }else{
+                    } else {
                         var color = "#27dbf2";
                         // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
                     }
                     // ['#3ed4ff', '#ffa022', '#a6c84c'];
                     var series = [];
                     var signItem = [];
-                    for(var key in data){
+                    for (var key in data) {
                         var tmp = [];
                         tmp.push(key);
                         tmp.push(data[key]);
                         signItem.push(tmp);
                     }
-                    signItem.forEach(function(item, i) {
+                    signItem.forEach(function (item, i) {
                         series.push({
                             name: item[0],
                             type: 'lines',
@@ -352,8 +467,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        {
+                        }, {
                             name: item[0],
                             type: 'lines',
                             zlevel: 2,
@@ -373,8 +487,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        },
-                        { 
+                        }, {
                             name: item[0],
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
@@ -387,12 +500,13 @@
                                     show: true,
                                     position: 'right',
                                     // formatter: '{b}'
-                                    formatter: function(params){// 圆环显示文字
-                                        return params.data.name+" "+params.data.value[params.data.value.length-1];
+                                    formatter: function (params) { // 圆环显示文字
+                                        return params.data.name + " " + params.data.value[
+                                            params.data.value.length - 1];
                                     },
                                 },
                             },
-                            symbolSize: function(val) {
+                            symbolSize: function (val) {
                                 return val[2] / 8;
                             },
                             itemStyle: {
@@ -400,10 +514,12 @@
                                     color: color
                                 }
                             },
-                            data: item[1].map(function(dataItem) {
+                            data: item[1].map(function (dataItem) {
                                 return {
                                     name: dataItem[1].name,
-                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                                    value: geoCoordMap[dataItem[1].name].concat([
+                                        dataItem[1].value
+                                    ])
                                 };
                             })
                         });
@@ -428,7 +544,7 @@
                                     show: false
                                 }
                             },
-                            roam: false,// 是否开启鼠标缩放和平移漫游
+                            roam: false, // 是否开启鼠标缩放和平移漫游
                             itemStyle: {
                                 normal: {
                                     areaColor: '#203270',
@@ -443,7 +559,7 @@
                     };
                     this.mapCharts.setOption(this.mapOption);
                 },
-                initMap2(data, type){
+                initMap2(data, type) {
                     this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
                     var BJData = [
                         [{
@@ -513,17 +629,20 @@
                             value: 40
                         }]
                     ];
-                    var planePath = 'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
-                    var convertData = function(data) {
-                        if(!data){return false;}
+                    var planePath =
+                        'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
+                    var convertData = function (data) {
+                        if (!data) {
+                            return false;
+                        }
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
-                            var fromCoord,toCoord;
-                            if(type){
+                            var fromCoord, toCoord;
+                            if (type) {
                                 fromCoord = geoCoordMap[dataItem[0].name];
                                 toCoord = geoCoordMap[dataItem[1].name];
-                            }else{
+                            } else {
                                 fromCoord = geoCoordMap[dataItem[1].name];
                                 toCoord = geoCoordMap[dataItem[0].name];
                             }
@@ -537,23 +656,23 @@
                         }
                         return res;
                     };
-                    if(type){
+                    if (type) {
                         var color = "#fae07f";
                         // var color = ['#9064fb', '#a48ae3', '#c948ea'];
-                    }else{
+                    } else {
                         var color = "#27dbf2";
                         // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
                     }
                     var series = [];
                     var signItem = [];
-                    for(var key in this.signData){
+                    for (var key in this.signData) {
                         var tmp = [];
                         tmp.push(key);
                         tmp.push(this.signData[key]);
                         signItem.push(tmp);
                     }
                     // [['北京', BJData]]
-                    signItem.forEach(function(item, i) {
+                    signItem.forEach(function (item, i) {
                         series.push({
                             name: item[0],
                             type: 'lines',
@@ -573,8 +692,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        {
+                        }, {
                             name: item[0],
                             type: 'lines',
                             zlevel: 2,
@@ -594,8 +712,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        },
-                        {
+                        }, {
                             name: item[0],
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
@@ -608,12 +725,13 @@
                                     show: true,
                                     position: 'right',
                                     // formatter: '{b}',
-                                    formatter: function(params){// 圆环显示文字
-                                        return params.data.name+" "+params.data.value[params.data.value.length-1];
+                                    formatter: function (params) { // 圆环显示文字
+                                        return params.data.name + " " + params.data.value[
+                                            params.data.value.length - 1];
                                     },
                                 }
                             },
-                            symbolSize: function(val) {
+                            symbolSize: function (val) {
                                 return val[2] / 8;
                             },
                             itemStyle: {
@@ -621,10 +739,12 @@
                                     color: color
                                 }
                             },
-                            data: item[1].map(function(dataItem) {
+                            data: item[1].map(function (dataItem) {
                                 return {
                                     name: dataItem[1].name,
-                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                                    value: geoCoordMap[dataItem[1].name].concat([
+                                        dataItem[1].value
+                                    ])
                                 };
                             })
                         });
@@ -658,7 +778,7 @@
                                     show: false
                                 }
                             },
-                            roam: false,// 是否开启鼠标缩放和平移漫游
+                            roam: false, // 是否开启鼠标缩放和平移漫游
                             itemStyle: {
                                 normal: {
                                     areaColor: '#132937',
@@ -675,8 +795,8 @@
                 },
                 // 饼图
                 //参数container为图表盒子节点.charts为图表节点
-                chartssize (charts, container) {
-                    if(!container){
+                chartssize(charts, container) {
+                    if (!container) {
                         container = $(".box")
                     }
                     var wi = container.width();
@@ -699,30 +819,34 @@
                         speed: 1000,
                         // loop: false,
                         // autoplay: 3000,
-                        onSlideChangeStart:function(){
+                        onSlideChangeStart: function () {
                             var index = mainVM.mySwiper.activeIndex;
                             $('.nav-tab li').removeClass('active').eq(index).addClass('active');
                         }
                     });
                 }
             },
-            created() {
-            },
+            created() {},
             mounted() {
+                //
+                this.initEchartsByBusiness()
+
                 document.getElementById('wrapper').style.display = 'block';
                 // 当前时间
                 this.time = this.dataFormat();
-                setInterval(()=>{this.time = this.dataFormat();},1000)
-                this.chartssize($("#map-charts"),$(".map-box"))
-                this.chartssize($("#map-charts2"),$(".map-box"))
-                this.chartssize($("#funnel-charts"),$(".funnel-box"))
+                setInterval(() => {
+                    this.time = this.dataFormat();
+                }, 1000)
+                this.chartssize($("#map-charts"), $(".map-box"))
+                this.chartssize($("#map-charts2"), $(".map-box"))
+                this.chartssize($("#funnel-charts"), $(".funnel-box"))
                 this.initFunnel();
                 this.initSwiper();
                 /* 响应式 */
-                window.onresize=function(){ 
-                    mainVM.chartssize($("#map-charts"),$(".map-box"))
-                    mainVM.chartssize($("#map-charts2"),$(".map-box"))
-                    mainVM.chartssize($("#funnel-charts"),$(".funnel-box"))
+                window.onresize = function () {
+                    mainVM.chartssize($("#map-charts"), $(".map-box"))
+                    mainVM.chartssize($("#map-charts2"), $(".map-box"))
+                    mainVM.chartssize($("#funnel-charts"), $(".funnel-box"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
@@ -731,8 +855,8 @@
                 var num = 0;
                 var arr = [this.signData, this.visitData];
                 this.initMap(arr[num], num);
-                setInterval(()=>{
-                    num = num ? --num: ++num;
+                setInterval(() => {
+                    num = num ? --num : ++num;
                     this.initMap(arr[num], num);
                 }, 50000)
 
@@ -740,8 +864,8 @@
                 var num2 = 0;
                 var arr2 = [this.signData, this.visitData];
                 this.initMap2(arr2[num2], num2);
-                setInterval(()=>{
-                    num2 = num2 ? --num2: ++num2;
+                setInterval(() => {
+                    num2 = num2 ? --num2 : ++num2;
                     console.log(num2)
                     this.initMap2(arr2[num2], num2);
                 }, 50000)
@@ -751,4 +875,5 @@
         })
     </script>
 </body>
+
 </html>

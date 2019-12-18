@@ -211,10 +211,14 @@ body {
   margin-bottom: 1%;
 }
 .pie-charts02 {
-  height: 25%;
-  margin-bottom: 1%;
+  height: 2.21rem;
+  margin-top: 0.3rem;
 }
 .funnel-box {
   width: 100%;
   height: 100%;
+}
+.echarts_business {
+  width: 1.86rem;
+  height: 1.86rem;
 }
