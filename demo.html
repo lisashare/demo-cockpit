@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>快道集团驾驶舱</title>
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="https://static.kuaidao.cn/qingteng/wx-css/reset_new.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/demo.css">
+    <link rel="stylesheet" href="https://static.kuaidao.cn/qingteng/wx-css/swiper.min.css">
+</head>
+<body>
+    <div id="wrapper" class="wrapper" v-cloak style="display: none;">
+        <div class="content">
+            <div class="cockpit-header">
+                <div class="header-info-left" v-html="time"></div>
+                <h2>快道集团驾驶舱</h2>
+                <ul class="header-info-right nav-tab">
+                    <li class="active" @click="slide(0)">商机盒子</li>
+                    <li @click="slide(1)">小物种</li>
+                    <li style="color: #5A769F;">广州拓展</li>
+                </ul>
+            </div>
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="cockpit-container">
+                            <div class="box-left">
+                                <div class="left-top">
+                                    <h3>12月推广累计（商机盒子+小物种）</h3>
+                                    <div class="pie-charts01">
+                                        
+                                    </div>
+                                </div>
+                                <div class="left-center">
+                                    <h3>12月商务累计累计</h3>
+                                    <div class="pie-charts02">
+                                        
+                                    </div>
+                                </div>
+                                <div class="left-bottom">
+                                    <h3>12月漏斗图</h3>
+                                    <div class="funnel-box">
+                                        <div id="funnel-charts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-center">
+                                <div class="center-top">
+                                    <ul>
+                                        <li>
+                                            <div>今日签约量</div>
+                                            <p class="number">{{sign.signNum|formatNumber}}</p>
+                                        </li>
+                                        <li>
+                                            <div>今日签约单量</div>
+                                            <p class="number">{{sign.signingNum|formatNumber}}</p>
+                                        </li>
+                                        <li>
+                                            <div>今日签约金额</div>
+                                            <p class="number">{{sign.signAmountNum|formatNumber}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="center-center">
+                                    <div class="map-box">
+                                        <div class="circle-wrap">
+                                            <span class="sign-circle">
+                                                <i></i>签约量
+                                            </span>
+                                            <span class="visit-circle">
+                                                <i></i>来访量
+                                            </span>
+                                        </div>
+                                        <div id="map-charts"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-right">
+                                <div class="right-top">
+                                    <h3>今日推广统计（商机盒子+小物种）</h3>
+                                </div>
+                                <div class="right-center">
+                                    <h3>今日电销统计</h3>
+                                </div>
+                                <div class="right-bottom">
+                                    <h3>今日商务统计</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="cockpit-content">
+                            <div class="cockpit-left">
+                                <div class="pie-charts01">
+                
+                                </div>
+                                <div class="pie-charts02">
+                
+                                </div>
+                                <div class="funnel-box">
+                                    <div id="funnel-charts2"></div>
+                                </div>
+                            </div>
+                            <div class="cockpit-center">
+                                <div class="map-box">
+                                    中国地图
+                                    <div id="map-charts2"></div>
+                                </div>
+                            </div>
+                            <div class="cockpit-right">
+                                3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://static.kuaidao.cn/qingteng/wx-js/vue.min.js"></script>
+    <script src="https://static.kuaidao.cn/qingteng/wx-js/axios.min.js"></script>
+    <script src="https://static.kuaidao.cn/qingteng/wx-js/qs.min.js"></script>
+    <script src="https://static.kuaidao.cn/qingteng/wx-js/jquery-1.10.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js"></script>
+    <script src="https://static.kuaidao.cn/qingteng/wx-js/swiper.jquery.js"></script>
+    <script src="js/map/china.js"></script>
+    <script src="json/demo.js"></script>
+    <script src="mock/data.js"></script>
+    <script>  
+        console.log( geoCoordMap )
+        console.log(data.map)
+        var mainVM = new Vue({
+            el: '#wrapper',
+            data: {
+                mySwiper: null,
+                mapOption: [],
+                mapCharts: null,
+                mapOption2: [],
+                mapCharts2: null,
+                funnelOption: [],
+                funnelCharts: null,
+                visitData: data.map.visitData,
+                signData: data.map.signData,
+                funnelData: data.funnel,
+                sign: data.sign,
+                time: ""
+            },
+            filters: {
+                formatNumber(value){
+                    var nStr = value;
+                    if(!nStr){return nStr;}
+                    nStr += '';  
+                    x = nStr.split('.');  
+                    x1 = x[0];
+                    // if(!x[1]){
+                    //     x[1] = '00';
+                    // }  
+                    x2 = x.length > 1 ? '.' + x[1] : '';
+                    var rgx = /(\d+)(\d{3})/;  
+                    while (rgx.test(x1)) {  
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');  
+                    }  
+                    return x1 + x2;  
+                },  
+            },
+            methods: {
+                dataFormat(){
+                    var time = new Date();
+                    return `<span>${time.getFullYear()}</span>年<span>${time.getMonth() + 1 >= 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1)}</span>月<span>${time.getDate() >= 10 ? time.getDate() : '0' + time.getDate()}</span>日 &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span>${time.getHours() >= 10 ? time.getHours() : '0' + time.getHours()}</span><i> : </i><span>${time.getMinutes()>=10?time.getMinutes():'0'+time.getMinutes()}</span><i> : </i><span>${time.getSeconds() >= 10 ? time.getSeconds() : '0' + time.getSeconds()}</span>`;
+                },
+                slide(i){
+                    $('.nav-tab li').removeClass('active').eq(i).addClass('active');
+                    this.mySwiper.slideTo(i,1000,false);
+                },
+                // 漏斗
+                initFunnel(){
+                    this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
+                    var funnelData = this.funnelData;
+                    this.funnelOption = {
+                        title:{
+                            text:'12月商务累计',
+                            textStyle:{
+                                color:'#fff',
+                                fontSize: 12,
+                            },
+                        },
+                        color:['#334faf','#203371','#0f69c9','#699bfc'],
+                        legend: { // 图例说明
+                            // right: '14%',
+                            top: '5%',
+                            itemGap: 2,
+                            itemWidth: 18,
+                            itemHeight: 15,
+                            textStyle:{
+                                color:'#fff',
+                                fontSize: 13,
+                            },
+                            data: ['资源量','邀约量','来访量','签约量']
+                        },
+                        calculable: true,
+                        series: [
+                            {
+                                type:'funnel',
+                                left: '10%',
+                                // top: 60,
+                                // bottom: 60,
+                                width: '65%',
+                                height: '70%',
+                                sort: 'descending', // 排序下降
+                                gap: 5, // 间隙
+                                label: {
+                                    normal: { // 外部显示
+                                        formatter: '{d}%',
+                                        textStyle:{
+                                            color: '#fff',
+                                            fontSize: 13,
+                                        },
+                                    }
+                                },
+                                labelLine: {
+                                    normal: {
+                                        show: false
+                                    }
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        borderWidth: 0
+                                    }
+                                },
+                                data: funnelData
+                            },
+                            {
+                                // name:'鼠标移入提示',
+                                type:'funnel',
+                                left: '10%',
+                                // top: 60,
+                                // bottom: 60,
+                                width: '65%',
+                                height:'70%',
+                                sort: 'descending',
+                                gap: 2, // 间隙
+                                label: {
+                                    normal: { // 内部显示
+                                        position: 'inside',
+                                        formatter: '{b}  {c}',
+                                        textStyle: {
+                                            color: '#fff'
+                                        }
+                                    },
+                                },
+                                itemStyle: {
+                                    normal: {
+                                        borderWidth: 0
+                                    }
+                                },
+                                data: funnelData
+                            }
+                        ]
+                    };
+                    this.funnelCharts.setOption(this.funnelOption);
+                },
+                // 地图
+                initMap(data, type){
+                    this.mapCharts = echarts.init(document.getElementById('map-charts'));
+                    var BJData = [
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '北京',
+                            value: 160
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '新疆',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '黑龙江',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '辽宁',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '天津',
+                            value: 90
+                        }]
+                    ];
+                    var planePath = 'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
+
+                    var convertData = function(data) {
+                        if(!data){return false;}
+                        var res = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var dataItem = data[i];
+                            var fromCoord = '';
+                            var toCoord = '';
+                            if(type){
+                                fromCoord = geoCoordMap[dataItem[0].name];
+                                toCoord = geoCoordMap[dataItem[1].name];
+                            }else{
+                                fromCoord = geoCoordMap[dataItem[1].name];
+                                toCoord = geoCoordMap[dataItem[0].name];
+                            }
+                            if (fromCoord && toCoord) {
+                                res.push([{
+                                    coord: fromCoord
+                                }, {
+                                    coord: toCoord
+                                }]);
+                            }
+                        }
+                        return res;
+                    };
+                    if(type){
+                        var color = "#fae07f";
+                        // var color = ['#9064fb', '#a48ae3', '#c948ea'];
+                    }else{
+                        var color = "#27dbf2";
+                        // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
+                    }
+                    // ['#3ed4ff', '#ffa022', '#a6c84c'];
+                    var series = [];
+                    var signItem = [];
+                    for(var key in data){
+                        var tmp = [];
+                        tmp.push(key);
+                        tmp.push(data[key]);
+                        signItem.push(tmp);
+                    }
+                    signItem.forEach(function(item, i) {
+                        series.push({
+                            name: item[0],
+                            type: 'lines',
+                            zlevel: 1,
+                            effect: {
+                                show: true,
+                                period: 6,
+                                trailLength: 0.7,
+                                color: '#fff',
+                                symbolSize: 3
+                            },
+                            lineStyle: {
+                                normal: {
+                                    color: color,
+                                    width: 0,
+                                    curveness: 0.2
+                                }
+                            },
+                            data: convertData(item[1])
+                        }, 
+                        {
+                            name: item[0],
+                            type: 'lines',
+                            zlevel: 2,
+                            effect: {
+                                show: true,
+                                period: 6,
+                                trailLength: 0,
+                                symbol: planePath,
+                                symbolSize: 15
+                            },
+                            lineStyle: {
+                                normal: {
+                                    color: color,
+                                    width: 1,
+                                    opacity: 0.4,
+                                    curveness: 0.2
+                                }
+                            },
+                            data: convertData(item[1])
+                        },
+                        { 
+                            name: item[0],
+                            type: 'effectScatter',
+                            coordinateSystem: 'geo',
+                            zlevel: 2,
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'right',
+                                    // formatter: '{b}'
+                                    formatter: function(params){// 圆环显示文字
+                                        return params.data.name+" "+params.data.value[params.data.value.length-1];
+                                    },
+                                },
+                            },
+                            symbolSize: function(val) {
+                                return val[2] / 8;
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: color
+                                }
+                            },
+                            data: item[1].map(function(dataItem) {
+                                return {
+                                    name: dataItem[1].name,
+                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                                };
+                            })
+                        });
+                    });
+
+                    this.mapOption = {
+                        backgroundColor: 'rgba(255 , 255, 255, 0)',
+                        title: {
+                            // text: '模拟迁徙',
+                            left: 'left',
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        geo: {
+                            map: 'china',
+                            label: {
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            roam: false,// 是否开启鼠标缩放和平移漫游
+                            itemStyle: {
+                                normal: {
+                                    areaColor: '#203270',
+                                    borderColor: '#2965bd'
+                                },
+                                emphasis: {
+                                    areaColor: '#152350'
+                                }
+                            }
+                        },
+                        series: series
+                    };
+                    this.mapCharts.setOption(this.mapOption);
+                },
+                initMap2(data, type){
+                    this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
+                    var BJData = [
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '北京',
+                            value: 200
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '湖南',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '辽宁',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '内蒙古',
+                            value: 90
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '云南',
+                            value: 30
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '重庆',
+                            value: 40
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '天津',
+                            value: 40
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '四川',
+                            value: 50
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '河南',
+                            value: 30
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '山东',
+                            value: 10
+                        }],
+                        [{
+                            name: '北京'
+                        }, {
+                            name: '安徽',
+                            value: 40
+                        }]
+                    ];
+                    var planePath = 'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
+                    var convertData = function(data) {
+                        if(!data){return false;}
+                        var res = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var dataItem = data[i];
+                            var fromCoord,toCoord;
+                            if(type){
+                                fromCoord = geoCoordMap[dataItem[0].name];
+                                toCoord = geoCoordMap[dataItem[1].name];
+                            }else{
+                                fromCoord = geoCoordMap[dataItem[1].name];
+                                toCoord = geoCoordMap[dataItem[0].name];
+                            }
+                            if (fromCoord && toCoord) {
+                                res.push([{
+                                    coord: fromCoord
+                                }, {
+                                    coord: toCoord
+                                }]);
+                            }
+                        }
+                        return res;
+                    };
+                    if(type){
+                        var color = "#fae07f";
+                        // var color = ['#9064fb', '#a48ae3', '#c948ea'];
+                    }else{
+                        var color = "#27dbf2";
+                        // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
+                    }
+                    var series = [];
+                    var signItem = [];
+                    for(var key in this.signData){
+                        var tmp = [];
+                        tmp.push(key);
+                        tmp.push(this.signData[key]);
+                        signItem.push(tmp);
+                    }
+                    // [['北京', BJData]]
+                    signItem.forEach(function(item, i) {
+                        series.push({
+                            name: item[0],
+                            type: 'lines',
+                            zlevel: 1,
+                            effect: {
+                                show: true,
+                                period: 6,
+                                trailLength: 0.7,
+                                color: '#fff',
+                                symbolSize: 3
+                            },
+                            lineStyle: {
+                                normal: {
+                                    color: color,
+                                    width: 0,
+                                    curveness: 0.2
+                                }
+                            },
+                            data: convertData(item[1])
+                        }, 
+                        {
+                            name: item[0],
+                            type: 'lines',
+                            zlevel: 2,
+                            effect: {
+                                show: true,
+                                period: 6,
+                                trailLength: 0,
+                                symbol: planePath,
+                                symbolSize: 15 //图标大小
+                            },
+                            lineStyle: {
+                                normal: {
+                                    color: color,
+                                    width: 1,
+                                    opacity: 0.4,
+                                    curveness: 0.2
+                                }
+                            },
+                            data: convertData(item[1])
+                        },
+                        {
+                            name: item[0],
+                            type: 'effectScatter',
+                            coordinateSystem: 'geo',
+                            zlevel: 2,
+                            rippleEffect: {
+                                brushType: 'stroke'
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'right',
+                                    // formatter: '{b}',
+                                    formatter: function(params){// 圆环显示文字
+                                        return params.data.name+" "+params.data.value[params.data.value.length-1];
+                                    },
+                                }
+                            },
+                            symbolSize: function(val) {
+                                return val[2] / 8;
+                            },
+                            itemStyle: {
+                                normal: {
+                                    color: color
+                                }
+                            },
+                            data: item[1].map(function(dataItem) {
+                                return {
+                                    name: dataItem[1].name,
+                                    value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                                };
+                            })
+                        });
+                    });
+                    this.mapOption2 = {
+                        backgroundColor: 'rgba(255 , 255, 255, 0)',
+                        title: {
+                            // text: '模拟迁徙',
+                            // left: 'left',
+                            // textStyle: {
+                            //     color: '#fff'
+                            // }
+                        },
+                        // tooltip: {
+                        //     trigger: 'item'
+                        // },
+                        // legend: {
+                        //     // orient: 'vertical',
+                        //     top: 'bottom',
+                        //     left: 'right',
+                        //     data: ['北京', '上海', '广州'],
+                        //     textStyle: {
+                        //         color: '#fff'
+                        //     },
+                        //     selectedMode: 'single'
+                        // },
+                        geo: {
+                            map: 'china',
+                            label: {
+                                emphasis: {
+                                    show: false
+                                }
+                            },
+                            roam: false,// 是否开启鼠标缩放和平移漫游
+                            itemStyle: {
+                                normal: {
+                                    areaColor: '#132937',
+                                    borderColor: '#0692a4'
+                                },
+                                emphasis: {
+                                    areaColor: '#0b1c2d'
+                                }
+                            }
+                        },
+                        series: series
+                    };
+                    this.mapCharts2.setOption(this.mapOption2);
+                },
+                // 饼图
+                //参数container为图表盒子节点.charts为图表节点
+                chartssize (charts, container) {
+                    if(!container){
+                        container = $(".box")
+                    }
+                    var wi = container.width();
+                    var hi = container.height();
+                    charts.width(wi)
+                    charts.height(hi)
+                },
+                initSwiper() {
+                    this.mySwiper = new Swiper('.swiper-container', {
+                        pagination: '.swiper-pagination',
+                        observer: true,
+                        observeParents: true,
+                        effect: 'cube',
+                        // cubeEffect: {
+                        //     slideShadows: false,
+                        //     shadow: false,
+                        //     shadowOffset: 100,
+                        //     shadowScale: 0.6
+                        // },
+                        speed: 1000,
+                        // loop: false,
+                        // autoplay: 3000,
+                        onSlideChangeStart:function(){
+                            var index = mainVM.mySwiper.activeIndex;
+                            $('.nav-tab li').removeClass('active').eq(index).addClass('active');
+                        }
+                    });
+                }
+            },
+            created() {
+            },
+            mounted() {
+                document.getElementById('wrapper').style.display = 'block';
+                // 当前时间
+                this.time = this.dataFormat();
+                setInterval(()=>{this.time = this.dataFormat();},1000)
+                this.chartssize($("#map-charts"),$(".map-box"))
+                this.chartssize($("#map-charts2"),$(".map-box"))
+                this.chartssize($("#funnel-charts"),$(".funnel-box"))
+                this.initFunnel();
+                this.initSwiper();
+                /* 响应式 */
+                window.onresize=function(){ 
+                    mainVM.chartssize($("#map-charts"),$(".map-box"))
+                    mainVM.chartssize($("#map-charts2"),$(".map-box"))
+                    mainVM.chartssize($("#funnel-charts"),$(".funnel-box"))
+                    mainVM.mapCharts.resize();
+                    mainVM.mapCharts2.resize();
+                    mainVM.funnelCharts.resize();
+                }
+                // 地图切换
+                var num = 0;
+                var arr = [this.signData, this.visitData];
+                this.initMap(arr[num], num);
+                setInterval(()=>{
+                    num = num ? --num: ++num;
+                    this.initMap(arr[num], num);
+                }, 50000)
+
+                // 地图切换
+                var num2 = 0;
+                var arr2 = [this.signData, this.visitData];
+                this.initMap2(arr2[num2], num2);
+                setInterval(()=>{
+                    num2 = num2 ? --num2: ++num2;
+                    console.log(num2)
+                    this.initMap2(arr2[num2], num2);
+                }, 50000)
+                // setInterval(()=>{ // 整体数据请求;
+                // },4000)
+            },
+        })
+    </script>
+</body>
+</html>
