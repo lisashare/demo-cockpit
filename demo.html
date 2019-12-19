@@ -1315,7 +1315,8 @@
                                                 name: arr[i].startoff
                                             }, {
                                                 name: arr[i].city,
-                                                value: arr[i].num
+                                                value: 50,
+                                                num: arr[i].num,
                                         }];
                                 tempArr[1].push(obj);
                             } else {
@@ -1324,7 +1325,8 @@
                                         name: arr[i].startoff
                                         }, {
                                         name: arr[i].city,
-                                        value: arr[i].num
+                                        value: 50,
+                                        num: arr[i].num,
                                     }]
                                 ]];
                                 newArr.push(obj);
@@ -1386,7 +1388,7 @@
                                 mapTimer = setInterval(() => {
                                     num = num ? --num : ++num;
                                     _this.initMap(arr[num], num);
-                                }, 5000)
+                                }, 20000)
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -1430,7 +1432,7 @@
             
                 setInterval(()=>{ // 整体数据请求;
                     this.getJson()
-                }, 20000)
+                }, 40000)
             },
             created() {
                 var day = new Date(); // 当前月份
