@@ -210,7 +210,7 @@
                                     },
                                     b: {
                                         color: '#27DBF3',
-                                        fontSize:  this.fontSize(0.16),
+                                        fontSize: this.fontSize(0.16),
                                         align: 'center'
                                     }
                                 }
@@ -524,8 +524,10 @@
                                 y: 'top',
                                 textStyle: {
                                     color: '#fff',
-                                    fontSize: this.fontSize(.12)
-                                }
+                                    fontSize: this.fontSize(.14)
+                                },
+                                // subtext:'',
+
                             }
                         ],
                         tooltip: {
@@ -636,14 +638,34 @@
                                 y: 'center',
                             },
                             {
-                                text: '签约金额',
+                                text: ['{a|签约金额}', '{b|(元)}'].join(''),
                                 x: 'center',
                                 y: 'top',
                                 textStyle: {
                                     color: '#fff',
-                                    fontSize: this.fontSize(.12)
+                                    fontSize: this.fontSize(.14),
+                                    rich: {
+                                        a: {
+                                            color: '#ffffff',
+                                            fontSize: this.fontSize(.14),
+                                        },
+                                        b: {
+                                            color: '#fff',
+                                            fontSize: this.fontSize(.10),
+                                        }
+                                    }
+
                                 }
-                            }
+                            },
+                            // {
+                            //     text: '(元)',
+                            //     x: 'right',
+                            //     y: 'top',
+                            //     textStyle: {
+                            //         color: '#fff',
+                            //         fontSize: this.fontSize(.12)
+                            //     }
+                            // }
                         ],
                         tooltip: {
                             show: false
@@ -692,7 +714,7 @@
                             itemWidth: 8, // 圆圈的宽
                             formatter: function (name) {
                                 return "{title|" + name + "}     {value|" + (_this.arrayObj(funnelData,
-                                "name")[name].value) + "}"
+                                    "name")[name].value) + "}"
                             },
                             data: funnelData
                         },
