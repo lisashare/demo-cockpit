@@ -170,11 +170,12 @@
                     totalDayComeAmount: "10000", // 日来访量
                     totalDaySignAmount: "10000", // 日签约量
                     totalDaySignSingleAmount: "10000", // 日签约单量
-                    totalDaySignPrice: "10000", // 日签约金额
+                    totalDaySignPrice: "100000", // 日签约金额
 
                     totalMonthSignSingleAmount: "10000", // 月签约单量
                     totalMonthSignPrice: "10000", // 月签约金额
-                }
+                },
+                number:0
             },
             filters: {
                 formatNumber(value) {
@@ -580,7 +581,7 @@
                         },
                         series: seriesObj
                     }
-                    myChart.setOption(option);
+                    myChart.setOption(option,true);
                 },
                 //商务累计2
                 initEchartsByBusinessTwo(jsonData, totalNum) {
@@ -717,6 +718,7 @@
                         },
                         series: seriesObj
                     }
+                    // myChart.setOption()
                     myChart.setOption(option);
                 },
                 dataFormat() {
@@ -1252,9 +1254,25 @@
                     };
                     this.mapCharts2.setOption(this.mapOption2);
                 },
-                initBar() {
+                initBar(serviceonLine,converastion,accountConsumer,clewconverSation) {
                     this.barCharts = echarts.init(document.getElementById('bar-charts'));
-                    var data = this.bar;
+                    var data = [{
+                            "name": "客服在线数",
+                            "value": serviceonLine
+                        },
+                        {
+                            "name": "会话总量",
+                            "value": converastion
+                        },
+                        {
+                            "name": "账户消费",
+                            "value": accountConsumer
+                        },
+                        {
+                            "name": "线索会话",
+                            "value": clewconverSation
+                        },
+                    ];
                     var itemName = [];
                     data.forEach(function (item) {
                         itemName.push(item.name);
@@ -1404,16 +1422,21 @@
                     }).then(function (res) {
                         console.log('res', JSON.parse(res.data.msg).DataList)
                         var res = JSON.parse(res.data.msg).DataList
-                        for(var i = 0 ; i < res.length;i++){
+                        for (var i = 0; i < res.length; i++) {
                             var json = res[i]
-                            if(json.fromchan == 1){
-                                _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this.sjTotalData)
+                            if (json.fromchan == 1) {
+                                // this.number+=500
+                                _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
+                                    .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
-                                _this.initEchartsByTmk(json.dayresourceamount, json.dayinvitationamount, json.daycallamount, _this.sjTotalData)
-                                _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount, json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                                _this.initEchartsByTmk(json.dayresourceamount, json.dayinvitationamount,
+                                    json.daycallamount, _this.sjTotalData)
+                                _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
+                                    json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                                _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation)
                             }
                         }
-                      
+
 
                     }).catch(function (error) {
 
@@ -1426,7 +1449,7 @@
 
             },
             mounted() {
-               
+
 
 
 
@@ -1444,11 +1467,10 @@
                 this.chartssize($("#echarts_statistics"))
                 this.initFunnel();
                 this.initSwiper();
-                this.initBar();
                 this.getJson()
-              
-              
-                
+
+
+
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
@@ -1478,6 +1500,7 @@
                     this.initMap2(arr2[num2], num2);
                 }, 50000)
                 // setInterval(()=>{ // 整体数据请求;
+                //     this.getJson()
                 // },4000)
             },
         })
