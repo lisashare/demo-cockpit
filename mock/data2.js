@@ -1,5 +1,6 @@
 
-	var DataList = [{
+	var DataList = [
+		{
 		"monthclewconversation": "", // 月线索回话
 		"monthresourceamount": "2", // 月资源总数
 		"monthinvitationamount": "2", // 月邀约总数
@@ -21,7 +22,8 @@
 		"daytotalsignsingleamount": "", // 日签约单量 (中)
 		"daytotalsignamount": "", // 日签约量(中)
 		"daytotalsignprice": "", // 日签约金额(中)
-		"mapcomevisitamount": [{
+		"mapcomevisitamount": [
+			{
 			"city": "北京",
 			"num": "100",
 			"startoff": "深圳"
@@ -241,4 +243,5 @@
 			"startoff": "深圳"
 		}],
 		"fromchan": "1"
-	}];
+	}
+];

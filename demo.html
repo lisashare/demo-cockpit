@@ -142,8 +142,8 @@
     <script src="json/demo.js"></script>
     <script src="mock/data.js"></script>
     <script>
-        console.log(geoCoordMap)
-        console.log(data.map)
+        // console.log(geoCoordMap)
+        // console.log(data.map)
         var mainVM = new Vue({
             el: '#wrapper',
             data: {
@@ -1364,7 +1364,23 @@
                     });
                 }
             },
-            created() {},
+            created() {
+                axios({
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    method: 'post',
+                    dataType: "json",
+                    
+                   // url: "http://wd-pre.kuaidaosite.com/app/index.php?i=21&c=entry&do=scanunique&m=kd_tutucha&is_merchan=0",
+                     url: "http://yapi.kuaidaoapp.com/mock/367/kd-mock"
+                }).then(function (res) {
+                    console.log('res',res)
+
+                }).catch(function(error){
+
+                })
+            },
             mounted() {
                 //
                 this.initEchartsByBusinessOne()
