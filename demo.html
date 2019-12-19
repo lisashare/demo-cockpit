@@ -467,6 +467,7 @@
                 //商务累计1
                 initEchartsByBusinessOne(jsonData, totalNum) {
                     var myChart = echarts.init(document.getElementById('echarts_business1'));
+                    myChart.clear();
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
                         data2.push({
