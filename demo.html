@@ -912,8 +912,17 @@
                             roam: false, // 是否开启鼠标缩放和平移漫游
                             itemStyle: {
                                 normal: {
-                                    areaColor: '#203270',
-                                    borderColor: '#2965bd'
+                                    shadowColor: 'rgba(51, 139, 206, 0.8)',
+                                    shadowBlur: 10,
+                                    // areaColor: '#203270',
+                                    borderColor: '#338bce',
+                                    areaColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: 'rgba(32, 51, 113, 1)'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(51, 80, 176, 0.8)'
+                                    }])
                                 },
                                 emphasis: {
                                     areaColor: '#152350'
