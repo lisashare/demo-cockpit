@@ -105,6 +105,33 @@ body {
 .cockpit-header .header-info-right .active {
   color: #27DBF3;
 }
+.gauge-box {
+  box-sizing: border-box;
+  padding: 0 0.32rem 0 0.16rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.gauge {
+  width: 2.35rem;
+  height: 1.87rem;
+  background: url('../images/6@3x.png') no-repeat;
+  background-size: 2.35rem 1.87rem;
+  background-position: center;
+  text-align: center;
+  padding-top: 0.22rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.gauge div {
+  color: #fff !important;
+  margin-bottom: 0.1rem;
+}
+.gauge p {
+  font-size: 0.3rem;
+}
 .left-top,
 .right-top,
 .left-center,
@@ -154,6 +181,11 @@ body {
   padding: 1% 0.32rem;
   background: url("../images/2@3x.png") no-repeat;
   background-size: 100% 100%;
+}
+.box-center .center-top ul li i {
+  font-size: 0.12rem;
+  display: inline-block;
+  vertical-align: bottom;
 }
 .box-center .circle-wrap {
   position: absolute;

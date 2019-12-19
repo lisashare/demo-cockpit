@@ -2,12 +2,14 @@ var data = {
     "map": {
         "signData":{
             "北京": [
-                [{
-                    name: '北京'
-                }, {
-                    name: '北京',
-                    value: 140
-                }],
+                // [
+                // {
+                //     name: '北京'
+                // }, {
+                //     name: '北京',
+                //     value: 140
+                // }
+                // ],
                 [{
                     name: '北京'
                 }, {
@@ -43,7 +45,7 @@ var data = {
                 [{
                     name: '上海'
                 }, {
-                    name: '湖南',
+                    name: '北京',
                     value: 60
                 }],
                 [{
@@ -77,7 +79,7 @@ var data = {
                 [{
                     name: '青海'
                 }, {
-                    name: '新疆',
+                    name: '北京',
                     value: 90
                 }],
                 [{
