@@ -32,23 +32,23 @@
                         <div class="cockpit-container">
                             <div class="box-left">
                                 <div class="left-top">
-                                    <h3>12月推广累计（商机盒子+小物种）</h3>
+                                    <h3>{{month}}月推广累计（商机盒子+小物种）</h3>
                                     <div class="box gauge-box">
                                         <div class="gauge">
                                             <div>线索会话</div>
-                                            <p>2333333</p>
+                                            <p>{{shangjihezi.monthclewconversation?shangjihezi.monthclewconversation:"0"|formatNumber}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="left-center">
-                                    <h3>12月商务累计</h3>
+                                    <h3>{{month}}月商务累计</h3>
                                     <div class="pie-charts02">
                                         <div id='echarts_business1' class="echarts_business"></div>
                                         <div id='echarts_business2' class="echarts_business"></div>
                                     </div>
                                 </div>
                                 <div class="left-bottom">
-                                    <h3>12月漏斗图</h3>
+                                    <h3>{{month}}月漏斗图</h3>
                                     <div class="box">
                                         <div id="funnel-charts"></div>
                                     </div>
@@ -59,20 +59,20 @@
                                     <ul>
                                         <li>
                                             <div>今日签约量</div>
-                                            <p class="number">{{sign.signNum|formatNumber}}</p>
+                                            <p class="number">{{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}}</p>
                                         </li>
                                         <li>
                                             <div>今日签约单量</div>
-                                            <p class="number">{{sign.signingNum|formatNumber}}</p>
+                                            <p class="number">{{shangjihezi.daytotalsignsingleamount?shangjihezi.daytotalsignsingleamount:"0"|formatNumber}}</p>
                                         </li>
                                         <li>
                                             <div>今日签约金额 <i>(元)</i></div>
-                                            <p class="number">{{sign.signAmountNum|formatNumber}}</p>
+                                            <p class="number">{{shangjihezi.daytotalsignprice?shangjihezi.daytotalsignprice:"0"|formatNumber}}</p>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="center-center">
-                                    <div class="map-box">
+                                    <div class="map-box box">
                                         <div class="circle-wrap">
                                             <span class="sign-circle">
                                                 <i></i>签约量
@@ -121,7 +121,7 @@
                                 </div>
                             </div>
                             <div class="cockpit-center">
-                                <div class="map-box">
+                                <div class="map-box box">
                                     中国地图
                                     <div id="map-charts2"></div>
                                 </div>
@@ -143,13 +143,12 @@
     <script src="https://static.kuaidao.cn/qingteng/wx-js/swiper.jquery.js"></script>
     <script src="js/map/china.js"></script>
     <script src="json/demo.js"></script>
-    <script src="mock/data.js"></script>
-    <script src="mock/data2.js"></script>
     <script>
-        console.log(DataList)
         var mainVM = new Vue({
             el: '#wrapper',
             data: {
+                shangjihezi: '',
+                xiaowuzhong: '',
                 mySwiper: null,
                 mapOption: [],
                 mapCharts: null,
@@ -159,12 +158,12 @@
                 funnelCharts: null,
                 barOption: [],
                 barCharts: null,
-                visitData: data.map.visitData,
-                signData: data.map.signData,
-                funnelData: data.funnel,
-                bar: data.bar,
-                sign: data.sign,
-                time: "",
+                visitData: [],
+                signData: [],
+                visitAmount: [],
+                signAmount: [],
+                time: "<span>00</span>年<span>00</span>月<span>00</span>日 &nbsp;&nbsp;&nbsp;&nbsp;<span>00</span><i> : </i><span>00</span><i> : </i><span>00</span>",
+                month: "",
                 sjTotalData: {
                     totalDayResourceAmount: "10000", // 日资源总量
                     totalDayCallAmount: "10000", // 日通话总量
@@ -197,12 +196,18 @@
                 },
             },
             methods: {
+                fontSize(res) {
+                    let docEl = document.documentElement,
+                        clientWidth = window.innerWidth || document.documentElement.clientWidth || document.body
+                        .clientWidth;
+                    if (!clientWidth) return;
+                    let fontSize = 100 * (clientWidth / 1920);
+                    return res * fontSize;
+                },
                 //分割逗号
                 formatNumber(value) {
                     var nStr = value;
-                    if (!nStr) {
-                        return nStr;
-                    }
+                    if (!nStr) {return nStr;}
                     nStr += '';
                     x = nStr.split('.');
                     x1 = x[0];
@@ -211,10 +216,17 @@
                     // }  
                     x2 = x.length > 1 ? '.' + x[1] : '';
                     var rgx = /(\d+)(\d{3})/;
-                    while (rgx.test(x1)) {
-                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-                    }
+                    while (rgx.test(x1)) {x1 = x1.replace(rgx, '$1' + ',' + '$2');}
                     return x1 + x2;
+                },
+                dataFormat() {
+                    var time = new Date();
+                    return `<span>${time.getFullYear()}</span>年<span>${time.getMonth() + 1 >= 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1)}</span>月<span>${time.getDate() >= 10 ? time.getDate() : '0' + time.getDate()}</span>日 &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span>${time.getHours() >= 10 ? time.getHours() : '0' + time.getHours()}</span><i> : </i><span>${time.getMinutes()>=10?time.getMinutes():'0'+time.getMinutes()}</span><i> : </i><span>${time.getSeconds() >= 10 ? time.getSeconds() : '0' + time.getSeconds()}</span>`;
+                },
+                slide(i) {
+                    $('.nav-tab li').removeClass('active').eq(i).addClass('active');
+                    this.mySwiper.slideTo(i, 1000, false);
                 },
                 //商务统计
                 initEchartsByStatistics(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
@@ -450,18 +462,8 @@
                                 ]
                             }
                         })
-
                     };
                     myChart.setOption(option);
-                },
-                fontSize(res) {
-                    let docEl = document.documentElement,
-                        clientWidth = window.innerWidth || document.documentElement.clientWidth || document.body
-                        .clientWidth;
-                    if (!clientWidth) return;
-                    let fontSize = 100 * (clientWidth / 1920);
-                    return res * fontSize;
-
                 },
                 //商务累计1
                 initEchartsByBusinessOne(jsonData, totalNum) {
@@ -721,20 +723,17 @@
                     // myChart.setOption()
                     myChart.setOption(option);
                 },
-                dataFormat() {
-                    var time = new Date();
-                    return `<span>${time.getFullYear()}</span>年<span>${time.getMonth() + 1 >= 10 ? (time.getMonth() + 1) : '0' + (time.getMonth() + 1)}</span>月<span>${time.getDate() >= 10 ? time.getDate() : '0' + time.getDate()}</span>日 &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span>${time.getHours() >= 10 ? time.getHours() : '0' + time.getHours()}</span><i> : </i><span>${time.getMinutes()>=10?time.getMinutes():'0'+time.getMinutes()}</span><i> : </i><span>${time.getSeconds() >= 10 ? time.getSeconds() : '0' + time.getSeconds()}</span>`;
-                },
-                slide(i) {
-                    $('.nav-tab li').removeClass('active').eq(i).addClass('active');
-                    this.mySwiper.slideTo(i, 1000, false);
-                },
                 // 漏斗
-                initFunnel() {
+                initFunnel(parameter1,parameter2,parameter3,parameter4) {
                     var _this = this
                     this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
-                    var funnelData = this.funnelData;
+                    this.funnelCharts.clear();
+                    var funnelData = [
+                        {"value": 456, "name": '资源量'},
+                        {"value": 365, "name": '邀约量'},
+                        {"value": 291, "name": '来访量'},
+                        {"value": 0, "name": '签约量'}
+                    ];
                     this.funnelOption = {
                         color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
                             offset: 0,
@@ -819,15 +818,12 @@
                     this.funnelCharts.setOption(this.funnelOption);
                 },
                 // 地图
-                initMap(data, type) {
+                initMap(parameter, type) {
                     this.mapCharts = echarts.init(document.getElementById('map-charts'));
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
-
                     var convertData = function (data) {
-                        if (!data) {
-                            return false;
-                        }
+                        if (!data) {return false;}
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
@@ -856,14 +852,7 @@
                         var color = "#27dbf2";
                     }
                     var series = [];
-                    var signItem = [];
-                    for (var key in data) {
-                        var tmp = [];
-                        tmp.push(key);
-                        tmp.push(data[key]);
-                        signItem.push(tmp);
-                    }
-                    signItem.forEach(function (item, i) {
+                    parameter.forEach(function (item, i) {
                         series.push({
                             name: item[0],
                             type: 'lines',
@@ -920,15 +909,16 @@
                                     // formatter: '{b}'
                                     formatter: function (params) { // 圆环显示文字
                                         // if(params.data&&params.data.value &&params.data.value.length){
-                                        //     return params.data.name + " " + params.data.value[
-                                        //         params.data.value.length - 1];
+                                            return params.data.name + " " + params.data.value[
+                                                params.data.value.length - 1];
                                         // }
-                                        return params.data.name;
+                                        // return params.data.name;
                                     },
                                 },
                             },
                             symbolSize: function (val) {
-                                return val[2] / 8;
+                                // return val[2] / 8;
+                                return 10;
                             },
                             itemStyle: {
                                 normal: {
@@ -970,8 +960,8 @@
                                 normal: {
                                     shadowColor: 'rgba(51, 139, 206, 0.8)',
                                     shadowBlur: 10,
-                                    // areaColor: '#203270',
                                     borderColor: '#338bce',
+                                    // areaColor: '#203270',
                                     areaColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                                         offset: 0,
                                         color: 'rgba(32, 51, 113, 1)'
@@ -989,87 +979,18 @@
                     };
                     this.mapCharts.setOption(this.mapOption);
                 },
-                initMap2(data, type) {
-                    this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
-                    var BJData = [
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '北京',
-                            value: 200
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '湖南',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '辽宁',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '内蒙古',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '云南',
-                            value: 30
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '重庆',
-                            value: 40
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '天津',
-                            value: 40
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '四川',
-                            value: 50
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '河南',
-                            value: 30
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '山东',
-                            value: 10
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '安徽',
-                            value: 40
-                        }]
-                    ];
+                initMap2(parameter2, type) {
+                    this.mapCharts = echarts.init(document.getElementById('map-charts2'));
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
-                        if (!data) {
-                            return false;
-                        }
+                        if (!data) {return false;}
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
-                            var fromCoord, toCoord;
-                            if (type) {
+                            var fromCoord = '';
+                            var toCoord = '';
+                            if (!type) {
                                 fromCoord = geoCoordMap[dataItem[0].name];
                                 toCoord = geoCoordMap[dataItem[1].name];
                             } else {
@@ -1088,21 +1009,11 @@
                     };
                     if (type) {
                         var color = "#fae07f";
-                        // var color = ['#9064fb', '#a48ae3', '#c948ea'];
                     } else {
                         var color = "#27dbf2";
-                        // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
                     }
                     var series = [];
-                    var signItem = [];
-                    for (var key in this.signData) {
-                        var tmp = [];
-                        tmp.push(key);
-                        tmp.push(this.signData[key]);
-                        signItem.push(tmp);
-                    }
-                    // [['北京', BJData]]
-                    signItem.forEach(function (item, i) {
+                    parameter2.forEach(function (item, i) {
                         series.push({
                             name: item[0],
                             type: 'lines',
@@ -1122,7 +1033,8 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, {
+                        }, 
+                        { // 固定线条
                             name: item[0],
                             type: 'lines',
                             zlevel: 2,
@@ -1131,7 +1043,7 @@
                                 period: 6,
                                 trailLength: 0,
                                 symbol: planePath,
-                                symbolSize: 15 //图标大小
+                                symbolSize: 15
                             },
                             lineStyle: {
                                 normal: {
@@ -1142,7 +1054,8 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, {
+                        }, 
+                        {
                             name: item[0],
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
@@ -1154,15 +1067,19 @@
                                 normal: {
                                     show: true,
                                     position: 'right',
-                                    // formatter: '{b}',
+                                    // formatter: '{b}'
                                     formatter: function (params) { // 圆环显示文字
-                                        return params.data.name + " " + params.data.value[
-                                            params.data.value.length - 1];
+                                        // if(params.data&&params.data.value &&params.data.value.length){
+                                            return params.data.name + " " + params.data.value[
+                                                params.data.value.length - 1];
+                                        // }
+                                        // return params.data.name;
                                     },
-                                }
+                                },
                             },
                             symbolSize: function (val) {
-                                return val[2] / 8;
+                                // return val[2] / 8;
+                                return 10;
                             },
                             itemStyle: {
                                 normal: {
@@ -1179,28 +1096,19 @@
                             })
                         });
                     });
-                    this.mapOption2 = {
+
+                    this.mapOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         title: {
                             // text: '模拟迁徙',
-                            // left: 'left',
-                            // textStyle: {
-                            //     color: '#fff'
-                            // }
+                            left: 'left',
+                            textStyle: {
+                                color: '#fff'
+                            }
                         },
-                        // tooltip: {
-                        //     trigger: 'item'
-                        // },
-                        // legend: {
-                        //     // orient: 'vertical',
-                        //     top: 'bottom',
-                        //     left: 'right',
-                        //     data: ['北京', '上海', '广州'],
-                        //     textStyle: {
-                        //         color: '#fff'
-                        //     },
-                        //     selectedMode: 'single'
-                        // },
+                        tooltip: {
+                            trigger: 'item'
+                        },
                         geo: {
                             map: 'china',
                             label: {
@@ -1211,11 +1119,20 @@
                             roam: false, // 是否开启鼠标缩放和平移漫游
                             itemStyle: {
                                 normal: {
-                                    areaColor: '#132937',
-                                    borderColor: '#0692a4'
+                                    shadowColor: 'rgba(51, 139, 206, 0.8)',
+                                    shadowBlur: 10,
+                                    borderColor: '#338bce',
+                                    // areaColor: '#203270',
+                                    areaColor: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: 'rgba(32, 51, 113, 1)'
+                                    }, {
+                                        offset: 1,
+                                        color: 'rgba(51, 80, 176, 0.8)'
+                                    }])
                                 },
                                 emphasis: {
-                                    areaColor: '#0b1c2d'
+                                    areaColor: '#152350'
                                 }
                             }
                         },
@@ -1225,6 +1142,7 @@
                 },
                 initBar(serviceonLine,converastion,accountConsumer,clewconverSation) {
                     this.barCharts = echarts.init(document.getElementById('bar-charts'));
+                    this.barCharts.clear();
                     var data = [{
                             "name": "客服在线数",
                             "value": serviceonLine
@@ -1351,7 +1269,7 @@
                 //参数container为图表盒子节点.charts为图表节点
                 chartssize(charts, container) {
                     if (!container) {
-                        container = $(".box")
+                        container = charts.parent(".box");
                     }
                     var wi = container.width();
                     var hi = container.height();
@@ -1379,8 +1297,45 @@
                         }
                     });
                 },
+                groupArr(arr){
+                    var newArr = [];
+                    if(arr != null && arr.length > 0){
+                        for(var i=0; i <arr.length; i++){
+                            var exist = false;
+                            var tempIndex = -1;
+                            for(var j=0; j <newArr.length; j++){
+                                if(arr[i].startoff === newArr[j][0]){
+                                    exist = true;
+                                    tempIndex = j;
+                                }
+                            }
+                            if(exist){ // 是否存在同一出发点
+                                var tempArr = newArr[tempIndex];
+                                var obj = [{
+                                                name: arr[i].startoff
+                                            }, {
+                                                name: arr[i].city,
+                                                value: arr[i].num
+                                        }];
+                                tempArr[1].push(obj);
+                            } else {
+                                var obj = [arr[i].startoff, [
+                                        [{
+                                        name: arr[i].startoff
+                                        }, {
+                                        name: arr[i].city,
+                                        value: arr[i].num
+                                    }]
+                                ]];
+                                newArr.push(obj);
+                            }
+                        }
+                        return newArr;
+                    }
+                    return null;
+                },
                 getJson() {
-                    var _this = this
+                    var _this = this;
                     axios({
                         // headers: {
                         //     'Content-Type': 'application/x-www-form-urlencoded',
@@ -1389,12 +1344,49 @@
                         // dataType: "json",
                         url: "http://192.168.8.142:8088/operation/info"
                     }).then(function (res) {
-                        console.log('res', JSON.parse(res.data.msg).DataList)
-                        var res = JSON.parse(res.data.msg).DataList
+                        var res = JSON.parse(res.data.msg).DataList;
+                        console.log('res', res);
+                        var mapTimer = null;
+                        var mapTimer2 = null;
                         for (var i = 0; i < res.length; i++) {
-                            var json = res[i]
-                            if (json.fromchan == 1) {
-                                // this.number+=500
+                            var json = res[i];
+                            if (json.fromchan == 2) {
+                                // clearInterval(mapTimer2);
+                                // _this.xiaowuzhong = json;
+                                // _this.signAMount = _this.groupArr(_this.xiaowuzhong.mapsignamount);
+                                // _this.visitAmount = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
+                                // // 地图自己切换
+                                // var num2 = 0;
+                                // var arr2 = [_this.signAMount, _this.visitAmount];
+                                // _this.initMap2(arr2[num2], num2);
+                                // mapTimer2 = setInterval(() => {
+                                //     num2 = num2 ? --num2 : ++num2;
+                                //     _this.initMap2(arr2[num2], num2);
+                                // }, 50000)
+                                // // this.number+=500
+                                // _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
+                                //     .sjTotalData)
+                                // _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
+                                // _this.initEchartsByTmk(json.dayresourceamount, json.dayinvitationamount,
+                                //     json.daycallamount, _this.sjTotalData)
+                                // _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
+                                // json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                                // _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
+                                // _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
+                                
+                            }else if(json.fromchan == 1){
+                                clearInterval(mapTimer);
+                                _this.shangjihezi = json;
+                                _this.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
+                                _this.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
+                                // 地图自己切换
+                                var num = 0;
+                                var arr = [_this.signData, _this.visitData];
+                                _this.initMap(arr[num], num);
+                                mapTimer = setInterval(() => {
+                                    num = num ? --num : ++num;
+                                    _this.initMap(arr[num], num);
+                                }, 5000)
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -1402,71 +1394,51 @@
                                     json.daycallamount, _this.sjTotalData)
                                 _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
                                     json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
-                                _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation)
+                                _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
+                                _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
                             }
                         }
-
-
                     }).catch(function (error) {
 
                     })
 
                 },
             },
-
-            created() {
-
-            },
             mounted() {
-                //商机盒子
                 document.getElementById('wrapper').style.display = 'block';
-                // 当前时间
-                this.time = this.dataFormat();
-                setInterval(() => {
-                    this.time = this.dataFormat();
-                }, 1000)
-
-                this.chartssize($("#map-charts"), $(".map-box"))
-                this.chartssize($("#map-charts2"), $(".map-box"))
+                this.chartssize($("#map-charts"))
+                this.chartssize($("#map-charts2"))
                 this.chartssize($("#funnel-charts"))
                 this.chartssize($("#bar-charts"))
                 this.chartssize($("#echarts_tmk"))
                 this.chartssize($("#echarts_statistics"))
-                this.initFunnel();
+                
                 this.initSwiper();
                 this.getJson()
 
-
-
                 /* 响应式 */
                 window.onresize = function () {
-                    mainVM.chartssize($("#map-charts"), $(".map-box"))
-                    mainVM.chartssize($("#map-charts2"), $(".map-box"))
+                    mainVM.chartssize($("#map-charts"))
+                    mainVM.chartssize($("#map-charts2"))
                     mainVM.chartssize($("#funnel-charts"))
+                    mainVM.chartssize($("#bar-charts"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
+                    mainVM.barCharts.resize();
                 }
-                // 地图切换
-                var num = 0;
-                var arr = [this.signData, this.visitData];
-                this.initMap(arr[num], num);
+            
+                setInterval(()=>{ // 整体数据请求;
+                    this.getJson()
+                }, 20000)
+            },
+            created() {
+                var day = new Date(); // 当前月份
+                this.month = day.getMonth() + 1;
+                this.time = this.dataFormat(); // 当前时间
                 setInterval(() => {
-                    num = num ? --num : ++num;
-                    this.initMap(arr[num], num);
-                }, 50000)
-
-                // 地图切换
-                var num2 = 0;
-                var arr2 = [this.signData, this.visitData];
-                this.initMap2(arr2[num2], num2);
-                setInterval(() => {
-                    num2 = num2 ? --num2 : ++num2;
-                    this.initMap2(arr2[num2], num2);
-                }, 50000)
-                // setInterval(()=>{ // 整体数据请求;
-                //     this.getJson()
-                // },4000)
+                    this.time = this.dataFormat();
+                }, 1000)
             },
         })
     </script>

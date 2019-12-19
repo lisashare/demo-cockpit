@@ -110,12 +110,13 @@ body {
 }
 .cockpit-header .header-info-right li:first-child {
   display: flex;
+  justify-content: center;
   align-items: center;
 }
 .cockpit-header .header-info-right i {
-  display: inline-block;
+  display: block;
   width: 0.18rem;
-  height: 0.18rem;
+  height: 0.19rem;
   margin-right: 0.04rem;
   background: url('../images/1-2@3x.png') no-repeat;
   background-size: 100%;
@@ -196,6 +197,7 @@ body {
   padding: 1% 0.32rem;
   background: url("../images/2@3x.png") no-repeat;
   background-size: 100% 100%;
+  text-align: center;
 }
 .box-center .center-top ul li i {
   font-size: 0.12rem;
