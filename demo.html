@@ -198,7 +198,12 @@
                                 color: '#fff',
                                 padding: [0, 20, 0, 20],
                                 formatter: function (value, indicator) {
-                                    return '{a|' + value + '}\n{b|' + indicator.num + '}'
+                                    if(value == '签约金额'){
+                                        return '{a|' + value + '}{c|(元)}\n{b|' + indicator.num + '}'
+                                    }else{
+                                        return '{a|' + value + '}\n{b|' + indicator.num + '}'
+                                    }
+                               
 
                                 },
                                 lineHeight: 20,
@@ -212,6 +217,11 @@
                                         color: '#27DBF3',
                                         fontSize: this.fontSize(0.16),
                                         align: 'center'
+                                    },
+                                    c:{
+                                        color: '#fff',
+                                        fontSize: this.fontSize(0.10),
+                                        padding:[0,0,0,4]
                                     }
                                 }
                             },
@@ -248,7 +258,7 @@
                                     num: 13733
                                 },
                                 {
-                                    name: '签约单量',
+                                    name: '签约金额',
                                     max: 398000,
                                     num: 312234
                                 },
@@ -461,7 +471,6 @@
                                     show: true,
                                     textStyle: {
                                         fontSize: '30',
-                                        fontWeight: 'bold'
                                     }
                                 }
                             },
@@ -524,7 +533,8 @@
                                 y: 'top',
                                 textStyle: {
                                     color: '#fff',
-                                    fontSize: this.fontSize(.14)
+                                    fontSize: this.fontSize(.14),
+                                    fontWeight:'normal'
                                 },
                                 // subtext:'',
 
@@ -582,7 +592,6 @@
                                     show: true,
                                     textStyle: {
                                         fontSize: '30',
-                                        fontWeight: 'bold'
                                     }
                                 }
                             },
@@ -652,6 +661,7 @@
                                         b: {
                                             color: '#fff',
                                             fontSize: this.fontSize(.10),
+                                            padding: [0,0,0,4]
                                         }
                                     }
 
