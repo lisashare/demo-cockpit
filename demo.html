@@ -167,13 +167,13 @@
                     totalDayCallAmount: "10000", // 日通话总量
                     totalDayInvitationAmount: "10000", // 日邀约量
 
-                   	totalDayComeAmount: "10000", // 日来访量
+                    totalDayComeAmount: "10000", // 日来访量
                     totalDaySignAmount: "10000", // 日签约量
                     totalDaySignSingleAmount: "10000", // 日签约单量
                     totalDaySignPrice: "10000", // 日签约金额
 
                     totalMonthSignSingleAmount: "10000", // 月签约单量
-		            totalMonthSignPrice: "10000", // 月签约金额
+                    totalMonthSignPrice: "10000", // 月签约金额
                 }
             },
             filters: {
@@ -217,7 +217,7 @@
                     return x1 + x2;
                 },
                 //商务统计
-                initEchartsByStatistics(daySign,dayCome,daySignSingle,daySignPrice,totalData) {
+                initEchartsByStatistics(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
                     // totalDayComeAmount: "10000", // 日来访量
                     // totalDaySignAmount: "10000", // 日签约量
                     // totalDaySignSingleAmount: "10000", // 日签约单量
@@ -335,14 +335,14 @@
                     }
                     return resObj;
                 },
-                initEchartsByTmk(resource,invitation,call,totalNum) {
+                initEchartsByTmk(resource, invitation, call, totalNum) {
                     var _this = this
                     var dataMock = [{
                             name: "资源量",
                             value: resource,
                             radiusArr: ['73.5%', '85%'],
                             color: '#1b6bee',
-                            total:totalNum.totalDayResourceAmount
+                            total: totalNum.totalDayResourceAmount
 
                         },
                         {
@@ -350,14 +350,14 @@
                             value: invitation,
                             radiusArr: ['53.5%', '65%'],
                             color: '#1bb7c4',
-                            total:totalNum.totalDayInvitationAmount
+                            total: totalNum.totalDayInvitationAmount
                         },
                         {
                             name: "通话量",
                             value: call,
                             radiusArr: ['33.5%', '45%'],
                             color: '#e530a3',
-                            total:totalNum.totalDayCallAmount
+                            total: totalNum.totalDayCallAmount
                         },
 
                     ]
@@ -464,7 +464,7 @@
 
                 },
                 //商务累计1
-                initEchartsByBusinessOne(jsonData,totalNum) {
+                initEchartsByBusinessOne(jsonData, totalNum) {
                     var myChart = echarts.init(document.getElementById('echarts_business1'));
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
@@ -515,7 +515,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignSingleAmount-jsonData,
+                                    value: totalNum.totalMonthSignSingleAmount - jsonData,
                                     name: ''
                                 },
 
@@ -548,8 +548,7 @@
                             color: '#e00d6c'
                         }]), "#254999"],
 
-                        title: [
-                            {
+                        title: [{
                                 text: this.formatNumber(jsonData),
                                 textStyle: {
                                     color: '#4effff',
@@ -584,7 +583,7 @@
                     myChart.setOption(option);
                 },
                 //商务累计2
-                initEchartsByBusinessTwo(jsonData,totalNum) {
+                initEchartsByBusinessTwo(jsonData, totalNum) {
                     var myChart = echarts.init(document.getElementById('echarts_business2'));
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
@@ -635,7 +634,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignPrice-jsonData,
+                                    value: totalNum.totalMonthSignPrice - jsonData,
                                     name: ''
                                 },
 
@@ -667,7 +666,7 @@
                         }]), "#254999"],
 
                         title: [{
-                                text:this.formatNumber(jsonData),
+                                text: this.formatNumber(jsonData),
                                 textStyle: {
                                     color: '#4effff',
                                     fontSize: this.fontSize(.12),
@@ -1392,28 +1391,43 @@
                             $('.nav-tab li').removeClass('active').eq(index).addClass('active');
                         }
                     });
-                }
+                },
+                getJson() {
+                    var _this = this
+                    axios({
+                        // headers: {
+                        //     'Content-Type': 'application/x-www-form-urlencoded',
+                        // },
+                        method: 'get',
+                        // dataType: "json",
+                        url: "http://192.168.8.142:8088/operation/info"
+                    }).then(function (res) {
+                        console.log('res', JSON.parse(res.data.msg).DataList)
+                        var res = JSON.parse(res.data.msg).DataList
+                        for(var i = 0 ; i < res.length;i++){
+                            var json = res[i]
+                            if(json.fromchan == 1){
+                                _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this.sjTotalData)
+                                _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
+                                _this.initEchartsByTmk(json.dayresourceamount, json.dayinvitationamount, json.daycallamount, _this.sjTotalData)
+                                _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount, json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                            }
+                        }
+                      
+
+                    }).catch(function (error) {
+
+                    })
+
+                },
             },
+
             created() {
-                axios({
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    method: 'post',
-                    dataType: "json",
 
-                    // url: "http://wd-pre.kuaidaosite.com/app/index.php?i=21&c=entry&do=scanunique&m=kd_tutucha&is_merchan=0",
-                    url: "http://yapi.kuaidaoapp.com/mock/367/kd-mock"
-                }).then(function (res) {
-                    console.log('res', res)
-
-                }).catch(function (error) {
-
-                })
             },
             mounted() {
-                //商机盒子
-           
+               
+
 
 
                 document.getElementById('wrapper').style.display = 'block';
@@ -1431,10 +1445,10 @@
                 this.initFunnel();
                 this.initSwiper();
                 this.initBar();
-                this.initEchartsByBusinessOne(500,this.sjTotalData)
-                this.initEchartsByBusinessTwo(9999.55,this.sjTotalData)
-                this.initEchartsByTmk(5000,5000,5000,this.sjTotalData)
-                this.initEchartsByStatistics(5000,5000,5000,5000,this.sjTotalData)
+                this.getJson()
+              
+              
+                
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
