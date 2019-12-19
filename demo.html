@@ -764,7 +764,6 @@
                             type: 'funnel',
                             left: '10%',
                             top: "12%",
-                            // bottom: 60,
                             width: '45%',
                             height: '75%',
                             sort: 'descending',
@@ -791,38 +790,6 @@
                 // 地图
                 initMap(data, type) {
                     this.mapCharts = echarts.init(document.getElementById('map-charts'));
-                    var BJData = [
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '北京',
-                            value: 160
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '新疆',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '黑龙江',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '辽宁',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '天津',
-                            value: 90
-                        }]
-                    ];
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
 
@@ -854,12 +821,9 @@
                     };
                     if (type) {
                         var color = "#fae07f";
-                        // var color = ['#9064fb', '#a48ae3', '#c948ea'];
                     } else {
                         var color = "#27dbf2";
-                        // var color = ['#f0ed19', '#edcd2e', '#f2ab12'];
                     }
-                    // ['#3ed4ff', '#ffa022', '#a6c84c'];
                     var series = [];
                     var signItem = [];
                     for (var key in data) {
@@ -1362,6 +1326,44 @@
                             $('.nav-tab li').removeClass('active').eq(index).addClass('active');
                         }
                     });
+                },
+                groupArr(arr){
+                    var newArr = [];
+                    if(arr != null && arr.length > 0){
+                        for(var i=0; i <arr.length; i++){
+                            var exist = false;
+                            var tempIndex = -1;
+                            for(var j=0; j <newArr.length; j++){
+                                if(arr[i].startoff === newArr[j][0]){
+                                    exist = true;
+                                    tempIndex = j;
+                                }
+                            }
+                            // 是否存在同一出发点
+                            if(exist){
+                                var tempArr = newArr[tempIndex];
+                                var obj = [{
+                                                name: arr[i].startoff
+                                            }, {
+                                                name: arr[i].city,
+                                                value: arr[i].num
+                                        }];
+                                tempArr[1].push(obj);
+                            } else {
+                                var obj = [arr[i].startoff, [
+                                        [{
+                                        name: arr[i].startoff
+                                        }, {
+                                        name: arr[i].city,
+                                        value: arr[i].num
+                                    }]
+                                ]];
+                                newArr.push(obj);
+                            }
+                        }
+                        return newArr;
+                    }
+                    return null;
                 }
             },
             created() {
