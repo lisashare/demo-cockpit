@@ -2,18 +2,18 @@ var data = {
     "map": {
         "signData":{
             "北京": [
-                // [
-                // {
-                //     name: '北京'
-                // }, {
-                //     name: '北京',
-                //     value: 140
-                // }
-                // ],
+                [
+                {
+                    name: '北京'
+                }, {
+                    name: '北京',
+                    value: ""
+                }
+                ],
                 [{
                     name: '北京'
                 }, {
-                    name: '新疆',
+                    name: '上海',
                     value: 9
                 }],
                 [{
@@ -35,18 +35,38 @@ var data = {
                     value: 70
                 }]
             ],
-            "上海": [
+            "新疆": [
                 [{
-                    name: '上海'
+                    name: '新疆'
                 }, {
-                    name: '上海',
-                    value: 100
+                    name: '新疆',
+                    value: "0"
                 }],
+                [{
+                    name: '新疆'
+                }, {
+                    name: '北京',
+                    value: "0"
+                }],
+                [{
+                    name: '新疆'
+                }, {
+                    name: '湖北',
+                    value: "110"
+                }]
+            ],
+            "上海": [
+                // [{
+                //     name: '上海'
+                // }, {
+                //     name: '上海',
+                //     value: 1
+                // }],
                 [{
                     name: '上海'
                 }, {
                     name: '北京',
-                    value: 60
+                    value: ""
                 }],
                 [{
                     name: '上海'

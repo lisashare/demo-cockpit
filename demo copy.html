@@ -159,8 +159,10 @@
                 funnelCharts: null,
                 barOption: [],
                 barCharts: null,
-                visitData: data.map.visitData,
-                signData: data.map.signData,
+                // visitData: data.map.visitData,
+                // signData: data.map.signData,
+                visitData: "",
+                signData: "",
                 funnelData: data.funnel,
                 bar: data.bar,
                 sign: data.sign,
@@ -817,7 +819,7 @@
                     this.funnelCharts.setOption(this.funnelOption);
                 },
                 // 地图
-                initMap(data, type) {
+                initMap(param, type) {
                     this.mapCharts = echarts.init(document.getElementById('map-charts'));
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
@@ -854,14 +856,16 @@
                         var color = "#27dbf2";
                     }
                     var series = [];
-                    var signItem = [];
-                    for (var key in data) {
-                        var tmp = [];
-                        tmp.push(key);
-                        tmp.push(data[key]);
-                        signItem.push(tmp);
-                    }
-                    signItem.forEach(function (item, i) {
+                    // var signItem = [];
+                    // for (var key in data) {
+                    //     var tmp = [];
+                    //     tmp.push(key);
+                    //     tmp.push(data[key]);
+                    //     signItem.push(tmp);
+                    // }
+                    console.log(param,1111)
+                    param.forEach(function (item, i) {
+                        console.log(item)
                         series.push({
                             name: item[0],
                             type: 'lines',
@@ -918,15 +922,16 @@
                                     // formatter: '{b}'
                                     formatter: function (params) { // 圆环显示文字
                                         // if(params.data&&params.data.value &&params.data.value.length){
-                                        //     return params.data.name + " " + params.data.value[
-                                        //         params.data.value.length - 1];
+                                            return params.data.name + " " + params.data.value[
+                                                params.data.value.length - 1];
                                         // }
-                                        return params.data.name;
+                                        // return params.data.name;
                                     },
                                 },
                             },
                             symbolSize: function (val) {
-                                return val[2] / 8;
+                                // return val[2] / 40;
+                                return 10;
                             },
                             itemStyle: {
                                 normal: {
@@ -934,6 +939,7 @@
                                 }
                             },
                             data: item[1].map(function (dataItem) {
+                                console.log(dataItem[1])
                                 return {
                                     name: dataItem[1].name,
                                     value: geoCoordMap[dataItem[1].name].concat([
@@ -989,74 +995,6 @@
                 },
                 initMap2(data, type) {
                     this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
-                    var BJData = [
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '北京',
-                            value: 200
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '湖南',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '辽宁',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '内蒙古',
-                            value: 90
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '云南',
-                            value: 30
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '重庆',
-                            value: 40
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '天津',
-                            value: 40
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '四川',
-                            value: 50
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '河南',
-                            value: 30
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '山东',
-                            value: 10
-                        }],
-                        [{
-                            name: '北京'
-                        }, {
-                            name: '安徽',
-                            value: 40
-                        }]
-                    ];
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
@@ -1405,14 +1343,22 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    method: 'post',
+                    method: 'get',
                     dataType: "json",
 
                     // url: "http://wd-pre.kuaidaosite.com/app/index.php?i=21&c=entry&do=scanunique&m=kd_tutucha&is_merchan=0",
-                    url: "http://yapi.kuaidaoapp.com/mock/367/kd-mock"
+                    // url: "http://yapi.kuaidaoapp.com/mock/367/kd-mock"
+                    url: "http://192.168.8.142:8088/operation/info"
                 }).then(function (res) {
-                    console.log('res', res)
-
+                    // console.log('res', res)
+                    var res = res.data;
+                    var data = JSON.parse(res.msg).DataList;
+                    mainVM.signData = mainVM.groupArr(data[0].mapsignamount);
+                    mainVM.visitData = mainVM.groupArr(data[0].mapcomevisitamount);
+                    mainVM.chartssize($("#map-charts"), $(".map-box"))
+                    var num = 0;
+                    var arr = [mainVM.signData, mainVM.visitData];
+                    mainVM.initMap(arr[num], num);
                 }).catch(function (error) {
 
                 })
@@ -1449,22 +1395,23 @@
                     mainVM.funnelCharts.resize();
                 }
                 // 地图切换
-                var num = 0;
-                var arr = [this.signData, this.visitData];
-                this.initMap(arr[num], num);
-                setInterval(() => {
-                    num = num ? --num : ++num;
-                    this.initMap(arr[num], num);
-                }, 50000)
+                // var num = 0;
+                // var arr = [this.signData, this.visitData];
+                // console.log(this.signData,111)
+                // this.initMap(arr[num], num);
+                // setInterval(() => {
+                //     num = num ? --num : ++num;
+                //     this.initMap(arr[num], num);
+                // }, 50000)
 
                 // 地图切换
-                var num2 = 0;
-                var arr2 = [this.signData, this.visitData];
-                this.initMap2(arr2[num2], num2);
-                setInterval(() => {
-                    num2 = num2 ? --num2 : ++num2;
-                    this.initMap2(arr2[num2], num2);
-                }, 50000)
+                // var num2 = 0;
+                // var arr2 = [this.signData, this.visitData];
+                // this.initMap2(arr2[num2], num2);
+                // setInterval(() => {
+                //     num2 = num2 ? --num2 : ++num2;
+                //     this.initMap2(arr2[num2], num2);
+                // }, 50000)
                 // setInterval(()=>{ // 整体数据请求;
                 // },4000)
             },
