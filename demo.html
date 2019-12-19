@@ -217,7 +217,11 @@
                     return x1 + x2;
                 },
                 //商务统计
-                initEchartsByStatistics() {
+                initEchartsByStatistics(daySign,dayCome,daySignSingle,daySignPrice,totalData) {
+                    // totalDayComeAmount: "10000", // 日来访量
+                    // totalDaySignAmount: "10000", // 日签约量
+                    // totalDaySignSingleAmount: "10000", // 日签约单量
+                    // totalDaySignPrice: "10000", // 日签约金额
                     var myChart = echarts.init(document.getElementById('echarts_statistics'));
                     option = {
                         radar: {
@@ -274,23 +278,23 @@
                             },
                             indicator: [{
                                     name: '签约量',
-                                    max: 6500,
-                                    num: 4536
+                                    max: totalData.totalDaySignAmount,
+                                    num: daySign
                                 },
                                 {
                                     name: '来访量',
-                                    max: 16000,
-                                    num: 5334
+                                    max: totalData.totalDayComeAmount,
+                                    num: dayCome
                                 },
                                 {
                                     name: '签约单量',
-                                    max: 30000,
-                                    num: 13733
+                                    max: totalData.totalDaySignSingleAmount,
+                                    num: daySignSingle
                                 },
                                 {
                                     name: '签约金额',
-                                    max: 398000,
-                                    num: 312234
+                                    max: totalData.totalDaySignPrice,
+                                    num: daySignPrice
                                 },
                             ],
 
@@ -300,16 +304,16 @@
                             type: 'radar',
                             data: [{
                                 // symbol: icon,
-                                symbolSize: 8,
-                                value: [4536, 5334, 13733, 312234],
+                                symbolSize: 6,
+                                value: [daySign, dayCome, daySignSingle, daySignPrice],
                                 lineStyle: {
-                                    width: 3,
+                                    width: 2,
                                     color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
                                         offset: 0,
                                         color: '#2AEDFE'
                                     }, {
                                         offset: 1,
-                                        color: 'red'
+                                        color: '#e00d6c'
                                     }])
                                 },
                                 areaStyle: {
@@ -1409,8 +1413,7 @@
             },
             mounted() {
                 //商机盒子
-                this.initEchartsByBusinessOne(500,this.sjTotalData)
-                this.initEchartsByBusinessTwo(9999.55,this.sjTotalData)
+           
 
 
                 document.getElementById('wrapper').style.display = 'block';
@@ -1428,8 +1431,10 @@
                 this.initFunnel();
                 this.initSwiper();
                 this.initBar();
+                this.initEchartsByBusinessOne(500,this.sjTotalData)
+                this.initEchartsByBusinessTwo(9999.55,this.sjTotalData)
                 this.initEchartsByTmk(5000,5000,5000,this.sjTotalData)
-                this.initEchartsByStatistics()
+                this.initEchartsByStatistics(5000,5000,5000,5000,this.sjTotalData)
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"), $(".map-box"))
