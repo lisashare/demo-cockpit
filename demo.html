@@ -108,26 +108,81 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="cockpit-content">
-                            <div class="cockpit-left">
-                                <div class="pie-charts01">
-
+                        <div class="cockpit-container">
+                            <div class="box-left">
+                                <div class="left-top">
+                                    <h3>{{month}}月推广累计（商机盒子+小物种）</h3>
+                                    <div class="box gauge-box">
+                                        <div class="gauge">
+                                            <div>线索会话</div>
+                                            <p>{{xiaowuzhong.monthclewconversation?xiaowuzhong.monthclewconversation:"0"|formatNumber}}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="pie-charts02">
-
+                                <div class="left-center">
+                                    <h3>{{month}}月商务累计</h3>
+                                    <div class="pie-charts02">
+                                        <div id='echarts_business11' class="echarts_business"></div>
+                                        <div id='echarts_business22' class="echarts_business"></div>
+                                    </div>
                                 </div>
-                                <div class="funnel-box box">
-                                    <div id="funnel-charts2"></div>
+                                <div class="left-bottom">
+                                    <h3>{{month}}月漏斗图</h3>
+                                    <div class="box">
+                                        <div id="funnel-charts"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="cockpit-center">
-                                <div class="map-box box">
-                                    中国地图
-                                    <div id="map-charts2"></div>
+                            <div class="box-center">
+                                <div class="center-top">
+                                    <ul>
+                                        <li>
+                                            <div>今日签约量</div>
+                                            <p class="number">{{xiaowuzhong.daytotalsignamount?xiaowuzhong.daytotalsignamount:"0"|formatNumber}}</p>
+                                        </li>
+                                        <li>
+                                            <div>今日签约单量</div>
+                                            <p class="number">{{xiaowuzhong.daytotalsignsingleamount?xiaowuzhong.daytotalsignsingleamount:"0"|formatNumber}}</p>
+                                        </li>
+                                        <li>
+                                            <div>今日签约金额 <i>(元)</i></div>
+                                            <p class="number">{{xiaowuzhong.daytotalsignprice?xiaowuzhong.daytotalsignprice:"0"|formatNumber}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="center-center">
+                                    <div class="map-box box">
+                                        <div class="circle-wrap">
+                                            <span class="sign-circle">
+                                                <i></i>签约量
+                                            </span>
+                                            <span class="visit-circle">
+                                                <i></i>来访量
+                                            </span>
+                                        </div>
+                                        <div id="map-charts2"></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="cockpit-right">
-                                3
+                            <div class="box-right">
+                                <div class="right-top">
+                                    <h3>今日推广统计（商机盒子+小物种）</h3>
+                                    <div class="box">
+                                        <div id="bar-charts2"></div>
+                                    </div>
+                                </div>
+                                <div class="right-center">
+                                    <h3>今日电销统计</h3>
+                                    <div class="box">
+                                        <div id='echarts_tmk2' class="echarts_tmk"></div>
+                                    </div>
+                                </div>
+                                <div class="right-bottom">
+                                    <h3>今日商务统计</h3>
+                                    <div class="box">
+                                        <div id="echarts_statistics2"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -731,13 +786,13 @@
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
                     var _this = this
-                    this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
+                    
                     this.funnelCharts.clear();
                     var funnelData = [
-                        {"value": 456, "name": '资源量'},
-                        {"value": 365, "name": '邀约量'},
-                        {"value": 291, "name": '来访量'},
-                        {"value": 0, "name": '签约量'}
+                        {"value": parameter1, "name": '资源量'},
+                        {"value": parameter2, "name": '邀约量'},
+                        {"value": parameter3, "name": '来访量'},
+                        {"value": parameter4, "name": '签约量'}
                     ];
                     this.funnelOption = {
                         color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
@@ -769,7 +824,7 @@
                             orient: 'vertical',
                             icon: "circle",
                             top: "center",
-                            right: '17%',
+                            right: '14%',
                             textStyle: {
                                 color: '#27DBF3',
                                 fontSize: this.fontSize(0.14),
@@ -854,7 +909,6 @@
                     if (type) {
                         color = "#fae07f";
                     }
-                    console.log(color);
                     var series = [];
                     parameter.forEach(function (item, i) {
                         series.push({
@@ -951,9 +1005,9 @@
                                 color: '#fff'
                             }
                         },
-                        tooltip: {
-                            trigger: 'item'
-                        },
+                        // tooltip: {
+                        //     trigger: 'item'
+                        // },
                         geo: {
                             map: 'china',
                             label: {
@@ -986,7 +1040,6 @@
                     this.mapCharts.setOption(this.mapOption);
                 },
                 initMap2(parameter2, type) {
-                    this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
@@ -1113,9 +1166,9 @@
                                 color: '#fff'
                             }
                         },
-                        tooltip: {
-                            trigger: 'item'
-                        },
+                        // tooltip: {
+                        //     trigger: 'item'
+                        // },
                         geo: {
                             map: 'china',
                             label: {
@@ -1360,18 +1413,19 @@
                         for (var i = 0; i < res.length; i++) {
                             var json = res[i];
                             if (json.fromchan == 2) {
-                                // clearInterval(mapTimer2);
-                                // _this.xiaowuzhong = json;
+                                _this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
+                                clearInterval(mapTimer2);
+                                _this.xiaowuzhong = json;
                                 // _this.signAMount = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 // _this.visitAmount = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
-                                // // 地图自己切换
-                                // var num2 = 0;
-                                // var arr2 = [_this.signAMount, _this.visitAmount];
-                                // _this.initMap2(arr2[num2], num2);
-                                // mapTimer2 = setInterval(() => {
-                                //     num2 = num2 ? --num2 : ++num2;
-                                //     _this.initMap2(arr2[num2], num2);
-                                // }, 50000)
+                                // 地图自己切换
+                                var num2 = 0;
+                                var arr2 = [_this.signAMount, _this.visitAmount];
+                                _this.initMap2(arr2[num2], num2);
+                                mapTimer2 = setInterval(() => {
+                                    num2 = num2 ? --num2 : ++num2;
+                                    _this.initMap2(arr2[num2], num2);
+                                }, 50000)
                                 // // this.number+=500
                                 // _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                 //     .sjTotalData)
@@ -1383,9 +1437,10 @@
                                 // _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
                                 // _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
                             }else if(json.fromchan == 1){
+                                _this.shangjihezi = json;
+                                _this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 clearInterval(mapTimer);
-                                _this.shangjihezi = json;
                                 _this.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
                                 // 地图自己切换
@@ -1435,6 +1490,7 @@
                     mainVM.chartssize($("#bar-charts"))
                     mainVM.chartssize($("#echarts_business1"))
                     mainVM.chartssize($("#echarts_tmk"))
+                    mainVM.chartssize($("#echarts_statistics"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();

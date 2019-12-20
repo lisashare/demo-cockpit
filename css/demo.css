@@ -100,6 +100,7 @@ body {
   line-height: 0.46rem;
   text-align: center;
   color: #fff;
+  cursor: pointer;
 }
 .cockpit-header .header-info-right .active {
   color: #27DBF3;

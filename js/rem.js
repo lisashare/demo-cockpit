@@ -2,7 +2,7 @@ setHtmlFontSize()
 
 if (window.addEventListener) {
   window.addEventListener('resize', function () {
-      setHtmlFontSize()
+    setHtmlFontSize()
   }, false)
 }
 function setHtmlFontSize () {
