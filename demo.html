@@ -177,6 +177,11 @@
                     totalMonthSignSingleAmount: "10000", // 月签约单量
                     totalMonthSignPrice: "10000", // 月签约金额
                 },
+                sjEcharts:{
+                    myChartOne:'',
+                    myChartTwo:'',
+                    myChartTmk:''
+                },
                 number:0
             },
             filters: {
@@ -374,7 +379,7 @@
 
                     ]
                     var dataName = []
-                    var myChart = echarts.init(document.getElementById('echarts_tmk'));
+                    this.sjEcharts.myChartTmk = echarts.init(document.getElementById('echarts_tmk'));
                     var dataStyle = {
                         normal: {
                             label: {
@@ -463,12 +468,12 @@
                             }
                         })
                     };
-                    myChart.setOption(option);
+                    this.sjEcharts.myChartTmk.setOption(option);
                 },
                 //商务累计1
                 initEchartsByBusinessOne(jsonData, totalNum) {
-                    var myChart = echarts.init(document.getElementById('echarts_business1'));
-                    myChart.clear();
+                    this.sjEcharts.myChartOne= echarts.init(document.getElementById('echarts_business1'));
+                    this.sjEcharts.myChartOne.clear();
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
                         data2.push({
@@ -583,7 +588,7 @@
                         },
                         series: seriesObj
                     }
-                    myChart.setOption(option,true);
+                    this.sjEcharts.myChartOne.setOption(option,true);
                 },
                 //商务累计2
                 initEchartsByBusinessTwo(jsonData, totalNum) {
@@ -1418,6 +1423,7 @@
                 this.chartssize($("#echarts_tmk"))
                 this.chartssize($("#echarts_statistics"))
                 
+                
                 this.initSwiper();
                 this.getJson()
 
@@ -1427,10 +1433,14 @@
                     mainVM.chartssize($("#map-charts2"))
                     mainVM.chartssize($("#funnel-charts"))
                     mainVM.chartssize($("#bar-charts"))
+                    mainVM.chartssize($("#echarts_business1"))
+                    mainVM.chartssize($("#echarts_tmk"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
                     mainVM.barCharts.resize();
+                    mainVM.sjEcharts.myChartOne.resize()
+                    mainVM.sjEcharts.myChartTmk.resize()
                 }
             
                 setInterval(()=>{ // 整体数据请求;
