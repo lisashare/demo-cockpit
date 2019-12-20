@@ -35,7 +35,8 @@
                                     <div class="box gauge-box">
                                         <div class="gauge">
                                             <div>线索会话</div>
-                                            <p>{{shangjihezi.monthclewconversation?shangjihezi.monthclewconversation:"0"|formatNumber}}</p>
+                                            <p>{{shangjihezi.monthclewconversation?shangjihezi.monthclewconversation:"0"|formatNumber}}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -59,15 +60,21 @@
                                         <li>
                                             <div>今日签约量</div>
                                             <!-- {{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}} -->
-                                            <p class="number number-1">{{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}}</p>
+                                            <p class="number" id='number_1'>
+                                                {{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                         <li>
                                             <div>今日签约单量</div>
-                                            <p class="number">{{shangjihezi.daytotalsignsingleamount?shangjihezi.daytotalsignsingleamount:"0"|formatNumber}}</p>
+                                            <p class="number">
+                                                {{shangjihezi.daytotalsignsingleamount?shangjihezi.daytotalsignsingleamount:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                         <li>
                                             <div>今日签约金额 <i>(元)</i></div>
-                                            <p class="number">{{shangjihezi.daytotalsignprice?shangjihezi.daytotalsignprice:"0"|formatNumber}}</p>
+                                            <p class="number">
+                                                {{shangjihezi.daytotalsignprice?shangjihezi.daytotalsignprice:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
@@ -111,7 +118,8 @@
                                     <div class="box gauge-box">
                                         <div class="gauge">
                                             <div>线索会话</div>
-                                            <p>{{xiaowuzhong.monthclewconversation?xiaowuzhong.monthclewconversation:"0"|formatNumber}}</p>
+                                            <p>{{xiaowuzhong.monthclewconversation?xiaowuzhong.monthclewconversation:"0"|formatNumber}}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -134,15 +142,21 @@
                                     <ul>
                                         <li>
                                             <div>今日签约量</div>
-                                            <p class="number">{{xiaowuzhong.daytotalsignamount?xiaowuzhong.daytotalsignamount:"0"|formatNumber}}</p>
+                                            <p class="number">
+                                                {{xiaowuzhong.daytotalsignamount?xiaowuzhong.daytotalsignamount:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                         <li>
                                             <div>今日签约单量</div>
-                                            <p class="number">{{xiaowuzhong.daytotalsignsingleamount?xiaowuzhong.daytotalsignsingleamount:"0"|formatNumber}}</p>
+                                            <p class="number">
+                                                {{xiaowuzhong.daytotalsignsingleamount?xiaowuzhong.daytotalsignsingleamount:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                         <li>
                                             <div>今日签约金额 <i>(元)</i></div>
-                                            <p class="number">{{xiaowuzhong.daytotalsignprice?xiaowuzhong.daytotalsignprice:"0"|formatNumber}}</p>
+                                            <p class="number">
+                                                {{xiaowuzhong.daytotalsignprice?xiaowuzhong.daytotalsignprice:"0"|formatNumber}}
+                                            </p>
                                         </li>
                                     </ul>
                                 </div>
@@ -186,9 +200,7 @@
     <script src="https://static.kuaidao.cn/qingteng/wx-js/axios.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/qs.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/jquery-1.10.1.min.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.countup.min.js"></script>
- 
+    <script src="https://cdn.bootcss.com/countup.js/1.9.3/countUp.js"></script>
     <script src="./js/echarts.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/swiper.jquery.js"></script>
     <script src="js/map/china.js"></script>
@@ -198,6 +210,7 @@
         var mainVM = new Vue({
             el: '#wrapper',
             data: {
+                count1: null,
                 shangjihezi: '',
                 xiaowuzhong: '',
                 mySwiper: null,
@@ -233,21 +246,21 @@
                     totalMonthSignSingleAmount: "2000", // 月签约单量
                     totalMonthSignPrice: "100000000", // 月签约金额
                 },
-                sjEcharts:{
-                    myChartOne:'',
-                    myChartTwo:'',
-                    myChartTmk:'',
-                    myChartStatistics:'',
+                sjEcharts: {
+                    myChartOne: '',
+                    myChartTwo: '',
+                    myChartTmk: '',
+                    myChartStatistics: '',
                     visitData: [],
                     signData: [],
                     funnelCharts: null,
                     barCharts: null,
                 },
-                xwzEcharts:{
-                    myChartOne:'',
-                    myChartTwo:'',
-                    myChartTmk:'',
-                    myChartStatistics:'',
+                xwzEcharts: {
+                    myChartOne: '',
+                    myChartTwo: '',
+                    myChartTmk: '',
+                    myChartStatistics: '',
                     visitData: [],
                     signData: [],
                     funnelCharts: null,
@@ -257,7 +270,9 @@
             filters: {
                 formatNumber(value) {
                     var nStr = value;
-                    if (!nStr) {return nStr;}
+                    if (!nStr) {
+                        return nStr;
+                    }
                     nStr += '';
                     x = nStr.split('.');
                     x1 = x[0];
@@ -266,7 +281,9 @@
                     // }  
                     x2 = x.length > 1 ? '.' + x[1] : '';
                     var rgx = /(\d+)(\d{3})/;
-                    while (rgx.test(x1)) { x1 = x1.replace(rgx, '$1' + ',' + '$2');}
+                    while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                    }
                     return x1 + x2;
                 },
             },
@@ -282,7 +299,9 @@
                 //分割逗号
                 formatNumber(value) {
                     var nStr = value;
-                    if (!nStr) {return nStr;}
+                    if (!nStr) {
+                        return nStr;
+                    }
                     nStr += '';
                     x = nStr.split('.');
                     x1 = x[0];
@@ -291,7 +310,9 @@
                     // }  
                     x2 = x.length > 1 ? '.' + x[1] : '';
                     var rgx = /(\d+)(\d{3})/;
-                    while (rgx.test(x1)) {x1 = x1.replace(rgx, '$1' + ',' + '$2');}
+                    while (rgx.test(x1)) {
+                        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                    }
                     return x1 + x2;
                 },
                 dataFormat() {
@@ -309,7 +330,8 @@
                     // totalDaySignAmount: "10000", // 日签约量
                     // totalDaySignSingleAmount: "10000", // 日签约单量
                     // totalDaySignPrice: "10000", // 日签约金额
-                    this.sjEcharts.myChartStatistics = echarts.init(document.getElementById('echarts_statistics'));
+                    this.sjEcharts.myChartStatistics = echarts.init(document.getElementById(
+                        'echarts_statistics'));
                     this.sjEcharts.myChartStatistics.clear()
                     option = {
                         radar: {
@@ -417,7 +439,8 @@
                 },
                 //商务统计 2
                 initEchartsByStatistics2(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
-                    this.xwzEcharts.myChartStatistics = echarts.init(document.getElementById('echarts_statistics2'));
+                    this.xwzEcharts.myChartStatistics = echarts.init(document.getElementById(
+                        'echarts_statistics2'));
                     this.xwzEcharts.myChartStatistics.clear()
                     option = {
                         radar: {
@@ -770,10 +793,10 @@
                     };
                     this.xwzEcharts.myChartTmk.setOption(option);
                 },
-                
+
                 //商务累计1
                 initEchartsByBusinessOne(jsonData, totalNum) {
-                    this.sjEcharts.myChartOne= echarts.init(document.getElementById('echarts_business1'));
+                    this.sjEcharts.myChartOne = echarts.init(document.getElementById('echarts_business1'));
                     this.sjEcharts.myChartOne.clear();
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
@@ -889,12 +912,12 @@
                         },
                         series: seriesObj
                     }
-                    this.sjEcharts.myChartOne.setOption(option,true);
+                    this.sjEcharts.myChartOne.setOption(option, true);
                 },
 
                 //商务累计2
                 initEchartsByBusinessOne2(jsonData, totalNum) {
-                    this.xwzEcharts.myChartOne= echarts.init(document.getElementById('echarts_business11'));
+                    this.xwzEcharts.myChartOne = echarts.init(document.getElementById('echarts_business11'));
                     this.xwzEcharts.myChartOne.clear();
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
@@ -1010,7 +1033,7 @@
                         },
                         series: seriesObj
                     }
-                    this.xwzEcharts.myChartOne.setOption(option,true);
+                    this.xwzEcharts.myChartOne.setOption(option, true);
                 },
                 //商务累计2
                 initEchartsByBusinessTwo(jsonData, totalNum) {
@@ -1151,8 +1174,8 @@
                     // myChart.setOption()
                     this.sjEcharts.myChartTwo.setOption(option);
                 },
-                   //商务累计22
-                   initEchartsByBusinessTwo2(jsonData, totalNum) {
+                //商务累计22
+                initEchartsByBusinessTwo2(jsonData, totalNum) {
                     this.xwzEcharts.myChartTwo = echarts.init(document.getElementById('echarts_business22'));
                     this.xwzEcharts.myChartTwo.clear();
                     var data2 = [];
@@ -1282,15 +1305,26 @@
                     this.xwzEcharts.myChartTwo.setOption(option);
                 },
                 // 漏斗
-                initFunnel(parameter1,parameter2,parameter3,parameter4) {
+                initFunnel(parameter1, parameter2, parameter3, parameter4) {
                     var _this = this;
                     this.sjEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
                     this.sjEcharts.funnelCharts.clear();
-                    var funnelData = [
-                        {"value": parameter1, "name": '资源量'},
-                        {"value": parameter2, "name": '邀约量'},
-                        {"value": parameter3, "name": '来访量'},
-                        {"value": parameter4, "name": '签约量'}
+                    var funnelData = [{
+                            "value": parameter1,
+                            "name": '资源量'
+                        },
+                        {
+                            "value": parameter2,
+                            "name": '邀约量'
+                        },
+                        {
+                            "value": parameter3,
+                            "name": '来访量'
+                        },
+                        {
+                            "value": parameter4,
+                            "name": '签约量'
+                        }
                     ];
                     var funnelOption = {
                         color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
@@ -1375,15 +1409,26 @@
                     };
                     this.sjEcharts.funnelCharts.setOption(funnelOption);
                 },
-                initFunnel2(parameter1,parameter2,parameter3,parameter4) {
+                initFunnel2(parameter1, parameter2, parameter3, parameter4) {
                     this.xwzEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts2'));
                     var _this = this;
                     this.xwzEcharts.funnelCharts.clear();
-                    var funnelData = [
-                        {"value": parameter1, "name": '资源量'},
-                        {"value": parameter2, "name": '邀约量'},
-                        {"value": parameter3, "name": '来访量'},
-                        {"value": parameter4, "name": '签约量'}
+                    var funnelData = [{
+                            "value": parameter1,
+                            "name": '资源量'
+                        },
+                        {
+                            "value": parameter2,
+                            "name": '邀约量'
+                        },
+                        {
+                            "value": parameter3,
+                            "name": '来访量'
+                        },
+                        {
+                            "value": parameter4,
+                            "name": '签约量'
+                        }
                     ];
                     var funnelOption = {
                         color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
@@ -1473,7 +1518,9 @@
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
-                        if (!data) {return false;}
+                        if (!data) {
+                            return false;
+                        }
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
@@ -1521,8 +1568,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        { // 固定线条
+                        }, { // 固定线条
                             name: item[0],
                             type: 'lines',
                             zlevel: 2,
@@ -1542,8 +1588,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        {
+                        }, {
                             name: item[0],
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
@@ -1557,9 +1602,11 @@
                                     position: 'right',
                                     // formatter: '{b}'
                                     formatter: function (params) { // 圆环显示文字
-                                        for(var i=0;i<item[1].length;i++){
-                                            if(item[1][i][1].name == params.data.name){
-                                                return params.data.name + " " + item[1][i][1].num;
+                                        for (var i = 0; i < item[1].length; i++) {
+                                            if (item[1][i][1].name == params.data.name) {
+                                                return params.data.name + " " + item[1][i][
+                                                    1
+                                                ].num;
                                             }
                                         }
                                         // return params.data.name + " " + params.data.value[
@@ -1634,7 +1681,9 @@
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
-                        if (!data) {return false;}
+                        if (!data) {
+                            return false;
+                        }
                         var res = [];
                         for (var i = 0; i < data.length; i++) {
                             var dataItem = data[i];
@@ -1682,8 +1731,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        { // 固定线条
+                        }, { // 固定线条
                             name: item[0],
                             type: 'lines',
                             zlevel: 2,
@@ -1703,8 +1751,7 @@
                                 }
                             },
                             data: convertData(item[1])
-                        }, 
-                        {
+                        }, {
                             name: item[0],
                             type: 'effectScatter',
                             coordinateSystem: 'geo',
@@ -1718,9 +1765,11 @@
                                     position: 'right',
                                     // formatter: '{b}'
                                     formatter: function (params) { // 圆环显示文字
-                                        for(var i=0;i<item[1].length;i++){
-                                            if(item[1][i][1].name == params.data.name){
-                                                return params.data.name + " " + item[1][i][1].num;
+                                        for (var i = 0; i < item[1].length; i++) {
+                                            if (item[1][i][1].name == params.data.name) {
+                                                return params.data.name + " " + item[1][i][
+                                                    1
+                                                ].num;
                                             }
                                         }
                                     },
@@ -1789,7 +1838,7 @@
                     };
                     this.mapCharts2.setOption(mapOption);
                 },
-                initBar(serviceonLine,converastion,accountConsumer,clewconverSation) {
+                initBar(serviceonLine, converastion, accountConsumer, clewconverSation) {
                     this.sjEcharts.barCharts = echarts.init(document.getElementById('bar-charts'));
                     this.sjEcharts.barCharts.clear();
                     var data = [{
@@ -1915,7 +1964,7 @@
                     };
                     this.sjEcharts.barCharts.setOption(barOption);
                 },
-                initBar2(serviceonLine,converastion,accountConsumer,clewconverSation) {
+                initBar2(serviceonLine, converastion, accountConsumer, clewconverSation) {
                     this.xwzEcharts.barCharts = echarts.init(document.getElementById('bar-charts2'));
                     this.xwzEcharts.barCharts.clear();
                     var data = [{
@@ -2043,7 +2092,9 @@
                 },
                 //参数container为图表盒子节点.charts为图表节点
                 chartssize(charts, container) {
-                    if (!container) {container = charts.parent(".box");}
+                    if (!container) {
+                        container = charts.parent(".box");
+                    }
                     var wi = container.width();
                     var hi = container.height();
                     charts.width(wi)
@@ -2070,33 +2121,33 @@
                         }
                     });
                 },
-                groupArr(arr){
+                groupArr(arr) {
                     var newArr = [];
-                    if(arr != null && arr.length > 0){
-                        for(var i=0; i <arr.length; i++){
+                    if (arr != null && arr.length > 0) {
+                        for (var i = 0; i < arr.length; i++) {
                             var exist = false;
                             var tempIndex = -1;
-                            for(var j=0; j <newArr.length; j++){
-                                if(arr[i].startoff === newArr[j][0]){
+                            for (var j = 0; j < newArr.length; j++) {
+                                if (arr[i].startoff === newArr[j][0]) {
                                     exist = true;
                                     tempIndex = j;
                                 }
                             }
-                            if(exist){ // 是否存在同一出发点
+                            if (exist) { // 是否存在同一出发点
                                 var tempArr = newArr[tempIndex];
                                 var obj = [{
-                                                name: arr[i].startoff
-                                            }, {
-                                                name: arr[i].city,
-                                                value: 50,
-                                                num: arr[i].num,
-                                        }];
+                                    name: arr[i].startoff
+                                }, {
+                                    name: arr[i].city,
+                                    value: 50,
+                                    num: arr[i].num,
+                                }];
                                 tempArr[1].push(obj);
                             } else {
-                                var obj = [arr[i].startoff, [
-                                        [{
+                                var obj = [arr[i].startoff, [
+                                    [{
                                         name: arr[i].startoff
-                                        }, {
+                                    }, {
                                         name: arr[i].city,
                                         value: 50,
                                         num: arr[i].num,
@@ -2130,8 +2181,10 @@
                                 _this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
                                 // 地图
                                 clearInterval(mapTimer2);
-                                _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
-                                _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
+                                _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong
+                                    .mapsignamount);
+                                _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong
+                                    .mapcomevisitamount);
 
                                 var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
                                 _this.initMap2(arr2[_this.num2], _this.num2);
@@ -2140,24 +2193,28 @@
                                     _this.initMap2(arr2[_this.num2], _this.num2);
                                 }, 50000)
                                 // 地图
-                                
-                                _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
-                                .xwzTotalData)
-                                _this.initEchartsByBusinessTwo2(json.monthsignprice, _this.xwzTotalData)
-                                _this.initEchartsByTmk2(json.dayresourceamount, json.dayinvitationamount, json.daycallamount, _this.xwzTotalData)
-                                _this.initEchartsByStatistics2(json.daysignamount, json.daycomeamount,
-                                json.daysignsingleamount, json.daysignprice, _this.xwzTotalData)
-                                _this.initFunnel2(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
-                                _this.initBar2(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
 
-                            }else if(json.fromchan == 1){
+                                _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
+                                    .xwzTotalData)
+                                _this.initEchartsByBusinessTwo2(json.monthsignprice, _this.xwzTotalData)
+                                _this.initEchartsByTmk2(json.dayresourceamount, json
+                                    .dayinvitationamount, json.daycallamount, _this.xwzTotalData)
+                                _this.initEchartsByStatistics2(json.daysignamount, json.daycomeamount,
+                                    json.daysignsingleamount, json.daysignprice, _this.xwzTotalData)
+                                _this.initFunnel2(json.monthresourceamount, json.monthinvitationamount,
+                                    json.monthcomeamount, json.monthsignamount);
+                                _this.initBar2(json.dayserviceonlinenum, json.dayconverastionamount,
+                                    json.dayaccountconsumer, json.dayclewconversation);
+
+                            } else if (json.fromchan == 1) {
                                 _this.shangjihezi = json;
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
                                 clearInterval(mapTimer);
-                                _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
-                                _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
-                                $('.number-1').countUp();
+                                _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi
+                                    .mapsignamount);
+                                _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi
+                                    .mapcomevisitamount);
                                 var num = 0;
                                 var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
                                 _this.initMap(arr[_this.num], _this.num);
@@ -2166,6 +2223,9 @@
                                     _this.initMap(arr[_this.num], _this.num);
                                 }, 50000)
                                 // 地图
+                                // json.daytotalsignamount =  Number(json.daytotalsignamount)+=10
+                                // console.log(Number(json.daytotalsignamount))
+                                // _this.count1.update(json.daytotalsignamount);
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -2173,8 +2233,10 @@
                                     json.daycallamount, _this.sjTotalData)
                                 _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
                                     json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
-                                _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
-                                _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
+                                _this.initFunnel(json.monthresourceamount, json.monthinvitationamount,
+                                    json.monthcomeamount, json.monthsignamount);
+                                _this.initBar(json.dayserviceonlinenum, json.dayconverastionamount, json
+                                    .dayaccountconsumer, json.dayclewconversation);
                             }
                         }
                     }).catch(function (error) {
@@ -2184,7 +2246,7 @@
             },
             mounted() {
                 document.getElementById('wrapper').style.display = 'block';
-                
+
                 this.chartssize($("#map-charts"))
                 this.chartssize($("#map-charts2"))
                 this.chartssize($("#funnel-charts"))
@@ -2199,10 +2261,23 @@
                 this.chartssize($("#echarts_business11"))
                 this.chartssize($("#echarts_business2"))
                 this.chartssize($("#echarts_business22"))
-                
+
                 this.getJson()
                 this.initSwiper();
-          
+                var options = {
+                    useEasing: true,
+                    useGrouping: true,
+                    separator: ',',
+                    decimal: '.',
+                };
+                // this.count1 = new CountUp('number_1', 0, 0, 2, 2.5, options);
+                this.count1 = new CountUp('number_1', 0, 0, 0, 2.5, options);
+                if (!this.count1.error) {
+                    this.count1.start();
+                } else {
+                    console.error(this.count1.error);
+                }
+
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"))
@@ -2235,20 +2310,20 @@
                     mainVM.xwzEcharts.myChartTmk.resize()
                     mainVM.xwzEcharts.myChartStatistics.resize()
                 }
-            
-                // setInterval(()=>{ // 整体数据请求;
-                //     this.getJson()
-                // }, 40000)
+
+                setInterval(() => { // 整体数据请求;
+                    this.getJson()
+                }, 7000)
             },
             created() {
-                
+
                 var day = new Date(); // 当前月份
                 this.month = day.getMonth() + 1;
                 this.time = this.dataFormat(); // 当前时间
                 setInterval(() => {
                     this.time = this.dataFormat();
                 }, 1000)
-           
+
             },
         })
     </script>
