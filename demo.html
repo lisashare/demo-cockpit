@@ -2245,7 +2245,7 @@
             
                 setInterval(()=>{ // 整体数据请求;
                     this.getJson()
-                }, 30000)
+                }, 31000)
             },
             created() {  
                 var day = new Date(); // 当前月份
@@ -2268,7 +2268,7 @@
                     if(newVal.length){
                         setInterval(() => {
                             this.num2 = this.num2 ? --this.num2 : ++this.num2;
-                            this.initMap(this.arr2[this.num2], this.num2);
+                            this.initMap2(this.arr2[this.num2], this.num2);
                         }, 10000)
                     }
                 }
