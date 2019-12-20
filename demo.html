@@ -2110,7 +2110,6 @@
                     return null;
                 },
                 getJson() {
-                   
                     var _this = this;
                     axios({
                         // headers: {
@@ -2187,36 +2186,54 @@
                 document.getElementById('wrapper').style.display = 'block';
                 
                 this.chartssize($("#map-charts"))
+                this.chartssize($("#map-charts2"))
                 this.chartssize($("#funnel-charts"))
+                this.chartssize($("#funnel-charts2"))
                 this.chartssize($("#bar-charts"))
+                this.chartssize($("#bar-charts2"))
                 this.chartssize($("#echarts_tmk"))
                 this.chartssize($("#echarts_tmk2"))
                 this.chartssize($("#echarts_statistics"))
+                this.chartssize($("#echarts_statistics2"))
+                this.chartssize($("#echarts_business1"))
+                this.chartssize($("#echarts_business11"))
+                this.chartssize($("#echarts_business2"))
+                this.chartssize($("#echarts_business22"))
                 
-                this.chartssize($("#map-charts2"))
-                this.chartssize($("#funnel-charts2"))
-                this.chartssize($("#bar-charts2"))
-
                 this.getJson()
                 this.initSwiper();
           
-               
-
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"))
+                    mainVM.chartssize($("#map-charts"))
                     mainVM.chartssize($("#map-charts2"))
                     mainVM.chartssize($("#funnel-charts"))
+                    mainVM.chartssize($("#funnel-charts2"))
                     mainVM.chartssize($("#bar-charts"))
-                    mainVM.chartssize($("#echarts_business1"))
+                    mainVM.chartssize($("#bar-charts2"))
                     mainVM.chartssize($("#echarts_tmk"))
+                    mainVM.chartssize($("#echarts_tmk2"))
                     mainVM.chartssize($("#echarts_statistics"))
+                    mainVM.chartssize($("#echarts_statistics2"))
+                    mainVM.chartssize($("#echarts_business1"))
+                    mainVM.chartssize($("#echarts_business11"))
+                    mainVM.chartssize($("#echarts_business2"))
+                    mainVM.chartssize($("#echarts_business22"))
+
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.sjEcharts.funnelCharts.resize();
                     mainVM.sjEcharts.barCharts.resize();
                     mainVM.sjEcharts.myChartOne.resize()
                     mainVM.sjEcharts.myChartTmk.resize()
+                    mainVM.sjEcharts.myChartStatistics.resize()
+
+                    mainVM.xwzEcharts.funnelCharts.resize();
+                    mainVM.xwzEcharts.barCharts.resize();
+                    mainVM.xwzEcharts.myChartOne.resize()
+                    mainVM.xwzEcharts.myChartTmk.resize()
+                    mainVM.xwzEcharts.myChartStatistics.resize()
                 }
             
                 // setInterval(()=>{ // 整体数据请求;
