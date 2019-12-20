@@ -73,12 +73,8 @@
                                 <div class="center-center">
                                     <div class="map-box box">
                                         <div class="circle-wrap">
-                                            <span class="sign-circle">
-                                                <i></i>签约量
-                                            </span>
-                                            <span class="visit-circle">
-                                                <i></i>来访量
-                                            </span>
+                                            <span :class="['sign-circle', num==0?'act':'']"><i></i>签约量</span>
+                                            <span :class="['visit-circle', num==1?'act':'']"><i></i>来访量</span>
                                         </div>
                                         <div id="map-charts"></div>
                                     </div>
@@ -152,12 +148,8 @@
                                 <div class="center-center">
                                     <div class="map-box box">
                                         <div class="circle-wrap">
-                                            <span class="sign-circle">
-                                                <i></i>签约量
-                                            </span>
-                                            <span class="visit-circle">
-                                                <i></i>来访量
-                                            </span>
+                                            <span :class="['sign-circle', num2==0?'act':'']"><i></i>签约量</span>
+                                            <span :class="['visit-circle', num2==1?'act':'']"><i></i>来访量</span>
                                         </div>
                                         <div id="map-charts2"></div>
                                     </div>
@@ -210,6 +202,8 @@
                 mapCharts2: null,
                 time: "<span>00</span>年<span>00</span>月<span>00</span>日 &nbsp;&nbsp;&nbsp;&nbsp;<span>00</span><i> : </i><span>00</span><i> : </i><span>00</span>",
                 month: "",
+                num: 0,
+                num2: 0,
                 sjTotalData: {
                     totalDayResourceAmount: "2500", // 日资源总量
                     totalDayCallAmount: "2500", // 日通话总量
@@ -256,7 +250,6 @@
                     funnelCharts: null,
                     barCharts: null,
                 },
-                number:0
             },
             filters: {
                 formatNumber(value) {
@@ -2135,12 +2128,12 @@
                                 clearInterval(mapTimer2);
                                 _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
-                                var num2 = 0;
+
                                 var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
-                                _this.initMap2(arr2[num2], num2);
+                                _this.initMap2(arr2[_this.num2], _this.num2);
                                 mapTimer2 = setInterval(() => {
-                                    num2 = num2 ? --num2 : ++num2;
-                                    _this.initMap2(arr2[num2], num2);
+                                    _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
+                                    _this.initMap2(arr2[_this.num2], _this.num2);
                                 }, 50000)
                                 // 地图
 
@@ -2165,12 +2158,12 @@
                                 clearInterval(mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
-                                var num = 0;
+                              
                                 var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
-                                _this.initMap(arr[num], num);
+                                _this.initMap(arr[_this.num], _this.num);
                                 mapTimer = setInterval(() => {
-                                    num = num ? --num : ++num;
-                                    _this.initMap(arr[num], num);
+                                    _this.num = _this.num ? --_this.num : ++_this.num;
+                                    _this.initMap(arr[_this.num], _this.num);
                                 }, 50000)
                                 // 地图
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this

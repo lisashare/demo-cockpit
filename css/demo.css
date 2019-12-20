@@ -64,6 +64,7 @@ body {
   color: #27DBF3;
   font-weight: 600;
   text-align: center;
+  letter-spacing: 2px;
 }
 .cockpit-header .header-info-left {
   position: absolute;
@@ -75,10 +76,12 @@ body {
   align-items: center;
   line-height: 0.26rem;
   font-size: 0.2rem;
+  letter-spacing: 3px;
 }
 .cockpit-header .header-info-left span {
   display: inline-block;
-  padding: 0 0.05rem;
+  margin: 0 0.03rem;
+  padding: 0 0.04rem 0 0.05rem;
   font-family: unidreamLED;
   line-height: 0.26rem;
   font-size: 0.24rem;
@@ -93,6 +96,7 @@ body {
   position: absolute;
   top: 0.1rem;
   right: 0.64rem;
+  letter-spacing: 2px;
 }
 .cockpit-header .header-info-right li {
   padding: 0 0.22rem;
@@ -196,7 +200,7 @@ body {
   margin: 0 0.15rem;
   display: inline-block;
   min-width: 1rem;
-  padding: 1% 0.32rem;
+  padding: 0.18rem 0.32rem 0.05rem;
   background: url("../images/2@3x.png") no-repeat;
   background-size: 100% 100%;
   text-align: center;
@@ -205,6 +209,9 @@ body {
   font-size: 0.12rem;
   display: inline-block;
   vertical-align: bottom;
+}
+.box-center .center-top ul p {
+  margin-top: 0.04rem;
 }
 .box-center .circle-wrap {
   position: absolute;
@@ -237,12 +244,12 @@ body {
   border-radius: 50%;
   margin: 0 0.04rem;
 }
-.box-center .sign-circle {
-  background: #27DBF3;
-  color: #10275B;
-}
 .box-center .sign-circle i {
   background: #1193A4;
+}
+.box-center .act {
+  background: #27DBF3;
+  color: #10275B;
 }
 .box-left {
   box-sizing: border-box;
