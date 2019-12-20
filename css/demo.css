@@ -136,7 +136,7 @@ body {
   background-size: 2.35rem 1.87rem;
   background-position: center;
   text-align: center;
-  padding-top: 0.22rem;
+  padding-top: 0.38rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -144,7 +144,7 @@ body {
 }
 .gauge div {
   color: #fff !important;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.12rem;
 }
 .gauge p {
   font-size: 0.3rem;
