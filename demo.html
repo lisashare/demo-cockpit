@@ -789,8 +789,7 @@
                 },
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
-                    var _this = this
-                    
+                    var _this = this;
                     this.funnelCharts.clear();
                     var funnelData = [
                         {"value": parameter1, "name": '资源量'},
@@ -1495,8 +1494,9 @@
                     mainVM.chartssize($("#echarts_business1"))
                     mainVM.chartssize($("#echarts_tmk"))
                     mainVM.chartssize($("#echarts_statistics"))
+                    console.log(mainVM.mapCharts)
                     mainVM.mapCharts.resize();
-                    mainVM.mapCharts2.resize();
+                    // mainVM.mapCharts2.resize();
                     mainVM.funnelCharts.resize();
                     mainVM.barCharts.resize();
                     mainVM.sjEcharts.myChartOne.resize()
