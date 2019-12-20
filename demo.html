@@ -2208,18 +2208,21 @@
                                     json.dayaccountconsumer, json.dayclewconversation);
 
                             } else if (json.fromchan == 1) {
+                                //   json.daytotalsignamount =  Number(json.daytotalsignamount)+=10
+                                // console.log(Number(json.daytotalsignamount))
+                                // _this.count1.update(json.daytotalsignamount);
                                 _this.shangjihezi = json;
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
-                                clearInterval(mapTimer);
+                             
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi
                                     .mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi
                                     .mapcomevisitamount);
-                                var num = 0;
-                                var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
-                                _this.initMap(arr[_this.num], _this.num);
-                                mapTimer = setInterval(() => {
+                             
+                            
+                               
+                               
                                 clearInterval(_this.mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
@@ -2234,9 +2237,7 @@
                                 _this.arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
                                 _this.initMap(_this.arr[_this.num], _this.num);
                                 // 地图
-                                // json.daytotalsignamount =  Number(json.daytotalsignamount)+=10
-                                // console.log(Number(json.daytotalsignamount))
-                                // _this.count1.update(json.daytotalsignamount);
+                              
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -2248,7 +2249,7 @@
                                     json.monthcomeamount, json.monthsignamount);
                                 _this.initBar(json.dayserviceonlinenum, json.dayconverastionamount, json
                                     .dayaccountconsumer, json.dayclewconversation);
-                            })
+                            
                         }
                     }
                     }).catch(function (error) {
