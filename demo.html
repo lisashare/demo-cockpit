@@ -42,9 +42,14 @@
                                 </div>
                                 <div class="left-center">
                                     <h3>{{month}}月商务累计</h3>
-                                    <div class="pie-charts02">
-                                        <div id='echarts_business1' class="echarts_business"></div>
-                                        <div id='echarts_business2' class="echarts_business"></div>
+                                    <div class="pie-charts02 ">
+                                        <div class="box">
+                                            <div id='echarts_business1' class="echarts_business "></div>
+                                        </div>
+                                        <div class="box">
+                                            <div id='echarts_business2' class="echarts_business"></div>
+                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <div class="left-bottom">
@@ -126,8 +131,9 @@
                                 <div class="left-center">
                                     <h3>{{month}}月商务累计</h3>
                                     <div class="pie-charts02">
-                                        <div id='echarts_business11' class="echarts_business"></div>
-                                        <div id='echarts_business22' class="echarts_business"></div>
+                                        <div class="box"> <div id='echarts_business11' class="echarts_business"></div></div>
+                                        <div class="box"> <div id='echarts_business22' class="echarts_business"></div></div>
+                                      
                                     </div>
                                 </div>
                                 <div class="left-bottom">
@@ -303,7 +309,7 @@
                         clientWidth = window.innerWidth || document.documentElement.clientWidth || document.body
                         .clientWidth;
                     if (!clientWidth) return;
-                    let fontSize = 100 * (clientWidth / 1920);
+                    let fontSize = 100 * (clientWidth / 1980);
                     return res * fontSize;
                 },
                 //分割逗号
@@ -2138,7 +2144,7 @@
                         // },
                         speed: 1000,
                         // loop: false,
-                        // autoplay: 3000,
+                        autoplay: 10000,
                         onSlideChangeStart: function () {
                             var index = mainVM.mySwiper.activeIndex;
                             $('.nav-tab li').removeClass('active').eq(index).addClass('active');
@@ -2451,12 +2457,14 @@
                     mainVM.sjEcharts.funnelCharts.resize();
                     mainVM.sjEcharts.barCharts.resize();
                     mainVM.sjEcharts.myChartOne.resize()
+                    mainVM.sjEcharts.myChartTwo.resize()
                     mainVM.sjEcharts.myChartTmk.resize()
                     mainVM.sjEcharts.myChartStatistics.resize()
 
                     mainVM.xwzEcharts.funnelCharts.resize();
                     mainVM.xwzEcharts.barCharts.resize();
                     mainVM.xwzEcharts.myChartOne.resize()
+                    mainVM.xwzEcharts.myChartTwo.resize()
                     mainVM.xwzEcharts.myChartTmk.resize()
                     mainVM.xwzEcharts.myChartStatistics.resize()
                 }
