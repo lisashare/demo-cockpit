@@ -9,7 +9,6 @@
     <title>快道集团驾驶舱</title>
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="https://static.kuaidao.cn/qingteng/wx-css/reset_new.css">
-    <!-- <link rel="stylesheet" href="./css/reset.css"> -->
     <link rel="stylesheet" href="./css/demo.css">
     <link rel="stylesheet" href="https://static.kuaidao.cn/qingteng/wx-css/swiper.min.css">
 </head>
@@ -129,7 +128,7 @@
                                 <div class="left-bottom">
                                     <h3>{{month}}月漏斗图</h3>
                                     <div class="box">
-                                        <div id="funnel-charts"></div>
+                                        <div id="funnel-charts2"></div>
                                     </div>
                                 </div>
                             </div>
@@ -209,10 +208,6 @@
                 mapCharts: null,
                 mapOption2: [],
                 mapCharts2: null,
-                funnelOption: [],
-                funnelCharts: null,
-                barOption: [],
-                barCharts: null,
                 time: "<span>00</span>年<span>00</span>月<span>00</span>日 &nbsp;&nbsp;&nbsp;&nbsp;<span>00</span><i> : </i><span>00</span><i> : </i><span>00</span>",
                 month: "",
                 sjTotalData: {
@@ -248,6 +243,8 @@
                     myChartStatistics:'',
                     visitData: [],
                     signData: [],
+                    funnelCharts: null,
+                    barCharts: null,
                 },
                 xwzEcharts:{
                     myChartOne:'',
@@ -256,6 +253,8 @@
                     myChartStatistics:'',
                     visitData: [],
                     signData: [],
+                    funnelCharts: null,
+                    barCharts: null,
                 },
                 number:0
             },
@@ -308,8 +307,6 @@
                     $('.nav-tab li').removeClass('active').eq(i).addClass('active');
                     this.mySwiper.slideTo(i, 1000, false);
                 },
-
-
                 //商务统计 
                 initEchartsByStatistics(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
                     // totalDayComeAmount: "10000", // 日来访量
@@ -932,14 +929,14 @@
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
                     var _this = this;
-                    this.funnelCharts.clear();
+                    this.sjEcharts.funnelCharts.clear();
                     var funnelData = [
                         {"value": parameter1, "name": '资源量'},
                         {"value": parameter2, "name": '邀约量'},
                         {"value": parameter3, "name": '来访量'},
                         {"value": parameter4, "name": '签约量'}
                     ];
-                    this.funnelOption = {
+                    var funnelOption = {
                         color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
                             offset: 0,
                             color: '#3ea5f6'
@@ -1020,7 +1017,99 @@
                             data: funnelData
                         }]
                     };
-                    this.funnelCharts.setOption(this.funnelOption);
+                    this.sjEcharts.funnelCharts.setOption(funnelOption);
+                },
+                initFunnel2(parameter1,parameter2,parameter3,parameter4) {
+                    var _this = this;
+                    this.xwzEcharts.funnelCharts.clear();
+                    var funnelData = [
+                        {"value": parameter1, "name": '资源量'},
+                        {"value": parameter2, "name": '邀约量'},
+                        {"value": parameter3, "name": '来访量'},
+                        {"value": parameter4, "name": '签约量'}
+                    ];
+                    var funnelOption = {
+                        color: [new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#3ea5f6'
+                        }, {
+                            offset: 1,
+                            color: '#1460ec'
+                        }]), new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#29bfc0'
+                        }, {
+                            offset: 1,
+                            color: '#02a9ca'
+                        }]), new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#f48266'
+                        }, {
+                            offset: 1,
+                            color: '#e36250'
+                        }]), new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                            offset: 0,
+                            color: '#e041ae'
+                        }, {
+                            offset: 1,
+                            color: '#e72a9f'
+                        }])],
+                        legend: {
+                            orient: 'vertical',
+                            icon: "circle",
+                            top: "center",
+                            right: '14%',
+                            textStyle: {
+                                color: '#27DBF3',
+                                fontSize: this.fontSize(0.14),
+                            },
+                            itemWidth: 8, // 圆圈的宽
+                            formatter: function (name) {
+                                return "{title|" + name + "}     {value|" + (_this.arrayObj(funnelData,
+                                    "name")[name].value) + "}"
+                            },
+                            data: funnelData
+                        },
+                        textStyle: {
+                            rich: {
+                                title: {
+                                    fontSize: this.fontSize(0.14),
+                                    color: "rgb(255, 255, 255)"
+                                },
+                                value: {
+                                    fontSize: this.fontSize(0.16),
+                                    color: "#27DBF3"
+                                }
+                            }
+                        },
+                        // calculable: true,
+                        series: [{
+                            // name:'鼠标移入提示',
+                            type: 'funnel',
+                            left: '10%',
+                            top: "12%",
+                            width: '45%',
+                            height: '75%',
+                            sort: 'descending',
+                            gap: 6, // 间隙
+                            label: {
+                                normal: { // 内部显示
+                                    position: 'inside',
+                                    formatter: '{d}%',
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                },
+                            },
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 0
+                                }
+                            },
+                            data: funnelData
+                        }]
+                    };
+                    this.xwzEcharts.funnelCharts.setOption(funnelOption);
                 },
                 // 地图
                 initMap(parameter, type) {
@@ -1344,8 +1433,8 @@
                     this.mapCharts2.setOption(this.mapOption2);
                 },
                 initBar(serviceonLine,converastion,accountConsumer,clewconverSation) {
-                    this.barCharts = echarts.init(document.getElementById('bar-charts'));
-                    this.barCharts.clear();
+                    this.sjEcharts.barCharts = echarts.init(document.getElementById('bar-charts'));
+                    this.sjEcharts.barCharts.clear();
                     var data = [{
                             "name": "客服在线数",
                             "value": serviceonLine
@@ -1367,7 +1456,7 @@
                     data.forEach(function (item) {
                         itemName.push(item.name);
                     });
-                    this.barOption = {
+                    var barOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         xAxis: {
                             type: 'category',
@@ -1467,13 +1556,137 @@
                             }
                         ]
                     };
-                    this.barCharts.setOption(this.barOption);
+                    this.sjEcharts.barCharts.setOption(barOption);
+                },
+                initBar2(serviceonLine,converastion,accountConsumer,clewconverSation) {
+                    this.xwzEcharts.barCharts = echarts.init(document.getElementById('bar-charts2'));
+                    this.xwzEcharts.barCharts.clear();
+                    var data = [{
+                            "name": "客服在线数",
+                            "value": serviceonLine
+                        },
+                        {
+                            "name": "会话总量",
+                            "value": converastion
+                        },
+                        {
+                            "name": "账户消费",
+                            "value": accountConsumer
+                        },
+                        {
+                            "name": "线索会话",
+                            "value": clewconverSation
+                        },
+                    ];
+                    var itemName = [];
+                    data.forEach(function (item) {
+                        itemName.push(item.name);
+                    });
+                    var barOption = {
+                        backgroundColor: 'rgba(255 , 255, 255, 0)',
+                        xAxis: {
+                            type: 'category',
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: this.fontSize(.14),
+                                    color: '#fff',
+                                },
+                                margin: 20, // 刻度标签与轴线之间的距离。
+                            },
+                            label: {
+                                show: true,
+                                position: 'bottom',
+                                color: "#fff",
+                                formatter: '{b}'
+                            },
+                            data: itemName,
+                        },
+                        yAxis: {
+                            splitLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            }
+                        },
+                        series: [{
+                                // name: '上面圆',
+                                type: 'pictorialBar',
+                                symbolSize: [30, 15],
+                                symbolOffset: [0, -8],
+                                z: 5,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#27dbf3'
+                                    }
+                                },
+                                label: {
+                                    normal: {
+                                        show: true,
+                                        position: 'top',
+                                        color: '#fff'
+                                    }
+                                },
+                                symbolPosition: 'end',
+                                data: data
+                            },
+                            {
+                                // name: '下面圆',
+                                type: 'pictorialBar',
+                                symbolSize: [30, 15],
+                                symbolOffset: [0, 8],
+                                z: 1,
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                        }], false),
+                                    }
+                                },
+                                data: data
+                            },
+                            {
+                                type: 'bar',
+                                itemStyle: {
+                                    normal: {
+                                        color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                                            offset: 0,
+                                            color: 'rgba(25,93,223,1)' // 0% 处的颜色
+                                        }, {
+                                            offset: 1,
+                                            color: 'rgba(36,191,238,1)' // 100% 处的颜色
+                                        }], false),
+                                    }
+                                },
+                                silent: true,
+                                barWidth: 30,
+                                barGap: '-100%', // Make series be overlap
+                                data: data
+                            }
+                        ]
+                    };
+                    this.xwzEcharts.barCharts.setOption(barOption);
                 },
                 //参数container为图表盒子节点.charts为图表节点
                 chartssize(charts, container) {
-                    if (!container) {
-                        container = charts.parent(".box");
-                    }
+                    if (!container) {container = charts.parent(".box");}
                     var wi = container.width();
                     var hi = container.height();
                     charts.width(wi)
@@ -1556,15 +1769,13 @@
                         for (var i = 0; i < res.length; i++) {
                             var json = res[i];
                             if (json.fromchan == 2) {
-                                _this.initEchartsByTmk2(json.dayresourceamount, json.dayinvitationamount,
-                                    json.daycallamount, _this.xwzTotalData)
                                 _this.xiaowuzhong = json;
-                                // _this.funnelCharts2 = echarts.init(document.getElementById('funnel-charts2'));
+                                _this.xwzEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts2'));
                                 _this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
+                                // 地图
                                 clearInterval(mapTimer2);
                                 _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
-                                // 地图自己切换
                                 var num2 = 0;
                                 var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
                                 _this.initMap2(arr2[num2], num2);
@@ -1572,22 +1783,23 @@
                                     num2 = num2 ? --num2 : ++num2;
                                     _this.initMap2(arr2[num2], num2);
                                 }, 50000)
-                                // _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
-                                //     .sjTotalData)
-                                // _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
-                             
-                                // _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
-                                // json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
-                                // _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
-                                // _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
+                                // 地图
+                                _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
+                                .sjTotalData)
+                                _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
+                                _this.initEchartsByTmk2(json.dayresourceamount, json.dayinvitationamount, json.daycallamount, _this.xwzTotalData)
+                                _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
+                                json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                                _this.initFunnel2(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
+                                _this.initBar2(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
                             }else if(json.fromchan == 1){
                                 _this.shangjihezi = json;
-                                _this.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
-                                _this.mapCharts = echarts.init(document.getElementById('map-charts'));
+                                _this.sjEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
+                                _this.xwzEcharts.mapCharts = echarts.init(document.getElementById('map-charts'));
+                                // 地图
                                 clearInterval(mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
-                                // 地图自己切换
                                 var num = 0;
                                 var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
                                 _this.initMap(arr[num], num);
@@ -1595,6 +1807,7 @@
                                     num = num ? --num : ++num;
                                     _this.initMap(arr[num], num);
                                 }, 50000)
+                                // 地图
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -1607,21 +1820,24 @@
                             }
                         }
                     }).catch(function (error) {
-
+                        console.log(error)
                     })
-
                 },
             },
             mounted() {
                 document.getElementById('wrapper').style.display = 'block';
                
                 this.chartssize($("#map-charts"))
-                this.chartssize($("#map-charts2"))
                 this.chartssize($("#funnel-charts"))
                 this.chartssize($("#bar-charts"))
                 this.chartssize($("#echarts_tmk"))
                 this.chartssize($("#echarts_tmk2"))
                 this.chartssize($("#echarts_statistics"))
+                
+                this.chartssize($("#map-charts2"))
+                this.chartssize($("#funnel-charts2"))
+                this.chartssize($("#bar-charts2"))
+
                 this.getJson()
                 this.initSwiper();
           
@@ -1638,8 +1854,8 @@
                     mainVM.chartssize($("#echarts_statistics"))
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
-                    mainVM.funnelCharts.resize();
-                    mainVM.barCharts.resize();
+                    mainVM.sjEcharts.funnelCharts.resize();
+                    mainVM.sjEcharts.barCharts.resize();
                     mainVM.sjEcharts.myChartOne.resize()
                     mainVM.sjEcharts.myChartTmk.resize()
                 }
