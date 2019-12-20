@@ -58,7 +58,8 @@
                                     <ul>
                                         <li>
                                             <div>今日签约量</div>
-                                            <p class="number">{{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}}</p>
+                                            <!-- {{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}} -->
+                                            <p class="number number-1">{{shangjihezi.daytotalsignamount?shangjihezi.daytotalsignamount:"0"|formatNumber}}</p>
                                         </li>
                                         <li>
                                             <div>今日签约单量</div>
@@ -193,10 +194,14 @@
     <script src="https://static.kuaidao.cn/qingteng/wx-js/axios.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/qs.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/jquery-1.10.1.min.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.countup.min.js"></script>
+ 
     <script src="./js/echarts.min.js"></script>
     <script src="https://static.kuaidao.cn/qingteng/wx-js/swiper.jquery.js"></script>
     <script src="js/map/china.js"></script>
     <script src="json/demo.js"></script>
+
     <script>
         var mainVM = new Vue({
             el: '#wrapper',
@@ -2112,6 +2117,7 @@
                     return null;
                 },
                 getJson() {
+                   
                     var _this = this;
                     axios({
                         // headers: {
@@ -2165,6 +2171,7 @@
                                 clearInterval(mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
+                                $('.number-1').countUp();
                                 var num = 0;
                                 var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
                                 _this.initMap(arr[num], num);
@@ -2191,7 +2198,7 @@
             },
             mounted() {
                 document.getElementById('wrapper').style.display = 'block';
-               
+                
                 this.chartssize($("#map-charts"))
                 this.chartssize($("#funnel-charts"))
                 this.chartssize($("#bar-charts"))
@@ -2230,12 +2237,14 @@
                 // }, 40000)
             },
             created() {
+                
                 var day = new Date(); // 当前月份
                 this.month = day.getMonth() + 1;
                 this.time = this.dataFormat(); // 当前时间
                 setInterval(() => {
                     this.time = this.dataFormat();
                 }, 1000)
+           
             },
         })
     </script>
