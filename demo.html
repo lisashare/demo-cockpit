@@ -1558,7 +1558,6 @@
                         color = "#fae07f";
                     }
                     var series = [];
-                    console.log(parameter);
                     parameter.forEach(function (item, i) {
                         series.push({
                             name: item[0],
@@ -1642,7 +1641,22 @@
                             })
                         });
                     });
-
+                    series.push({
+                        type: 'map',
+                        map: 'china',
+                        top: '19%',
+                        left: '10%',
+                        roam: false,
+                        itemStyle: {
+                            normal: {
+                                areaColor: 'rgba(11,11,11,0.4)',
+                            },
+                            emphasis: {
+                                areaColor: 'rgba(11,11,11,0.4)'
+                            }
+                        },
+                        zlevel: 1
+                    })
                     var mapOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         title: {
@@ -1656,6 +1670,8 @@
                         //     trigger: 'item'
                         // },
                         geo: {
+                            top: '17%',
+                            left: '9%',
                             map: 'china',
                             label: {
                                 emphasis: {
@@ -1680,7 +1696,8 @@
                                 emphasis: {
                                     areaColor: '#152350'
                                 }
-                            }
+                            },
+                            zlevel: 2,
                         },
                         series: series
                     };
