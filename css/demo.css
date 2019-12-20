@@ -95,7 +95,7 @@ body {
   right: 0.64rem;
 }
 .cockpit-header .header-info-right li {
-  width: 1rem;
+  padding: 0 0.22rem;
   height: 0.46rem;
   line-height: 0.46rem;
   text-align: center;
@@ -180,6 +180,7 @@ body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  width: 8.5rem;
   padding-top: 1rem;
 }
 .box-center .center-center {
