@@ -165,22 +165,23 @@
                 time: "<span>00</span>年<span>00</span>月<span>00</span>日 &nbsp;&nbsp;&nbsp;&nbsp;<span>00</span><i> : </i><span>00</span><i> : </i><span>00</span>",
                 month: "",
                 sjTotalData: {
-                    totalDayResourceAmount: "10000", // 日资源总量
-                    totalDayCallAmount: "10000", // 日通话总量
-                    totalDayInvitationAmount: "10000", // 日邀约量
+                    totalDayResourceAmount: "2500", // 日资源总量
+                    totalDayCallAmount: "50", // 日通话总量
+                    totalDayInvitationAmount: "100", // 日邀约量
 
-                    totalDayComeAmount: "10000", // 日来访量
-                    totalDaySignAmount: "10000", // 日签约量
+                    totalDayComeAmount: "100", // 日来访量
+                    totalDaySignAmount: "50", // 日签约量
                     totalDaySignSingleAmount: "10000", // 日签约单量
-                    totalDaySignPrice: "100000", // 日签约金额
+                    totalDaySignPrice: "333333", // 日签约金额
 
-                    totalMonthSignSingleAmount: "10000", // 月签约单量
-                    totalMonthSignPrice: "10000", // 月签约金额
+                    totalMonthSignSingleAmount: "7", // 月签约单量
+                    totalMonthSignPrice: "10000000", // 月签约金额
                 },
                 sjEcharts:{
                     myChartOne:'',
                     myChartTwo:'',
-                    myChartTmk:''
+                    myChartTmk:'',
+                    myChartStatistics:'',
                 },
                 number:0
             },
@@ -239,7 +240,8 @@
                     // totalDaySignAmount: "10000", // 日签约量
                     // totalDaySignSingleAmount: "10000", // 日签约单量
                     // totalDaySignPrice: "10000", // 日签约金额
-                    var myChart = echarts.init(document.getElementById('echarts_statistics'));
+                    this.sjEcharts.myChartStatistics = echarts.init(document.getElementById('echarts_statistics'));
+                    this.sjEcharts.myChartStatistics.clear()
                     option = {
                         radar: {
                             shape: 'circle',
@@ -342,7 +344,7 @@
                         }]
 
                     }
-                    myChart.setOption(option);
+                    this.sjEcharts.myChartStatistics.setOption(option);
                 },
                 //电销统计
                 arrayObj(array, key) {
@@ -380,6 +382,7 @@
                     ]
                     var dataName = []
                     this.sjEcharts.myChartTmk = echarts.init(document.getElementById('echarts_tmk'));
+                    this.sjEcharts.myChartTmk.clear()
                     var dataStyle = {
                         normal: {
                             label: {
@@ -592,7 +595,8 @@
                 },
                 //商务累计2
                 initEchartsByBusinessTwo(jsonData, totalNum) {
-                    var myChart = echarts.init(document.getElementById('echarts_business2'));
+                    this.sjEcharts.myChartTwo = echarts.init(document.getElementById('echarts_business2'));
+                    this.sjEcharts.myChartTwo.clear();
                     var data2 = [];
                     for (var i = 0; i < 4; i++) {
                         data2.push({
@@ -726,7 +730,7 @@
                         series: seriesObj
                     }
                     // myChart.setOption()
-                    myChart.setOption(option);
+                    this.sjEcharts.myChartTwo.setOption(option);
                 },
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
