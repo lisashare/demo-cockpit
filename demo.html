@@ -419,6 +419,114 @@
                     }
                     this.sjEcharts.myChartStatistics.setOption(option);
                 },
+                //商务统计 2
+                initEchartsByStatistics2(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
+                    this.xwzEcharts.myChartStatistics = echarts.init(document.getElementById('echarts_statistics2'));
+                    this.xwzEcharts.myChartStatistics.clear()
+                    option = {
+                        radar: {
+                            shape: 'circle',
+                            radius: '80%',
+                            center: ['50%', '48%'],
+                            startAngle: 45,
+                            // splitNumber: 4,
+                            name: {
+                                color: '#fff',
+                                padding: [0, 20, 0, 20],
+                                formatter: function (value, indicator) {
+                                    if (value == '签约金额') {
+                                        return '{a|' + value + '}{c|(元)}\n{b|' + indicator.num + '}'
+                                    } else {
+                                        return '{a|' + value + '}\n{b|' + indicator.num + '}'
+                                    }
+                                },
+                                lineHeight: 20,
+                                rich: {
+                                    a: {
+                                        color: '#fff',
+                                        fontSize: this.fontSize(0.14),
+                                        align: 'center'
+                                    },
+                                    b: {
+                                        color: '#27DBF3',
+                                        fontSize: this.fontSize(0.16),
+                                        align: 'center'
+                                    },
+                                    c: {
+                                        color: '#fff',
+                                        fontSize: this.fontSize(0.10),
+                                        padding: [0, 0, 0, 4]
+                                    }
+                                }
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    width: 2,
+                                    color: '#254999',
+                                }
+                            },
+                            splitLine: {
+                                show: true,
+                                lineStyle: {
+                                    width: 2,
+                                    type: 'solid',
+                                    color: '#254999'
+                                },
+                            },
+                            splitArea: {
+                                show: false
+                            },
+                            indicator: [{
+                                    name: '签约量',
+                                    max: totalData.totalDaySignAmount,
+                                    num: daySign
+                                },
+                                {
+                                    name: '来访量',
+                                    max: totalData.totalDayComeAmount,
+                                    num: dayCome
+                                },
+                                {
+                                    name: '签约单量',
+                                    max: totalData.totalDaySignSingleAmount,
+                                    num: daySignSingle
+                                },
+                                {
+                                    name: '签约金额',
+                                    max: totalData.totalDaySignPrice,
+                                    num: daySignPrice
+                                },
+                            ],
+
+                        },
+                        series: [{
+                            name: '认证用户',
+                            type: 'radar',
+                            data: [{
+                                // symbol: icon,
+                                symbolSize: 6,
+                                value: [daySign, dayCome, daySignSingle, daySignPrice],
+                                lineStyle: {
+                                    width: 2,
+                                    color: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                        offset: 0,
+                                        color: '#2AEDFE'
+                                    }, {
+                                        offset: 1,
+                                        color: '#e00d6c'
+                                    }])
+                                },
+                                areaStyle: {
+                                    normal: {
+                                        color: 'rgba(42, 84, 173, 0.8)'
+                                    },
+                                }
+                            }],
+                        }]
+
+                    }
+                    this.xwzEcharts.myChartStatistics.setOption(option);
+                },
                 //电销统计
                 arrayObj(array, key) {
                     var resObj = {};
@@ -787,6 +895,127 @@
                     }
                     this.sjEcharts.myChartOne.setOption(option,true);
                 },
+
+                //商务累计2
+                initEchartsByBusinessOne2(jsonData, totalNum) {
+                    this.xwzEcharts.myChartOne= echarts.init(document.getElementById('echarts_business11'));
+                    this.xwzEcharts.myChartOne.clear();
+                    var data2 = [];
+                    for (var i = 0; i < 4; i++) {
+                        data2.push({
+                            value: 80,
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 1,
+                                    /* shadowBlur: 30,*/
+                                    borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                        offset: 0,
+                                        color: '#2AEDFE'
+                                    }, {
+                                        offset: 1,
+                                        color: '#2AEDFE'
+                                    }]),
+                                }
+                            }
+                        }, {
+                            value: 40,
+                        });
+                    }
+                    var seriesObj = [{
+                            type: 'pie',
+                            radius: ['58%', '70%'],
+                            avoidLabelOverlap: false,
+                            hoverAnimation: false,
+                            label: {
+                                normal: {
+
+                                    show: true,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [{
+                                    value: jsonData,
+                                    name: ''
+                                },
+                                {
+                                    value: totalNum.totalMonthSignSingleAmount - jsonData,
+                                    name: ''
+                                },
+
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: ['50%', '50%'],
+                            hoverAnimation: false,
+
+                            itemStyle: {
+                                normal: {
+                                    labelLine: {
+                                        show: false
+                                    },
+                                }
+                            },
+                            data: data2
+                        },
+
+                    ];
+                    option = {
+                        color: [new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#27dbf3'
+                        }, {
+                            offset: 1,
+                            color: '#e00d6c'
+                        }]), "#254999"],
+
+                        title: [{
+                                text: this.formatNumber(jsonData),
+                                textStyle: {
+                                    color: '#4effff',
+                                    fontSize: this.fontSize(.12),
+                                    align: 'center'
+                                },
+                                x: 'center',
+                                y: 'center',
+                            },
+                            {
+                                text: '签约单量',
+                                x: 'center',
+                                y: 'top',
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize: this.fontSize(.14),
+                                    fontWeight: 'normal'
+                                },
+                            }
+                        ],
+                        tooltip: {
+                            show: false
+                        },
+                        legend: {
+                            show: false
+                        },
+                        toolbox: {
+                            show: false
+                        },
+                        series: seriesObj
+                    }
+                    this.xwzEcharts.myChartOne.setOption(option,true);
+                },
                 //商务累计2
                 initEchartsByBusinessTwo(jsonData, totalNum) {
                     this.sjEcharts.myChartTwo = echarts.init(document.getElementById('echarts_business2'));
@@ -925,6 +1154,136 @@
                     }
                     // myChart.setOption()
                     this.sjEcharts.myChartTwo.setOption(option);
+                },
+                   //商务累计22
+                   initEchartsByBusinessTwo2(jsonData, totalNum) {
+                    this.xwzEcharts.myChartTwo = echarts.init(document.getElementById('echarts_business22'));
+                    this.xwzEcharts.myChartTwo.clear();
+                    var data2 = [];
+                    for (var i = 0; i < 4; i++) {
+                        data2.push({
+                            value: 80,
+                            itemStyle: {
+                                normal: {
+                                    borderWidth: 1,
+                                    /* shadowBlur: 30,*/
+                                    borderColor: new echarts.graphic.LinearGradient(0, 0, 1, 1, [{
+                                        offset: 0,
+                                        color: '#2AEDFE'
+                                    }, {
+                                        offset: 1,
+                                        color: '#2AEDFE'
+                                    }]),
+                                }
+                            }
+                        }, {
+                            value: 40,
+                        });
+                    }
+                    var seriesObj = [{
+                            type: 'pie',
+                            radius: ['58%', '70%'],
+                            avoidLabelOverlap: false,
+                            hoverAnimation: false,
+                            label: {
+                                normal: {
+
+                                    show: true,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [{
+                                    value: jsonData,
+                                    name: ''
+                                },
+                                {
+                                    value: totalNum.totalMonthSignPrice - jsonData,
+                                    name: ''
+                                },
+
+                            ]
+                        },
+                        {
+                            name: '',
+                            type: 'pie',
+                            clockWise: false,
+                            radius: ['50%', '50%'],
+                            itemStyle: {
+                                normal: {
+                                    labelLine: {
+                                        show: false
+                                    },
+                                }
+                            },
+                            data: data2
+                        },
+
+                    ];
+                    option = {
+                        color: [new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: '#0066ff'
+                        }, {
+                            offset: 1,
+                            color: '#e80567 '
+                        }]), "#254999"],
+
+                        title: [{
+                                text: this.formatNumber(jsonData),
+                                textStyle: {
+                                    color: '#4effff',
+                                    fontSize: this.fontSize(.12),
+                                    align: 'center'
+                                },
+                                x: 'center',
+                                y: 'center',
+                            },
+                            {
+                                text: ['{a|签约金额}', '{b|(元)}'].join(''),
+                                x: 'center',
+                                y: 'top',
+                                textStyle: {
+                                    color: '#fff',
+                                    fontSize: this.fontSize(.14),
+                                    rich: {
+                                        a: {
+                                            color: '#ffffff',
+                                            fontSize: this.fontSize(.14),
+                                        },
+                                        b: {
+                                            color: '#fff',
+                                            fontSize: this.fontSize(.10),
+                                            padding: [0, 0, 0, 4]
+                                        }
+                                    }
+
+                                }
+                            },
+                        ],
+                        tooltip: {
+                            show: false
+                        },
+                        legend: {
+                            show: false
+                        },
+                        toolbox: {
+                            show: false
+                        },
+                        series: seriesObj
+                    }
+                    // myChart.setOption()
+                    this.xwzEcharts.myChartTwo.setOption(option);
                 },
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
@@ -1784,14 +2143,20 @@
                                     _this.initMap2(arr2[num2], num2);
                                 }, 50000)
                                 // 地图
-                                _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
-                                .sjTotalData)
-                                _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
+
+
+                                
+                                _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
+                                .xwzTotalData)
+                                _this.initEchartsByBusinessTwo2(json.monthsignprice, _this.xwzTotalData)
                                 _this.initEchartsByTmk2(json.dayresourceamount, json.dayinvitationamount, json.daycallamount, _this.xwzTotalData)
-                                _this.initEchartsByStatistics(json.daysignamount, json.daycomeamount,
-                                json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
+                                _this.initEchartsByStatistics2(json.daysignamount, json.daycomeamount,
+                                json.daysignsingleamount, json.daysignprice, _this.xwzTotalData)
                                 _this.initFunnel2(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
                                 _this.initBar2(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
+
+
+
                             }else if(json.fromchan == 1){
                                 _this.shangjihezi = json;
                                 _this.sjEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
