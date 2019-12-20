@@ -211,6 +211,7 @@
             el: '#wrapper',
             data: {
                 count1: null,
+                countNumber:111,
                 mapTimer: null,
                 mapTimer2: null,
                 shangjihezi: '',
@@ -2186,13 +2187,12 @@
                                 _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
   
-                                // _this.initMap2(arr2[_this.num2], _this.num2);
-                                _this.mapTimer2 = setInterval(() => {
-                                    _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
-                                    _this.initMap2(_this.arr2[_this.num2], _this.num2);
-                                }, 6000)
-                                _this.arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
-                                _this.initMap2(_this.arr2[_this.num2], _this.num2);
+                                // _this.mapTimer2 = setInterval(() => {
+                                //     _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
+                                //     _this.initMap2(_this.arr2[_this.num2], _this.num2);
+                                // }, 6000)
+                                // _this.arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
+                                // _this.initMap2(_this.arr2[_this.num2], _this.num2);
                                 // 地图
 
                                 _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
@@ -2208,9 +2208,8 @@
                                     json.dayaccountconsumer, json.dayclewconversation);
 
                             } else if (json.fromchan == 1) {
-                                //   json.daytotalsignamount =  Number(json.daytotalsignamount)+=10
                                 // console.log(Number(json.daytotalsignamount))
-                                // _this.count1.update(json.daytotalsignamount);
+                                _this.count1.update(json.daytotalsignamount);
                                 _this.shangjihezi = json;
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
@@ -2223,19 +2222,16 @@
                             
                                
                                
-                                clearInterval(_this.mapTimer);
-                                _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
-                                _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
-                    
+                                // clearInterval(_this.mapTimer);
+                                // _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
+                                // _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
+                                // _this.mapTimer = setInterval(() => {
+                                //     _this.num = _this.num ? --_this.num : ++_this.num;
+                                //     _this.initMap(_this.arr[_this.num], _this.num);
+                                // }, 6000)
 
-                                // _this.initMap(arr[_this.num], _this.num);
-                                _this.mapTimer = setInterval(() => {
-                                    _this.num = _this.num ? --_this.num : ++_this.num;
-                                    _this.initMap(_this.arr[_this.num], _this.num);
-                                }, 6000)
-
-                                _this.arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
-                                _this.initMap(_this.arr[_this.num], _this.num);
+                                // _this.arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
+                                // _this.initMap(_this.arr[_this.num], _this.num);
                                 // 地图
                               
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
@@ -2283,8 +2279,7 @@
                     separator: ',',
                     decimal: '.',
                 };
-                // this.count1 = new CountUp('number_1', 0, 0, 2, 2.5, options);
-                this.count1 = new CountUp('number_1', 0, 0, 0, 2.5, options);
+                this.count1 = new CountUp('number_1', 0, 0, 0, 1.5, options);
                 if (!this.count1.error) {
                     this.count1.start();
                 } else {
@@ -2324,9 +2319,9 @@
                     mainVM.xwzEcharts.myChartStatistics.resize()
                 }
             
-                setInterval(()=>{ // 整体数据请求;
-                    this.getJson()
-                }, 21000)
+                // setInterval(()=>{ // 整体数据请求;
+                //     this.getJson()
+                // }, 5000)
             },
             created() {  
                 var day = new Date(); // 当前月份
