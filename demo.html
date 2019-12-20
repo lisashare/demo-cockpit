@@ -198,6 +198,8 @@
         var mainVM = new Vue({
             el: '#wrapper',
             data: {
+                mapTimer: null,
+                mapTimer2: null,
                 shangjihezi: '',
                 xiaowuzhong: '',
                 mySwiper: null,
@@ -2123,24 +2125,21 @@
                     }).then(function (res) {
                         var res = JSON.parse(res.data.msg).DataList;
                         console.log('res', res);
-                        var mapTimer = null;
-                        var mapTimer2 = null;
                         for (var i = 0; i < res.length; i++) {
                             var json = res[i];
                             if (json.fromchan == 2) {
                                 _this.xiaowuzhong = json;
                                 _this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
                                 // 地图
-                                clearInterval(mapTimer2);
+                                clearInterval(_this.mapTimer2);
                                 _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
-                                // _this.num2 = 0;
-                                // var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
+  
                                 // _this.initMap2(arr2[_this.num2], _this.num2);
-                                // mapTimer2 = setInterval(() => {
-                                //     _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
-                                //     _this.initMap2(arr2[_this.num2], _this.num2);
-                                // }, 6000)
+                                _this.mapTimer2 = setInterval(() => {
+                                    _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
+                                    _this.initMap2(_this.arr2[_this.num2], _this.num2);
+                                }, 6000)
                                 _this.arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
                                 _this.initMap2(_this.arr2[_this.num2], _this.num2);
                                 // 地图
@@ -2158,17 +2157,16 @@
                                 _this.shangjihezi = json;
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
-                                // clearInterval(mapTimer);
+                                clearInterval(_this.mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
                                 $('.number-1').countUp();
-                                // _this.num = 0;
-                                // var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
+
                                 // _this.initMap(arr[_this.num], _this.num);
-                                // mapTimer = setInterval(() => {
-                                //     _this.num = _this.num ? --_this.num : ++_this.num;
-                                //     _this.initMap(arr[_this.num], _this.num);
-                                // }, 6000)
+                                _this.mapTimer = setInterval(() => {
+                                    _this.num = _this.num ? --_this.num : ++_this.num;
+                                    _this.initMap(_this.arr[_this.num], _this.num);
+                                }, 6000)
 
                                 _this.arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
                                 _this.initMap(_this.arr[_this.num], _this.num);
@@ -2245,7 +2243,7 @@
             
                 setInterval(()=>{ // 整体数据请求;
                     this.getJson()
-                }, 31000)
+                }, 21000)
             },
             created() {  
                 var day = new Date(); // 当前月份
@@ -2254,24 +2252,6 @@
                 setInterval(() => {
                     this.time = this.dataFormat();
                 }, 1000)
-            },
-            watch: {
-                arr(newVal){
-                    if(newVal.length){
-                        setInterval(() => {
-                            this.num = this.num ? --this.num : ++this.num;
-                            this.initMap(this.arr[this.num], this.num);
-                        }, 10000)
-                    }
-                },
-                arr2(newVal){
-                    if(newVal.length){
-                        setInterval(() => {
-                            this.num2 = this.num2 ? --this.num2 : ++this.num2;
-                            this.initMap2(this.arr2[this.num2], this.num2);
-                        }, 10000)
-                    }
-                }
             }
         })
     </script>
