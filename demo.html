@@ -819,7 +819,6 @@
                 },
                 // 地图
                 initMap(parameter, type) {
-                    this.mapCharts = echarts.init(document.getElementById('map-charts'));
                     var planePath =
                         'path://M.6,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705';
                     var convertData = function (data) {
@@ -1378,8 +1377,8 @@
                                 // json.daysignsingleamount, json.daysignprice, _this.sjTotalData)
                                 // _this.initFunnel(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
                                 // _this.initBar(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
-                                
                             }else if(json.fromchan == 1){
+                                _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 clearInterval(mapTimer);
                                 _this.shangjihezi = json;
                                 _this.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
@@ -1391,7 +1390,7 @@
                                 mapTimer = setInterval(() => {
                                     num = num ? --num : ++num;
                                     _this.initMap(arr[num], num);
-                                }, 20000)
+                                }, 50000)
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
                                 _this.initEchartsByBusinessTwo(json.monthsignprice, _this.sjTotalData)
@@ -1411,6 +1410,7 @@
             },
             mounted() {
                 document.getElementById('wrapper').style.display = 'block';
+          
                 this.chartssize($("#map-charts"))
                 this.chartssize($("#map-charts2"))
                 this.chartssize($("#funnel-charts"))
@@ -1433,9 +1433,9 @@
                     mainVM.barCharts.resize();
                 }
             
-                setInterval(()=>{ // 整体数据请求;
-                    this.getJson()
-                }, 40000)
+                // setInterval(()=>{ // 整体数据请求;
+                //     this.getJson()
+                // }, 40000)
             },
             created() {
                 var day = new Date(); // 当前月份
