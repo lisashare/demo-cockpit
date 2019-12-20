@@ -196,9 +196,7 @@
                 shangjihezi: '',
                 xiaowuzhong: '',
                 mySwiper: null,
-                mapOption: [],
                 mapCharts: null,
-                mapOption2: [],
                 mapCharts2: null,
                 time: "<span>00</span>年<span>00</span>月<span>00</span>日 &nbsp;&nbsp;&nbsp;&nbsp;<span>00</span><i> : </i><span>00</span><i> : </i><span>00</span>",
                 month: "",
@@ -1281,6 +1279,7 @@
                 // 漏斗
                 initFunnel(parameter1,parameter2,parameter3,parameter4) {
                     var _this = this;
+                    this.sjEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
                     this.sjEcharts.funnelCharts.clear();
                     var funnelData = [
                         {"value": parameter1, "name": '资源量'},
@@ -1372,6 +1371,7 @@
                     this.sjEcharts.funnelCharts.setOption(funnelOption);
                 },
                 initFunnel2(parameter1,parameter2,parameter3,parameter4) {
+                    this.xwzEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts2'));
                     var _this = this;
                     this.xwzEcharts.funnelCharts.clear();
                     var funnelData = [
@@ -1582,7 +1582,7 @@
                         });
                     });
 
-                    this.mapOption = {
+                    var mapOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         title: {
                             // text: '模拟迁徙',
@@ -1623,7 +1623,7 @@
                         },
                         series: series
                     };
-                    this.mapCharts.setOption(this.mapOption);
+                    this.mapCharts.setOption(mapOption);
                 },
                 initMap2(parameter2, type) {
                     var planePath =
@@ -1741,7 +1741,7 @@
                         });
                     });
 
-                    this.mapOption2 = {
+                    var mapOption = {
                         backgroundColor: 'rgba(255 , 255, 255, 0)',
                         title: {
                             // text: '模拟迁徙',
@@ -1782,7 +1782,7 @@
                         },
                         series: series
                     };
-                    this.mapCharts2.setOption(this.mapOption2);
+                    this.mapCharts2.setOption(mapOption);
                 },
                 initBar(serviceonLine,converastion,accountConsumer,clewconverSation) {
                     this.sjEcharts.barCharts = echarts.init(document.getElementById('bar-charts'));
@@ -2122,7 +2122,6 @@
                             var json = res[i];
                             if (json.fromchan == 2) {
                                 _this.xiaowuzhong = json;
-                                _this.xwzEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts2'));
                                 _this.mapCharts2 = echarts.init(document.getElementById('map-charts2'));
                                 // 地图
                                 clearInterval(mapTimer2);
@@ -2136,8 +2135,6 @@
                                     _this.initMap2(arr2[_this.num2], _this.num2);
                                 }, 50000)
                                 // 地图
-
-
                                 
                                 _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
                                 .xwzTotalData)
@@ -2148,12 +2145,9 @@
                                 _this.initFunnel2(json.monthresourceamount,json.monthinvitationamount,json.monthcomeamount,json.monthsignamount);
                                 _this.initBar2(json.dayserviceonlinenum,json.dayconverastionamount,json.dayaccountconsumer,json.dayclewconversation);
 
-
-
                             }else if(json.fromchan == 1){
                                 _this.shangjihezi = json;
-                                _this.sjEcharts.funnelCharts = echarts.init(document.getElementById('funnel-charts'));
-                                _this.xwzEcharts.mapCharts = echarts.init(document.getElementById('map-charts'));
+                                _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
                                 clearInterval(mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
