@@ -207,6 +207,8 @@
                 month: "",
                 num: 0,
                 num2: 0,
+                arr: [],
+                arr2: [],
                 sjTotalData: {
                     totalDayResourceAmount: "2500", // 日资源总量
                     totalDayCallAmount: "2500", // 日通话总量
@@ -1508,7 +1510,7 @@
                             zlevel: 1,
                             effect: {
                                 show: true,
-                                period: 6,
+                                period: 4,
                                 trailLength: 0.7,
                                 color: '#fff',
                                 symbolSize: 3
@@ -1517,7 +1519,7 @@
                                 normal: {
                                     color: color,
                                     width: 0,
-                                    curveness: 0.2
+                                    curveness: 0.4
                                 }
                             },
                             data: convertData(item[1])
@@ -1528,7 +1530,7 @@
                             zlevel: 2,
                             effect: {
                                 show: true,
-                                period: 6,
+                                period: 4,
                                 trailLength: 0,
                                 symbol: planePath,
                                 symbolSize: 15
@@ -1537,8 +1539,8 @@
                                 normal: {
                                     color: color,
                                     width: 1,
-                                    opacity: 0.4,
-                                    curveness: 0.2
+                                    // opacity: 0.4,
+                                    curveness: 0.4
                                 }
                             },
                             data: convertData(item[1])
@@ -1669,7 +1671,7 @@
                             zlevel: 1,
                             effect: {
                                 show: true,
-                                period: 6,
+                                period: 4,
                                 trailLength: 0.7,
                                 color: '#fff',
                                 symbolSize: 3
@@ -1678,7 +1680,7 @@
                                 normal: {
                                     color: color,
                                     width: 0,
-                                    curveness: 0.2
+                                    curveness: 0.4
                                 }
                             },
                             data: convertData(item[1])
@@ -1689,7 +1691,7 @@
                             zlevel: 2,
                             effect: {
                                 show: true,
-                                period: 6,
+                                period: 4,
                                 trailLength: 0,
                                 symbol: planePath,
                                 symbolSize: 15
@@ -1698,8 +1700,8 @@
                                 normal: {
                                     color: color,
                                     width: 1,
-                                    opacity: 0.4,
-                                    curveness: 0.2
+                                    // opacity: 0.4,
+                                    curveness: 0.4
                                 }
                             },
                             data: convertData(item[1])
@@ -2132,13 +2134,15 @@
                                 clearInterval(mapTimer2);
                                 _this.xwzEcharts.signData = _this.groupArr(_this.xiaowuzhong.mapsignamount);
                                 _this.xwzEcharts.visitData = _this.groupArr(_this.xiaowuzhong.mapcomevisitamount);
-
-                                var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
-                                _this.initMap2(arr2[_this.num2], _this.num2);
-                                mapTimer2 = setInterval(() => {
-                                    _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
-                                    _this.initMap2(arr2[_this.num2], _this.num2);
-                                }, 50000)
+                                // _this.num2 = 0;
+                                // var arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
+                                // _this.initMap2(arr2[_this.num2], _this.num2);
+                                // mapTimer2 = setInterval(() => {
+                                //     _this.num2 = _this.num2 ? --_this.num2 : ++_this.num2;
+                                //     _this.initMap2(arr2[_this.num2], _this.num2);
+                                // }, 6000)
+                                _this.arr2 = [_this.xwzEcharts.signData, _this.xwzEcharts.visitData];
+                                _this.initMap2(_this.arr2[_this.num2], _this.num2);
                                 // 地图
                                 
                                 _this.initEchartsByBusinessOne2(json.monthsignsingleamount, _this
@@ -2154,17 +2158,20 @@
                                 _this.shangjihezi = json;
                                 _this.mapCharts = echarts.init(document.getElementById('map-charts'));
                                 // 地图
-                                clearInterval(mapTimer);
+                                // clearInterval(mapTimer);
                                 _this.sjEcharts.signData = _this.groupArr(_this.shangjihezi.mapsignamount);
                                 _this.sjEcharts.visitData = _this.groupArr(_this.shangjihezi.mapcomevisitamount);
                                 $('.number-1').countUp();
-                                var num = 0;
-                                var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
-                                _this.initMap(arr[_this.num], _this.num);
-                                mapTimer = setInterval(() => {
-                                    _this.num = _this.num ? --_this.num : ++_this.num;
-                                    _this.initMap(arr[_this.num], _this.num);
-                                }, 50000)
+                                // _this.num = 0;
+                                // var arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
+                                // _this.initMap(arr[_this.num], _this.num);
+                                // mapTimer = setInterval(() => {
+                                //     _this.num = _this.num ? --_this.num : ++_this.num;
+                                //     _this.initMap(arr[_this.num], _this.num);
+                                // }, 6000)
+
+                                _this.arr = [_this.sjEcharts.signData, _this.sjEcharts.visitData];
+                                _this.initMap(_this.arr[_this.num], _this.num);
                                 // 地图
                                 _this.initEchartsByBusinessOne(json.monthsignsingleamount, _this
                                     .sjTotalData)
@@ -2202,7 +2209,7 @@
                 
                 this.getJson()
                 this.initSwiper();
-          
+
                 /* 响应式 */
                 window.onresize = function () {
                     mainVM.chartssize($("#map-charts"))
@@ -2236,20 +2243,36 @@
                     mainVM.xwzEcharts.myChartStatistics.resize()
                 }
             
-                // setInterval(()=>{ // 整体数据请求;
-                //     this.getJson()
-                // }, 40000)
+                setInterval(()=>{ // 整体数据请求;
+                    this.getJson()
+                }, 30000)
             },
-            created() {
-                
+            created() {  
                 var day = new Date(); // 当前月份
                 this.month = day.getMonth() + 1;
                 this.time = this.dataFormat(); // 当前时间
                 setInterval(() => {
                     this.time = this.dataFormat();
                 }, 1000)
-           
             },
+            watch: {
+                arr(newVal){
+                    if(newVal.length){
+                        setInterval(() => {
+                            this.num = this.num ? --this.num : ++this.num;
+                            this.initMap(this.arr[this.num], this.num);
+                        }, 10000)
+                    }
+                },
+                arr2(newVal){
+                    if(newVal.length){
+                        setInterval(() => {
+                            this.num2 = this.num2 ? --this.num2 : ++this.num2;
+                            this.initMap(this.arr2[this.num2], this.num2);
+                        }, 10000)
+                    }
+                }
+            }
         })
     </script>
 </body>
