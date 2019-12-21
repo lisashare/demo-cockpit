@@ -641,7 +641,7 @@
                                 return "{title|" + name + "}     {value|" + (_this.arrayObj(dataMock,
                                     "name")[name].value) + "}"
                             },
-
+                            selectedMode:false,
                             textStyle: {
                                 rich: {
                                     title: {
@@ -761,7 +761,7 @@
                                 return "{title|" + name + "}     {value|" + (_this.arrayObj(dataMock,
                                     "name")[name].value) + "}"
                             },
-
+                            selectedMode:false,
                             textStyle: {
                                 rich: {
                                     title: {
@@ -2453,6 +2453,7 @@
                     mainVM.xwzEcharts.myChartTwo.resize()
                     mainVM.xwzEcharts.myChartTmk.resize()
                     mainVM.xwzEcharts.myChartStatistics.resize()
+                    
                 }
 
                 setInterval(()=>{ // 整体数据请求;
