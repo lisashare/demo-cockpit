@@ -7,8 +7,8 @@ if (window.addEventListener) {
 }
 function setHtmlFontSize () {
   // 1366是设计稿的宽度，当大于1366时采用1366宽度，比例也是除以13.66
-    deviceWidth = document.documentElement.clientWidth > 1980 ? 1980 : document.documentElement.clientWidth
-    document.getElementsByTagName('html')[0].style.cssText = 'font-size:' + deviceWidth / 19.8 + 'px !important'
+    deviceWidth = document.documentElement.clientWidth > 1920 ? 1920 : document.documentElement.clientWidth
+    document.getElementsByTagName('html')[0].style.cssText = 'font-size:' + deviceWidth / 19.2 + 'px !important'
 }
 
 // adaptive(document, window);//初始加载自适应
