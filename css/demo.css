@@ -197,18 +197,50 @@ body {
   justify-content: center;
 }
 .box-center .center-top ul li {
+  position: relative;
   margin: 0 0.15rem;
   display: inline-block;
   min-width: 1rem;
   padding: 0.18rem 0.32rem 0.05rem;
-  background: url("../images/2@3x.png") no-repeat;
-  background-size: 100% 100%;
   text-align: center;
+  border: 2px solid #2f3f77;
 }
-.box-center .center-top ul li i {
+.box-center .center-top ul li span {
   font-size: 0.12rem;
   display: inline-block;
   vertical-align: bottom;
+}
+.box-center .center-top ul li i {
+  position: absolute;
+  display: inline-block;
+  background-repeat: no-repeat;
+  z-index: 1;
+  width: 0.18rem;
+  height: 0.18rem;
+}
+.box-center .center-top ul li .topleft {
+  top: -2px;
+  left: -2px;
+  background: url("../images/jiao01@3x.png");
+  background-size: 100%;
+}
+.box-center .center-top ul li .topright {
+  top: -2px;
+  right: -2px;
+  background: url("../images/jiao02@3x.png");
+  background-size: 100%;
+}
+.box-center .center-top ul li .bottomleft {
+  bottom: -2px;
+  left: -2px;
+  background: url("../images/jiao03@3x.png");
+  background-size: 100%;
+}
+.box-center .center-top ul li .bottomright {
+  bottom: -2px;
+  right: -2px;
+  background: url("../images/jiao04@3x.png");
+  background-size: 100%;
 }
 .box-center .center-top ul p {
   margin-top: 0.04rem;
