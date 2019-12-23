@@ -149,6 +149,7 @@ body {
 .gauge div {
   color: #fff !important;
   margin-bottom: 0.12rem;
+  font-size: 0.14rem;
 }
 .gauge p {
   font-size: 0.3rem;
