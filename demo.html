@@ -426,24 +426,25 @@
                             splitArea: {
                                 show: false
                             },
-                            indicator: [{
+                            indicator: [
+                                {
                                     name: '签约量',
-                                    max: totalData.totalDaySignAmount,
+                                    max: daySign >= totalData.totalDaySignAmount ?daySign : totalData.totalDaySignAmount,
                                     num: daySign
                                 },
                                 {
                                     name: '来访量',
-                                    max: totalData.totalDayComeAmount,
+                                    max: dayCome >= totalData.totalDayComeAmount ?dayCome : totalData.totalDayComeAmount,
                                     num: dayCome
                                 },
                                 {
                                     name: '签约单量',
-                                    max: totalData.totalDaySignSingleAmount,
+                                    max: daySignSingle >=totalData.totalDaySignSingleAmount ? daySignSingle : totalData.totalDaySignSingleAmount ,
                                     num: daySignSingle
                                 },
                                 {
                                     name: '签约金额',
-                                    max: totalData.totalDaySignPrice,
+                                    max: Math.round(daySignPrice) >= totalData.totalDaySignPrice ? daySignPrice : totalData.totalDaySignPrice,
                                     num: daySignPrice
                                 },
                             ],
@@ -479,6 +480,7 @@
                 },
                 //商务统计 2
                 initEchartsByStatistics2(daySign, dayCome, daySignSingle, daySignPrice, totalData) {
+                    
                     this.xwzEcharts.myChartStatistics = echarts.init(document.getElementById(
                         'echarts_statistics2'));
                     this.xwzEcharts.myChartStatistics.clear()
@@ -535,24 +537,25 @@
                             splitArea: {
                                 show: false
                             },
-                            indicator: [{
+                            indicator: [
+                                {
                                     name: '签约量',
-                                    max: totalData.totalDaySignAmount,
+                                    max: daySign >= totalData.totalDaySignAmount ?daySign : totalData.totalDaySignAmount,
                                     num: daySign
                                 },
                                 {
                                     name: '来访量',
-                                    max: totalData.totalDayComeAmount,
+                                    max: dayCome >= totalData.totalDayComeAmount ?dayCome : totalData.totalDayComeAmount,
                                     num: dayCome
                                 },
                                 {
                                     name: '签约单量',
-                                    max: totalData.totalDaySignSingleAmount,
+                                    max: daySignSingle >=totalData.totalDaySignSingleAmount ? daySignSingle : totalData.totalDaySignSingleAmount ,
                                     num: daySignSingle
                                 },
                                 {
                                     name: '签约金额',
-                                    max: totalData.totalDaySignPrice,
+                                    max: Math.round(daySignPrice) >= totalData.totalDaySignPrice ? daySignPrice : totalData.totalDaySignPrice,
                                     num: daySignPrice
                                 },
                             ],
@@ -700,7 +703,7 @@
                                         }
                                     },
                                     {
-                                        value: item.total - item.value,
+                                        value: item.total - item.value <= 0 ?item.value:item.total,
                                         name: '',
                                         tooltip: {
                                             show: false
@@ -820,7 +823,7 @@
                                         }
                                     },
                                     {
-                                        value: item.total - item.value,
+                                        value: item.total - item.value <= 0 ?item.value:item.total,
                                         name: '',
                                         tooltip: {
                                             show: false
@@ -887,7 +890,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignSingleAmount - jsonData,
+                                    value: totalNum.totalMonthSignSingleAmount - jsonData <= 0 ? 0: totalNum.totalMonthSignSingleAmount - jsonData,
                                     name: ''
                                 },
 
@@ -1008,7 +1011,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignSingleAmount - jsonData,
+                                    value: totalNum.totalMonthSignSingleAmount - jsonData <= 0 ?0 :totalNum.totalMonthSignSingleAmount - jsonData ,
                                     name: ''
                                 },
 
@@ -1128,7 +1131,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignPrice - jsonData,
+                                    value: totalNum.totalMonthSignPrice - jsonData <=0 ?0 :totalNum.totalMonthSignPrice - jsonData,
                                     name: ''
                                 },
 
@@ -1267,7 +1270,7 @@
                                     name: ''
                                 },
                                 {
-                                    value: totalNum.totalMonthSignPrice - jsonData,
+                                    value: totalNum.totalMonthSignPrice - jsonData <= 0 ?0 :totalNum.totalMonthSignPrice - jsonData,
                                     name: ''
                                 },
 
