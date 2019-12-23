@@ -2217,7 +2217,7 @@
                     return null;
                 },
                 groupArr2(data){
-                    if(!data&&data.length){return false;}
+                    if(!(data && data.length)){return false;}
                     var result = [];
                     for(var i=0;i<data.length;i++){
                         var arr = [];
