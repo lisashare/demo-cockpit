@@ -42,12 +42,12 @@
                                 </div>
                                 <div class="left-center">
                                     <h3>{{month}}月商务累计</h3>
-                                    <div class="pie-charts02 ">
+                                    <div class="pie-charts02">
                                         <div class="box">
-                                            <div id='echarts_business1' class="echarts_business "></div>
+                                            <div id='echarts_business1' class="echarts_business charts"></div>
                                         </div>
                                         <div class="box">
-                                            <div id='echarts_business2' class="echarts_business"></div>
+                                            <div id='echarts_business2' class="echarts_business charts"></div>
                                         </div>
                                        
                                     </div>
@@ -55,7 +55,7 @@
                                 <div class="left-bottom">
                                     <h3>{{month}}月漏斗图</h3>
                                     <div class="box">
-                                        <div id="funnel-charts"></div>
+                                        <div id="funnel-charts" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                             <span :class="['sign-circle', num==0?'act':'']"><i></i>签约量</span>
                                             <span :class="['visit-circle', num==1?'act':'']"><i></i>来访量</span>
                                         </div>
-                                        <div id="map-charts"></div>
+                                        <div id="map-charts" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -109,19 +109,19 @@
                                 <div class="right-top">
                                     <h3>今日推广统计（商机盒子+小物种）</h3>
                                     <div class="box">
-                                        <div id="bar-charts"></div>
+                                        <div id="bar-charts" class="charts"></div>
                                     </div>
                                 </div>
                                 <div class="right-center">
                                     <h3>今日电销统计</h3>
                                     <div class="box">
-                                        <div id='echarts_tmk' class="echarts_tmk"></div>
+                                        <div id='echarts_tmk' class="echarts_tmk charts"></div>
                                     </div>
                                 </div>
                                 <div class="right-bottom">
                                     <h3>今日商务统计</h3>
                                     <div class="box">
-                                        <div id="echarts_statistics"></div>
+                                        <div id="echarts_statistics" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -143,15 +143,15 @@
                                 <div class="left-center">
                                     <h3>{{month}}月商务累计</h3>
                                     <div class="pie-charts02">
-                                        <div class="box"> <div id='echarts_business11' class="echarts_business"></div></div>
-                                        <div class="box"> <div id='echarts_business22' class="echarts_business"></div></div>
+                                        <div class="box"> <div id='echarts_business11' class="echarts_business charts"></div></div>
+                                        <div class="box"> <div id='echarts_business22' class="echarts_business charts"></div></div>
                                       
                                     </div>
                                 </div>
                                 <div class="left-bottom">
                                     <h3>{{month}}月漏斗图</h3>
                                     <div class="box">
-                                        <div id="funnel-charts2"></div>
+                                        <div id="funnel-charts2" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@
                                             <span :class="['sign-circle', num2==0?'act':'']"><i></i>签约量</span>
                                             <span :class="['visit-circle', num2==1?'act':'']"><i></i>来访量</span>
                                         </div>
-                                        <div id="map-charts2"></div>
+                                        <div id="map-charts2" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -204,19 +204,19 @@
                                 <div class="right-top">
                                     <h3>今日推广统计（商机盒子+小物种）</h3>
                                     <div class="box">
-                                        <div id="bar-charts2"></div>
+                                        <div id="bar-charts2" class="charts"></div>
                                     </div>
                                 </div>
                                 <div class="right-center">
                                     <h3>今日电销统计</h3>
                                     <div class="box">
-                                        <div id='echarts_tmk2' class="echarts_tmk"></div>
+                                        <div id='echarts_tmk2' class="echarts_tmk charts"></div>
                                     </div>
                                 </div>
                                 <div class="right-bottom">
                                     <h3>今日商务统计</h3>
                                     <div class="box">
-                                        <div id="echarts_statistics2"></div>
+                                        <div id="echarts_statistics2" class="charts"></div>
                                     </div>
                                 </div>
                             </div>
@@ -2146,6 +2146,16 @@
                     charts.width(wi)
                     charts.height(hi)
                 },
+                chartssize2() {
+                    var oele = $(".charts");
+                    for (var i = 0;i<oele.length;i++) {
+                        var container = $(oele[i]).parent(".box");
+                        var wi = container.width();
+                        var hi = container.height();
+                        $(oele[i]).width(wi)
+                        $(oele[i]).height(hi)
+                    };
+                },
                 initSwiper() {
                     this.mySwiper = new Swiper('.swiper-container', {
                         pagination: '.swiper-pagination',
@@ -2431,20 +2441,7 @@
             mounted() {
                 document.getElementById('wrapper').style.display = 'block';
 
-                this.chartssize($("#map-charts"))
-                this.chartssize($("#map-charts2"))
-                this.chartssize($("#funnel-charts"))
-                this.chartssize($("#funnel-charts2"))
-                this.chartssize($("#bar-charts"))
-                this.chartssize($("#bar-charts2"))
-                this.chartssize($("#echarts_tmk"))
-                this.chartssize($("#echarts_tmk2"))
-                this.chartssize($("#echarts_statistics"))
-                this.chartssize($("#echarts_statistics2"))
-                this.chartssize($("#echarts_business1"))
-                this.chartssize($("#echarts_business11"))
-                this.chartssize($("#echarts_business2"))
-                this.chartssize($("#echarts_business22"))
+                this.chartssize2()
 
                 this.getJson()
                 this.initSwiper();
@@ -2453,22 +2450,7 @@
 
                 /* 响应式 */
                 window.onresize = function () {
-                    mainVM.chartssize($("#map-charts"))
-                    mainVM.chartssize($("#map-charts"))
-                    mainVM.chartssize($("#map-charts2"))
-                    mainVM.chartssize($("#funnel-charts"))
-                    mainVM.chartssize($("#funnel-charts2"))
-                    mainVM.chartssize($("#bar-charts"))
-                    mainVM.chartssize($("#bar-charts2"))
-                    mainVM.chartssize($("#echarts_tmk"))
-                    mainVM.chartssize($("#echarts_tmk2"))
-                    mainVM.chartssize($("#echarts_statistics"))
-                    mainVM.chartssize($("#echarts_statistics2"))
-                    mainVM.chartssize($("#echarts_business1"))
-                    mainVM.chartssize($("#echarts_business11"))
-                    mainVM.chartssize($("#echarts_business2"))
-                    mainVM.chartssize($("#echarts_business22"))
-
+                    mainVM.chartssize2();
                     mainVM.mapCharts.resize();
                     mainVM.mapCharts2.resize();
                     mainVM.sjEcharts.funnelCharts.resize();
